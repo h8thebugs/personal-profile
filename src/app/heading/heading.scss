@@ -1,0 +1,14 @@
+@import '../../styles.scss';
+
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1rem;
+  border: $border;
+  border-radius: $border-radius;
+  nav a {
+    margin-left: 2rem;
+  }
+}

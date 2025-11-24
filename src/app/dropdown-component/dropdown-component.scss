@@ -1,0 +1,44 @@
+@import "../../styles";
+.dropdown-container {
+  position: relative;
+  user-select: none;
+}
+.dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: $border;
+  border-radius: $border-radius;
+  background-color: $background-color;
+  color: $text-color;
+  cursor: pointer;
+  &:hover {
+    background-color: $text-color;
+    color: $background-color;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+.dropdown-options-container {
+  position: absolute;
+  display: block;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: $text-color;
+  color: $background-color;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.dropdown-option {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  position: relative;
+  border-radius: $border-radius;
+  &:hover {
+    color: $primary-color;
+    transition: color 0.3s ease;
+  }
+}
