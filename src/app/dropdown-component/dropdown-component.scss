@@ -38,7 +38,7 @@
   position: relative;
   border-radius: $border-radius;
   &:hover {
-    color: $primary-color;
+    color: $secondary-color;
     transition: color 0.3s ease;
   }
 }
