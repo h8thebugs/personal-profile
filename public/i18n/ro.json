@@ -15,7 +15,8 @@
     },
     "about": {
       "colors": "Culori",
-      "colorInspiration": "Culorile folosite pe pagina de web sunt inspirate de "
+      "colorInspiration": "Culorile folosite pe pagina de web sunt inspirate de ",
+      "technologiesUsed": "Tehnologii folosite:"
     }
   }
 }

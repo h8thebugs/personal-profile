@@ -1,0 +1,9 @@
+.slide {
+  height: 90vh;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}

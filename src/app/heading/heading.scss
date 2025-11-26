@@ -8,6 +8,9 @@
   padding: 1rem 1rem;
   border: styles.$border;
   border-radius: styles.$border-radius;
+  margin: 2rem 2rem 0 2rem;
+  z-index: 2;
+  height: 3rem;
   nav a {
     margin-left: 2rem;
   }
@@ -17,6 +20,7 @@
   .site-header {
     padding: 0.5rem 0.5rem;
     font-size: 0.8rem;
+    margin: 1rem 1rem 0 1rem;
     nav a {
       margin-left: 1rem;
       font-size: 0.8rem;

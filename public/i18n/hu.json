@@ -15,7 +15,8 @@
     },
     "about": {
       "colors": "Színek",
-      "colorInspiration": "Az oldalon használt színek a következő témából inspirálódtak: "
+      "colorInspiration": "Az oldalon használt színek a következő témából inspirálódtak: ",
+      "technologiesUsed": "Felhasznált technológiák:"
     }
   }
 }

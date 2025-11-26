@@ -3,7 +3,7 @@
     "heading": {
       "home": "Home",
       "about": "About",
-       "cv": "Curriculum Vitae"
+       "cv": "CV"
     },
     "home": {
       "name": "My name is ",
@@ -15,7 +15,8 @@
     },
     "about": {
       "colors": "Colors",
-      "colorInspiration": "The colors used on this page were inspired by the "
+      "colorInspiration": "The colors used on this page were inspired by the ",
+      "technologiesUsed": "Technologies used:"
     }
   }
 }

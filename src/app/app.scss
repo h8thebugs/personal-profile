@@ -1,0 +1,24 @@
+@use "../styles" as *;
+
+.content-container {
+  overflow-y: auto;
+  scrollbar-color: $text-color $background-color;
+  margin-top: 2px;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  padding-bottom: 4rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 7rem;
+  scroll-snap-type: y proximity;
+}
+
+@media (max-width: 768px) {
+  .content-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    top: 5rem;
+  }
+}
