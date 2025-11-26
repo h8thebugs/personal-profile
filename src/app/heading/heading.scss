@@ -1,4 +1,4 @@
-@import '../../styles.scss';
+@use '../../styles.scss';
 
 
 .site-header {
@@ -6,9 +6,20 @@
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1rem;
-  border: $border;
-  border-radius: $border-radius;
+  border: styles.$border;
+  border-radius: styles.$border-radius;
   nav a {
     margin-left: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .site-header {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.8rem;
+    nav a {
+      margin-left: 1rem;
+      font-size: 0.8rem;
+    }
   }
 }

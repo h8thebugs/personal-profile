@@ -1,0 +1,21 @@
+{
+  "app": {
+    "heading": {
+      "home": "Acasă",
+      "about": "Despre",
+      "cv": "Curriculum Vitae"
+    },
+    "home": {
+      "name": "Numele meu este ",
+      "agePrefix": "am ",
+      "ageSuffix": " de ani.",
+      "profession": "Lucrez ca dezvoltator software de ",
+      "specialty": " ani, specializat în dezvoltare web full-stack, cu accent pe logica de bază a aplicațiilor. Pe partea de backend de obicei lucrez cu Java și Spring Boot, în timp ce pe partea de frontend lucrez cu Angular.",
+      "site": "Pe parcursul timpului petrecut pe internet am văzut o mulțime de designuri diferite de pagini web, site-uri statice etc., și m-a surprins mereu cât de supraîncărcate sunt, având designuri ciudate și fiind neoptimizate. Am avut un pic de timp liber și am decis să-mi creez un profil simplu, încercând să-l fac interactiv, păstrând în același timp un design simplu și un consum redus de resurse."
+    },
+    "about": {
+      "colors": "Culori",
+      "colorInspiration": "Culorile folosite pe pagina de web sunt inspirate de "
+    }
+  }
+}

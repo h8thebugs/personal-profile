@@ -1,1 +1,14 @@
-<p>home-page works!</p>
+<div animate.enter="enter-animation">
+  <h1>{{'app.heading.home' | translate}}</h1>
+  <p>
+    {{'app.home.name' | translate}}
+    Jakab Szilárd,
+    {{'app.home.agePrefix' | translate}}
+    {{` ${age()}`}}
+    {{'app.home.ageSuffix' | translate}}
+    {{'app.home.profession' | translate}}
+    {{experience()}}
+    {{'app.home.specialty' | translate}}
+  </p>
+  <p>{{'app.home.site' | translate}}</p>
+</div>

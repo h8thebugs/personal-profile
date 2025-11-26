@@ -1,0 +1,21 @@
+{
+  "app": {
+    "heading": {
+      "home": "Főoldal",
+      "about": "Az oldalról",
+      "cv": "Önéletrajz"
+    },
+    "home": {
+      "name": "A nevem ",
+      "agePrefix": "",
+      "ageSuffix": " éves vagyok.",
+      "profession": "Szoftverfejlesztőként dolgozom már ",
+      "specialty": " éve, főként full-stack webfejlesztéssel foglalkozom, kiemelt figyelmet fordítva a háttérben levő logikára. A backend oldalon főként java-val és Spring Boot-al foglalkozom, míg a frontend oldalon Angular-el dolgozok.",
+      "site": "Az interneten sokféle weboldal design-al találkoztam, és mindig meglepett, hogy mennyire bonyolultak, nehezen mennek, furcsa kinézettel. Volt egy kis szabadidőm, és úgy döntöttem, hogy készítek magamnak egy egyszerű interaktív profilt, ami egyszerű mégis elég sok stílus van benne, miközben nem használja túl az erőforrásokat."
+    },
+    "about": {
+      "colors": "Színek",
+      "colorInspiration": "Az oldalon használt színek a következő témából inspirálódtak: "
+    }
+  }
+}

@@ -1,1 +1,29 @@
-<p>about-page works!</p>
+<div animate.enter="enter-animation">
+  <h1>{{'app.heading.about' | translate}}</h1>
+  <h2>{{'app.about.colors' | translate}}</h2>
+  <p>
+    {{'app.about.colorInspiration' | translate}}
+    <a href="https://github.com/taniarascia/new-moon">New Moon Theme</a>.
+  </p>
+  <div class="color-palette">
+    <div class="color-sample background">
+      #2D2D2D
+    </div>
+    <div class="color-sample primary">
+      #769E76
+    </div>
+    <div class="color-sample secondary">
+      #C8865B
+    </div>
+    <div class="color-sample text">
+      #FFFFFF
+    </div>
+    <div class="color-sample error">
+      #DF7568
+    </div>
+  </div>
+  <h2> {{ 'app.about.technologiesUsed' | translate }}</h2>
+  <div class="technologies-container">
+    <img ngSrc="Angular_gradient_logo.png" alt="Angular logo" width="150" height="150">
+  </div>
+</div>

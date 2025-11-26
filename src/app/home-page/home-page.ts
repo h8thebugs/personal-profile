@@ -1,11 +1,47 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home-page',
-  imports: [],
+  imports: [
+    TranslatePipe
+  ],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',
 })
-export class HomePage {
+export class HomePage implements OnInit {
+ age = signal(0);
+ experience = signal(0);
 
+  ngOnInit() {
+   this.countUpAge();
+   this.countUpExperience();
+  }
+
+  async countUpAge() {
+    const targetAge = this.calculateAge(new Date(1998, 2, 8));
+    for (let i = 10; i <= targetAge; i++) {
+      this.age.set(i);
+      await new Promise(resolve => setTimeout(resolve, Math.max(150 - i*3, 1)));
+    }
+  }
+
+  async countUpExperience() {
+    const targetExperience = this.calculateAge(new Date(2021, 6, 14));
+    for (let i = 0; i <= targetExperience; i++) {
+      this.experience.set(i);
+      await new Promise(resolve => setTimeout(resolve, Math.max(300 - i*10, 1)));
+    }
+  }
+
+
+ private calculateAge(date: Date) {
+   const today = new Date();
+   let age = today.getFullYear() - date.getFullYear();
+   const monthDiff = today.getMonth() - date.getMonth();
+   if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < date.getDate())) {
+     age--;
+   }
+   return age;
+ }
 }

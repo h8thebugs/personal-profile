@@ -1,22 +1,30 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, WritableSignal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DropdownComponent } from '../dropdown-component/dropdown-component';
+import { TranslationManager } from '../translation-manager';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-heading',
   imports: [
     RouterLink,
     DropdownComponent,
-    DropdownComponent
+    DropdownComponent,
+    TranslatePipe
   ],
   templateUrl: './heading.html',
   styleUrl: './heading.scss',
 })
 export class Heading {
-  options = signal(['English', 'Magyar', 'Română']);
-  selectedOption = signal('English');
+  languageOptions = signal(['English', 'Magyar', 'Română']);
+  selectedLanguage: WritableSignal<string>;
+
+  constructor(private readonly translationManager: TranslationManager) {
+    this.selectedLanguage = signal(translationManager.getCurrentLanguage());
+  }
 
   changeSelection($event: string) {
-    this.selectedOption.set($event);
+    this.selectedLanguage.set($event);
+    this.translationManager.setLanguage($event);
   }
 }

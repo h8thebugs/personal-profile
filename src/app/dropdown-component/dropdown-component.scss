@@ -1,4 +1,5 @@
-@import "../../styles";
+@use "../../styles";
+
 .dropdown-container {
   position: relative;
   user-select: none;
@@ -8,37 +9,41 @@
   justify-content: space-between;
   align-items: center;
   padding: 0.5rem 1rem;
-  border: $border;
-  border-radius: $border-radius;
-  background-color: $background-color;
-  color: $text-color;
+  border: styles.$border;
+  border-radius: styles.$border-radius;
+  background-color: styles.$background-color;
+  color: styles.$text-color;
   cursor: pointer;
   &:hover {
-    background-color: $text-color;
-    color: $background-color;
+    background-color: styles.$text-color;
+    color: styles.$background-color;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
 }
 
 .dropdown-options-container {
+  margin-top: 0.25rem;
   position: absolute;
   display: block;
   top: 100%;
   left: 0;
   width: 100%;
-  background: $text-color;
-  color: $background-color;
-  border-radius: $border-radius;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  background: styles.$background-color;
+  color: styles.$text-color;
+  border: styles.$border;
+  border-radius: styles.$border-radius;
 }
 
 .dropdown-option {
   padding: 0.5rem 1rem;
   cursor: pointer;
   position: relative;
-  border-radius: $border-radius;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: styles.$border-radius;
   &:hover {
-    color: $secondary-color;
+    color: styles.$secondary-color;
     transition: color 0.3s ease;
   }
 }

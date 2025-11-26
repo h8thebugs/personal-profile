@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&display=swap');
 
 $background-color: #2d2d2d;
-$primary-color: #5a805a;
+$primary-color: #769E76;
 $secondary-color: #C8865B;
 $text-color: #ffffff;
 $error-color: #DF7568;
@@ -15,6 +15,14 @@ body {
   color: $text-color;
   margin: 2rem 2rem;
   padding: 0;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  body {
+    margin: 1rem 1rem;
+    font-size: 1rem;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -25,11 +33,37 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
 a {
   text-decoration: none;
   color: $text-color;
   &:hover {
     transition: color 0.3s ease;
     color: $secondary-color;
+  }
+}
+
+em {
+  color: $secondary-color;
+  font-style: normal;
+}
+
+.enter-animation {
+  animation: enterAnimation 0.5s ease;
+}
+
+@keyframes enterAnimation {
+  from {
+    filter: blur(2rem);
+    transform: translateY(5rem);
+  }
+
+  to {
+    filter: blur(0rem);
+    transform: translateY(0rem);
   }
 }
