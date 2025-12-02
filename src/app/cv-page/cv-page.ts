@@ -1,34 +1,50 @@
-import { Component } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef, viewChild,
+  viewChildren,
+} from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-cv-page',
   imports: [
-    TranslatePipe
+    NgOptimizedImage
   ],
   templateUrl: './cv-page.html',
   styleUrl: './cv-page.scss',
 })
-export class CvPage {
-  slides = [
-    { title: 'Slide 1', content: 'Content 1' },
-    { title: 'Slide 2', content: 'Content 2' },
-    // Add more slides
-  ];
-  currentSlide = 0;
+export class CvPage implements AfterViewInit {
+  slideImages = viewChildren<ElementRef<HTMLImageElement>>('imageElement');
+  firstSlide = viewChild.required<ElementRef<HTMLDivElement>>('slideElement');
+  scrollContainer?: HTMLElement;
+  slideHeight = 0;
 
-  getBgTransform(i: number) {
-    const offset = (i - this.currentSlide) * 40; // slower movement
-    return `translateX(${offset}%)`;
+  ngAfterViewInit() {
+    this.scrollContainer = document.getElementById('scroll-container') ?? undefined;
+    this.slideHeight = this.firstSlide().nativeElement.offsetHeight ?? 0;
+    if (this.firstSlide().nativeElement.offsetWidth > 800) {
+      this.scrollContainer?.addEventListener('scroll', () => this.onScroll());
+    }
   }
-  getFgTransform(i: number) {
-    const offset = (i - this.currentSlide) * 100; // faster movement
-    return `translateX(${offset}%)`;
+
+  onScroll() {
+    const scrollTop = this.scrollContainer?.scrollTop ?? 0;
+    this.slideImages()
+      .forEach((image, index) => {
+        const offset = scrollTop * .85 - (index * this.slideHeight);
+        image.nativeElement.style.marginTop = offset + 'px';
+      });
+
   }
-  prevSlide() {
-    this.currentSlide = (this.currentSlide - 1 + this.slides.length) % this.slides.length;
-  }
-  nextSlide() {
-    this.currentSlide = (this.currentSlide + 1) % this.slides.length;
+
+  isElementVisible(elementRef: ElementRef): boolean {
+    const rect = elementRef.nativeElement.getBoundingClientRect();
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+    );
   }
 }
