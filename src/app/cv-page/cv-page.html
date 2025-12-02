@@ -26,24 +26,58 @@
         </div>
     </div>
     <div class="slide">
-      <img #imageElement ngSrc="brain.svg" alt="University logo" width="200" height="200">
+      <img #imageElement ngSrc="brain.svg" alt="Brain logo" width="200" height="200">
       <div class="text-content">
-        <h1>{{'app.cv.education.title' | translate}}</h1>
-        <h3>{{'app.cv.education.bachelor.degree'}}</h3>
-        <b>{{'app.cv.education.bachelor.university' | translate}}</b>
-        <p>
-          {{'app.cv.education.bachelor.year' | translate}}
-          <br />
-          {{'app.cv.education.bachelor.thesis' | translate}}
-        </p>
+        <h1>{{'app.cv.training.title' | translate}}</h1>
+
+        <h3>{{'app.cv.training.trainings.azure.name' | translate}}</h3>
+        <b>{{'app.cv.training.trainings.azure.organizer' | translate}}</b>, {{'app.cv.training.trainings.azure.year' | translate}}
+        <br />
+        <a [href]="'app.cv.training.trainings.azure.link' | translate">YourAcclaim Link</a>
+
+        <h3>{{'app.cv.training.trainings.cleanCode.name' | translate}}</h3>
+        <b>{{'app.cv.training.trainings.cleanCode.organizer' | translate}}</b>, {{'app.cv.training.trainings.cleanCode.year' | translate}}
+        <br />
+        <a [href]="'app.cv.training.trainings.cleanCode.link' | translate">{{'app.cv.training.trainings.cleanCode.link' | translate}}</a>
+
+        <h3>{{'app.cv.training.trainings.unitTests.name' | translate}}</h3>
+        <b>{{'app.cv.training.trainings.unitTests.organizer' | translate}}</b>, {{'app.cv.training.trainings.unitTests.year' | translate}}
+        <br />
+        <a [href]="'app.cv.training.trainings.unitTests.link' | translate">{{'app.cv.training.trainings.unitTests.link' | translate}}</a>
+
+        <h3>{{'app.cv.training.trainings.cleanArchitecture.name' | translate}}</h3>
+        <b>{{'app.cv.training.trainings.cleanArchitecture.organizer' | translate}}</b>, {{'app.cv.training.trainings.cleanArchitecture.year' | translate}}
+        <br />
+        <a [href]="'app.cv.training.trainings.cleanArchitecture.link' | translate">{{'app.cv.training.trainings.cleanArchitecture.link' | translate}}</a>
+
+        <h3>{{'app.cv.training.trainings.presentationSkills.name' | translate}}</h3>
+        <b>{{'app.cv.training.trainings.presentationSkills.organizer' | translate}}</b>, {{'app.cv.training.trainings.presentationSkills.year' | translate}}
+        <br />
+        <a [href]="'app.cv.training.trainings.presentationSkills.link' | translate">{{'app.cv.training.trainings.presentationSkills.link' | translate}}</a>
+        <h3>{{'app.cv.training.trainings.timeManagement.name' | translate}}</h3>
+        <b>{{'app.cv.training.trainings.timeManagement.organizer' | translate}}</b>, {{'app.cv.training.trainings.timeManagement.year' | translate}}
+        <br />
+        <a [href]="'app.cv.training.trainings.timeManagement.link' | translate">{{'app.cv.training.trainings.timeManagement.link' | translate}}</a>
       </div>
     </div>
     <div class="slide">
-      <img #imageElement ngSrc="briefcase.svg" alt="University logo" width="200" height="200">
+      <img #imageElement ngSrc="briefcase.svg" alt="Briefcase logo" width="200" height="200">
       <div class="text-content">
-        <p>Aliquam ut eros in mi euismod aliquam. In elit libero, dapibus a sodales ac, laoreet at arcu. Integer condimentum aliquam elit, ut molestie augue mollis ac. Vivamus volutpat magna risus, ac tristique leo cursus mollis. Aenean posuere dignissim consequat. Fusce gravida quam ut blandit dapibus. Vestibulum posuere mattis augue, non porttitor neque tincidunt sed. Duis varius sem lacus, non posuere quam accumsan vestibulum. Proin eleifend in augue non vehicula. Nullam non arcu commodo, sollicitudin sapien ac, facilisis elit. Suspendisse vestibulum nisl at ipsum sodales consequat. Pellentesque in elit nulla. Suspendisse ex odio, euismod sit amet faucibus ac, tincidunt ac augue.</p>
+        <h1> {{'app.cv.work.title' | translate}}</h1>
+        <h3>{{'app.cv.work.experience.nokia.name' | translate}}</h3>
         <p>
-          Etiam at fermentum ex, non faucibus diam. Vivamus tempor nulla at turpis vehicula, id iaculis lectus congue. Pellentesque hendrerit, massa et vulputate feugiat, erat augue pharetra dui, eu malesuada erat lectus sed felis. Ut sed odio et tortor interdum cursus condimentum sed augue. Duis porta urna eget leo sollicitudin ornare. Maecenas feugiat justo a ligula efficitur auctor. Phasellus pellentesque mi ac euismod egestas. Etiam a eleifend tellus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Nulla facilisi. In hac habitasse platea dictumst. Aenean euismod, risus in facilisis convallis, libero erat fringilla odio, in congue erat augue a justo. Curabitur euismod, libero in facilisis facilisis, felis erat convallis nunc, in efficitur ligula risus nec libero.
+          <b>{{'app.cv.work.experience.nokia.position' | translate}}</b><br>
+          <i>{{'app.cv.work.experience.nokia.period' | translate}}</i><br>
+          {{'app.cv.work.experience.nokia.location' | translate}}<br />
+          {{'app.cv.work.experience.nokia.description' | translate}}
+        </p>
+
+        <h3>{{'app.cv.work.experience.bosch.name' | translate}}</h3>
+        <p>
+          <b>{{'app.cv.work.experience.bosch.position' | translate}}</b><br>
+          <i>{{'app.cv.work.experience.bosch.period' | translate}}</i><br>
+          {{'app.cv.work.experience.bosch.location' | translate}}<br />
+          {{'app.cv.work.experience.bosch.description' | translate}}
         </p>
       </div>
     </div>

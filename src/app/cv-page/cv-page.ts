@@ -26,9 +26,7 @@ export class CvPage implements AfterViewInit {
   ngAfterViewInit() {
     this.scrollContainer = document.getElementById('scroll-container') ?? undefined;
     this.slideHeight = this.firstSlide().nativeElement.offsetHeight ?? 0;
-    if (this.firstSlide().nativeElement.offsetWidth <= 800) {
-      return;
-    }
+
     this.scrollContainer?.addEventListener('scroll', () =>{
       this.blur();
       if (this.firstSlide().nativeElement.offsetWidth >= 800) {

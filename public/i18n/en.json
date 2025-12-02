@@ -36,6 +36,66 @@
             "thesis": "BrailleAssist - An application to help in the education of visually impaired people"
           }
         }
+      },
+      "training": {
+        "title": "Trainings & Certifications",
+        "trainings": {
+          "azure": {
+            "name": "Microsoft Azure Fundamentals - Training and Exam",
+            "organizer": "Fundatia EOS Romania",
+            "year": "2021",
+            "link": "https://www.youracclaim.com/badges/17cf1240-d578-45b5-99c4-10e5d0761e2a"
+          },
+          "cleanCode": {
+            "name": "Clean Code - Training",
+            "organizer": "Bosch Romania",
+            "year": "2023",
+            "link": "https://www.victorrentea.ro/#training"
+          },
+          "unitTests": {
+            "name": "Testing Best Practices - Training",
+            "organizer": "Bosch Romania",
+            "year": "2023",
+            "link": "https://www.victorrentea.ro/#training"
+          },
+          "cleanArchitecture": {
+            "name": "Clean Architecture - Training",
+            "organizer": "Bosch Romania",
+            "year": "2023",
+            "link": "https://www.victorrentea.ro/#training"
+          },
+          "presentationSkills": {
+            "name": "Presentation Skills - Training",
+            "organizer": "Ascendis",
+            "year": "2024",
+            "link": "https://ascendis.ro/"
+          },
+          "timeManagement": {
+            "name": "Time Management at Workplace and Working Environment - Training",
+            "organizer": "Ascendis",
+            "year": "2025",
+            "link": "https://ascendis.ro/"
+          }
+        }
+      },
+      "work": {
+        "title": "Work Experience",
+        "experience": {
+          "nokia": {
+            "name": "Nokia Solutions and Networks KFT.",
+            "position": "Automation Trainee",
+            "location": "Budapest, Hungary",
+            "period": "June 2019 - September 2019",
+            "description": "Automated deployments of telecommunication services in an OpenStack cloud, making a specialized GUI to customize the deployments more easily."
+          },
+          "bosch": {
+            "name": "Robert Bosch SRL",
+            "position": "Software Developer",
+            "location": "Cluj-Napoca, Romania",
+            "period": "July 2022 - Present",
+            "description": "Working as a full-stack developer on internal tools and applications used within the company by hundreds of engineers, using Java, Spring Boot, Angular, Github Actions, and other related technologies."
+          }
+        }
       }
     }
   }
