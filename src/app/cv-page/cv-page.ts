@@ -29,7 +29,7 @@ export class CvPage implements AfterViewInit {
 
     this.scrollContainer?.addEventListener('scroll', () =>{
       this.blur();
-      if (this.firstSlide().nativeElement.offsetWidth >= 800) {
+      if (this.firstSlide().nativeElement.offsetWidth >= 650) {
         this.parallax()
       }
     });
