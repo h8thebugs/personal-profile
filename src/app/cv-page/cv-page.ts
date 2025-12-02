@@ -5,11 +5,13 @@ import {
   viewChildren,
 } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-cv-page',
   imports: [
-    NgOptimizedImage
+    NgOptimizedImage,
+    TranslatePipe
   ],
   templateUrl: './cv-page.html',
   styleUrl: './cv-page.scss',
@@ -19,16 +21,23 @@ export class CvPage implements AfterViewInit {
   firstSlide = viewChild.required<ElementRef<HTMLDivElement>>('slideElement');
   scrollContainer?: HTMLElement;
   slideHeight = 0;
+  private readonly viewportCenter = window.innerHeight / 2;
 
   ngAfterViewInit() {
     this.scrollContainer = document.getElementById('scroll-container') ?? undefined;
     this.slideHeight = this.firstSlide().nativeElement.offsetHeight ?? 0;
-    if (this.firstSlide().nativeElement.offsetWidth > 800) {
-      this.scrollContainer?.addEventListener('scroll', () => this.onScroll());
+    if (this.firstSlide().nativeElement.offsetWidth <= 800) {
+      return;
     }
+    this.scrollContainer?.addEventListener('scroll', () =>{
+      this.blur();
+      if (this.firstSlide().nativeElement.offsetWidth >= 800) {
+        this.parallax()
+      }
+    });
   }
 
-  onScroll() {
+  parallax() {
     const scrollTop = this.scrollContainer?.scrollTop ?? 0;
     this.slideImages()
       .forEach((image, index) => {
@@ -38,13 +47,18 @@ export class CvPage implements AfterViewInit {
 
   }
 
-  isElementVisible(elementRef: ElementRef): boolean {
-    const rect = elementRef.nativeElement.getBoundingClientRect();
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-      rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
+  blur() {
+    this.slideImages().forEach((image) => {
+      const slide = image.nativeElement.closest('.slide') as HTMLElement;
+      if (!slide) return;
+      const rect = slide.getBoundingClientRect();
+      const slideCenter = rect.top + rect.height / 2;
+      const distance = Math.abs(this.viewportCenter - slideCenter);
+      const maxBlur = 20;
+      const sensitivity = 0.03;
+      const blurAmount = Math.min(maxBlur, distance * sensitivity);
+      image.nativeElement.style.filter = `blur(${blurAmount < 5 ? 0 : blurAmount}px)`;
+    });
+
   }
 }

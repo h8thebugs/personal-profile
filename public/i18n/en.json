@@ -17,6 +17,26 @@
       "colors": "Colors",
       "colorInspiration": "The colors used on this page were inspired by the ",
       "technologiesUsed": "Technologies used:"
+    },
+    "cv": {
+      "education": {
+        "title": "Education",
+        "university": {
+          "bachelor": {
+            "degree": "Bachelor's Degree in Computer Science",
+            "institution": "Babeș-Bolyai University",
+            "year": "2017 - 2020",
+            "thesisTitle": "Thesis title: ",
+            "thesis": "Cinemash - Hybrid movie recommender system"
+          },
+          "master": {
+            "degree": "Master's Degree in Software Engineering",
+            "institution": "Babeș-Bolyai University",
+            "year": "2020 - 2022",
+            "thesis": "BrailleAssist - An application to help in the education of visually impaired people"
+          }
+        }
+      }
     }
   }
 }

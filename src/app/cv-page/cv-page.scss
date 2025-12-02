@@ -1,3 +1,5 @@
+@use '../../styles' as *;
+
 .slide {
   height: 100vh;
   margin-bottom: 10vh;
@@ -9,6 +11,21 @@
   scroll-snap-stop: always;
   .text-content {
     width: 50%;
+    border: $border;
+    border-radius: $border-radius;
+    padding: 2rem;
+  }
+}
+
+@keyframes pulsating {
+  0% {
+    filter: none;
+  }
+
+  100% {
+    filter:
+      drop-shadow(0px 0px 1rem $secondary-color)
+      drop-shadow(0px 0px 3rem $error-color);
   }
 }
 
