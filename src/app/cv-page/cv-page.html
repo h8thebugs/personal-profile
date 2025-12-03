@@ -1,6 +1,20 @@
 <div animate.enter="enter-animation">
   <div class="slideshow">
     <div class="slide" #slideElement>
+      <img  #imageElement ngSrc="child.svg" alt="Personal info Logo" width="200" height="200">
+      <div class="text-content">
+        <h1>{{'app.cv.personal.title' | translate }}</h1>
+        <h3>{{'app.cv.personal.locationTitle' | translate}}</h3>
+        {{'app.cv.personal.location' | translate}}
+        <h3>{{'app.cv.personal.officeTitle' | translate}}</h3>
+        {{'app.cv.personal.office' | translate}}
+        <h3>{{'app.cv.personal.statusTitle' | translate}}</h3>
+        {{'app.cv.personal.status' | translate}}
+        <h3>{{'app.cv.personal.birthTitle' | translate}}</h3>
+        {{'app.cv.personal.birth' | translate}}
+      </div>
+    </div>
+    <div class="slide">
       <img #imageElement ngSrc="university.svg" alt="University logo" width="200" height="200">
         <div class="text-content">
           <h1>{{'app.cv.education.title' | translate}}</h1>

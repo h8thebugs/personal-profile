@@ -51,6 +51,14 @@ a {
     transition: color 0.3s ease;
     color: $secondary-color;
   }
+  img {
+    opacity: 0.5;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    &:hover {
+      transform: scale(105%);
+      opacity: 1;
+    }
+  }
 }
 
 em {

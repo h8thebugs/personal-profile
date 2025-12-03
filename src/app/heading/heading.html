@@ -4,5 +4,10 @@
     <a routerLink="cv">{{'app.heading.cv' | translate}}</a>
     <a routerLink="about">{{'app.heading.about' | translate}}</a>
   </nav>
-  <app-dropdown-component [options]="languageOptions()" [selectedOption]="selectedLanguage()" (selectionChanged)="changeSelection($event)"></app-dropdown-component>
+  <div class="right-side-container">
+    <app-dropdown-component [options]="languageOptions()" [selectedOption]="selectedLanguage()" (selectionChanged)="changeSelection($event)"></app-dropdown-component>
+    <a href="https://github.com/h8thebugs/personal-profile">
+      <img ngSrc="github-mark-white.svg" alt="Github repository for this page" height="30" width="30">
+    </a>
+  </div>
 </header>

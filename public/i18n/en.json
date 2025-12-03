@@ -11,14 +11,27 @@
       "ageSuffix": " years old. ",
       "profession": "I am working as a software developer for ",
       "specialty": " years, specializing in full-stack web development with the accent on the backbone of the applications. On the backend side I usually work with Java and Spring Boot, while on the frontend side I prefer working with Angular.",
-      "site": "During my time spent on the internet, I saw a lot of different web page designs, static sites etc., and it always surprised me how bloated they are, having weird designs and unoptimized interfaces. I had some free time at my hand, and decided to make a simple profile for myself attempting to make it interactive while keeping it simple design-wise and lightweight resource-wise."
+      "site": "During my time spent on the internet, I saw a lot of different web page designs, static sites etc., and it always surprised me how bloated they are, having weird designs and unoptimized interfaces. I had some free time at my hand, and decided to make a simple profile for myself attempting to make it interactive while keeping it simple design-wise and lightweight resource-wise.",
+      "opinions": "A site should have decent contrast, easy to read text, clean and simple layout. The animations should have smooth transitions. If it can be written as a simple single page app, it should be written as one. The payload for the static files should not be over 1 mb, and should pass all the tests with an OK score."
     },
     "about": {
       "colors": "Colors",
       "colorInspiration": "The colors used on this page were inspired by the ",
-      "technologiesUsed": "Technologies used:"
+      "technologiesUsed": "Technologies used",
+      "contact": "Contact"
     },
     "cv": {
+      "personal": {
+        "title": "Personal Information",
+        "locationTitle": "Location",
+        "location": "Cluj-Napoca, Romania",
+        "birthTitle": "Date of birth",
+        "birth": "1998.03.08",
+        "statusTitle": "Status",
+        "status": "Single",
+        "officeTitle": "Prefer to work from",
+        "office": "Remote or Cluj-Napoca, Romania"
+      },
       "education": {
         "title": "Education",
         "university": {

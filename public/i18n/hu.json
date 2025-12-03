@@ -11,14 +11,27 @@
       "ageSuffix": " éves vagyok.",
       "profession": "Szoftverfejlesztőként dolgozom már ",
       "specialty": " éve, főként full-stack webfejlesztéssel foglalkozom, kiemelt figyelmet fordítva a háttérben levő logikára. A backend oldalon főként java-val és Spring Boot-al foglalkozom, míg a frontend oldalon Angular-el dolgozok.",
-      "site": "Az interneten sokféle weboldal design-al találkoztam, és mindig meglepett, hogy mennyire bonyolultak, nehezen mennek, furcsa kinézettel. Volt egy kis szabadidőm, és úgy döntöttem, hogy készítek magamnak egy egyszerű interaktív profilt, ami egyszerű mégis elég sok stílus van benne, miközben nem használja túl az erőforrásokat."
+      "site": "Az interneten sokféle weboldal design-al találkoztam, és mindig meglepett, hogy mennyire bonyolultak, nehezen mennek, furcsa kinézettel. Volt egy kis szabadidőm, és úgy döntöttem, hogy készítek magamnak egy egyszerű interaktív profilt, ami egyszerű mégis elég sok stílus van benne, miközben nem használja túl az erőforrásokat.",
+      "opinions": "Egy webhelynek megfelelő kontraszttal, könnyen olvasható szöveggel, tiszta és egyszerű elrendezéssel kell rendelkeznie. Az animációknak sima átmenetekkel kell működniük. Ha egyszerű, egylapos alkalmazásként megírható, akkor úgy kell megírni. A statikus fájlok mérete nem haladhatja meg az 1 MB-ot, és minden teszten legalább megfelelő eredményt kell elérnie."
     },
     "about": {
       "colors": "Színek",
       "colorInspiration": "Az oldalon használt színek a következő témából inspirálódtak: ",
-      "technologiesUsed": "Felhasznált technológiák:"
+      "technologiesUsed": "Felhasznált technológiák",
+      "contact": "Elérhetőségek"
     },
     "cv": {
+      "personal": {
+        "title": "Személyes adatok",
+        "locationTitle": "Lakhely",
+        "location": "Kolozsvár, Románia",
+        "birthTitle": "Születési dátum",
+        "birth": "1998.03.08",
+        "statusTitle": "Családi állapot",
+        "status": "egyedülálló",
+        "officeTitle": "Preferált munkavégzés helye",
+        "office": "Távmunkában vagy Kolozsváron, Románia"
+      },
       "education": {
         "title": "Tanulmányok",
         "university": {

@@ -3,6 +3,7 @@ import { RouterLink } from '@angular/router';
 import { DropdownComponent } from '../dropdown-component/dropdown-component';
 import { TranslationManager } from '../translation-manager';
 import { TranslatePipe } from '@ngx-translate/core';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-heading',
@@ -10,7 +11,8 @@ import { TranslatePipe } from '@ngx-translate/core';
     RouterLink,
     DropdownComponent,
     DropdownComponent,
-    TranslatePipe
+    TranslatePipe,
+    NgOptimizedImage
   ],
   templateUrl: './heading.html',
   styleUrl: './heading.scss',
