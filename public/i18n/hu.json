@@ -17,6 +17,86 @@
       "colors": "Színek",
       "colorInspiration": "Az oldalon használt színek a következő témából inspirálódtak: ",
       "technologiesUsed": "Felhasznált technológiák:"
+    },
+    "cv": {
+      "education": {
+        "title": "Tanulmányok",
+        "university": {
+          "bachelor": {
+            "degree": "Informatika Alapképzés",
+            "institution": "Babeș-Bolyai Tudománygyetem",
+            "year": "2017 - 2020",
+            "thesisTitle": "Szakdolgozat címe: ",
+            "thesis": "Cinemash - Hibrid filmajánló rendszer"
+          },
+          "master": {
+            "degree": "Mesterképzés Enterprise Szoftverfejlesztésben",
+            "institution": "Babeș-Bolyai Tudománygyetem",
+            "year": "2020 - 2022",
+            "thesis": "BrailleAssist - Egy alkalmazás látássérültek oktatásának segítésére"
+          }
+        }
+      },
+      "training": {
+        "title": "Trainingek és Tanúsítványok",
+        "trainings": {
+          "azure": {
+            "name": "Microsoft Azure Fundamentals - Training és Vizsga",
+            "organizer": "Fundatia EOS Romania",
+            "year": "2021",
+            "link": "https://www.youracclaim.com/badges/17cf1240-d578-45b5-99c4-10e5d0761e2a"
+          },
+          "cleanCode": {
+            "name": "Clean Code - Training",
+            "organizer": "Bosch Romania",
+            "year": "2023",
+            "link": "https://www.victorrentea.ro/#training"
+          },
+          "unitTests": {
+            "name": "Testing Best Practices - Training",
+            "organizer": "Bosch Romania",
+            "year": "2023",
+            "link": "https://www.victorrentea.ro/#training"
+          },
+          "cleanArchitecture": {
+            "name": "Clean Architecture - Training",
+            "organizer": "Bosch Romania",
+            "year": "2023",
+            "link": "https://www.victorrentea.ro/#training"
+          },
+          "presentationSkills": {
+            "name": "Prezentációs készségek - Training",
+            "organizer": "Ascendis",
+            "year": "2024",
+            "link": "https://ascendis.ro/"
+          },
+          "timeManagement": {
+            "name": "Time Management at Workplace and Working Environment - Training",
+            "organizer": "Ascendis",
+            "year": "2025",
+            "link": "https://ascendis.ro/"
+          }
+        }
+      },
+      "work": {
+        "title": "Munkatapasztalat",
+        "experience": {
+          "nokia": {
+            "name": "Nokia Solutions and Networks KFT.",
+            "position": "Automatizálási Gyakornok",
+            "location": "Budapest, Magyarország",
+            "period": "2019 június - 2019 szeptember",
+            "description": "Telekommunikációs szolgáltatások automatizált telepítése OpenStack cloud infrastruktúrára, speciális grafikus felület készítése a telepítések egyszerűbb testreszabásához."
+          },
+          "bosch": {
+            "name": "Robert Bosch SRL",
+            "position": "Szoftverfejlesztő",
+            "location": "Kolozsvár, Románia",
+            "period": "2022 július - jelenleg",
+            "description": "Full-stack fejlesztőként dolgozom belső eszközökön és alkalmazásokon, amelyeket a vállalaton belül több száz mérnök használ, Java, Spring Boot, Angular, Github Actions és egyéb technológiák alkalmazásával."
+          }
+        }
+      }
     }
   }
 }

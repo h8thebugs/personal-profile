@@ -17,6 +17,86 @@
       "colors": "Culori",
       "colorInspiration": "Culorile folosite pe pagina de web sunt inspirate de ",
       "technologiesUsed": "Tehnologii folosite:"
+    },
+    "cv": {
+      "education": {
+        "title": "Educație",
+        "university": {
+          "bachelor": {
+            "degree": "Diplomă de licență în Informatică",
+            "institution": "Universitatea Babeș-Bolyai",
+            "year": "2017 - 2020",
+            "thesisTitle": "Titlul lucrării: ",
+            "thesis": "Cinemash - Sistem hibrid de recomandare a filmelor"
+          },
+          "master": {
+            "degree": "Diplomă de master în Inginerie Software",
+            "institution": "Universitatea Babeș-Bolyai",
+            "year": "2020 - 2022",
+            "thesis": "BrailleAssist - O aplicație pentru educația persoanelor cu deficiențe de vedere"
+          }
+        }
+      },
+      "training": {
+        "title": "Traininguri & Certificări",
+        "trainings": {
+          "azure": {
+            "name": "Microsoft Azure Fundamentals - Training și Examen",
+            "organizer": "Fundația EOS România",
+            "year": "2021",
+            "link": "https://www.youracclaim.com/badges/17cf1240-d578-45b5-99c4-10e5d0761e2a"
+          },
+          "cleanCode": {
+            "name": "Clean Code - Training",
+            "organizer": "Bosch România",
+            "year": "2023",
+            "link": "https://www.victorrentea.ro/#training"
+          },
+          "unitTests": {
+            "name": "Testing Best Practices - Training",
+            "organizer": "Bosch România",
+            "year": "2023",
+            "link": "https://www.victorrentea.ro/#training"
+          },
+          "cleanArchitecture": {
+            "name": "Clean Architecture - Training",
+            "organizer": "Bosch România",
+            "year": "2023",
+            "link": "https://www.victorrentea.ro/#training"
+          },
+          "presentationSkills": {
+            "name": "Abilități de prezentare - Training",
+            "organizer": "Ascendis",
+            "year": "2024",
+            "link": "https://ascendis.ro/"
+          },
+          "timeManagement": {
+            "name": "Managementul timpului la locul de muncă și mediul de lucru - Training",
+            "organizer": "Ascendis",
+            "year": "2025",
+            "link": "https://ascendis.ro/"
+          }
+        }
+      },
+      "work": {
+        "title": "Experiență profesională",
+        "experience": {
+          "nokia": {
+            "name": "Nokia Solutions and Networks KFT.",
+            "position": "Automation Trainee",
+            "location": "Budapesta, Ungaria",
+            "period": "Iunie 2019 - Septembrie 2019",
+            "description": "Automatizarea deploymentului serviciilor de telecomunicații într-un cloud OpenStack, realizarea unei interfețe grafice specializate pentru personalizarea mai ușoară a instanțelor."
+          },
+          "bosch": {
+            "name": "Robert Bosch SRL",
+            "position": "Dezvoltator Software",
+            "location": "Cluj-Napoca, România",
+            "period": "Iulie 2022 - Prezent",
+            "description": "Lucrez ca full-stack developer la instrumente și aplicații interne folosite în companie de sute de ingineri, folosind Java, Spring Boot, Angular, Github Actions și alte tehnologii conexe."
+          }
+        }
+      }
     }
   }
 }
