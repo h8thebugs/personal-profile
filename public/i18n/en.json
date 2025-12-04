@@ -18,6 +18,7 @@
       "colors": "Colors",
       "colorInspiration": "The colors used on this page were inspired by the ",
       "technologiesUsed": "Technologies used",
+      "visuals": "Font and Icon pack",
       "contact": "Contact"
     },
     "cv": {
@@ -101,11 +102,18 @@
             "period": "June 2019 - September 2019",
             "description": "Automated deployments of telecommunication services in an OpenStack cloud, making a specialized GUI to customize the deployments more easily."
           },
+          "boschWS": {
+            "name": "Robert Bosch SRL",
+            "position": "Working Student",
+            "location": "Cluj-Napoca, Romania",
+            "period": "July 2021 - September 2021",
+            "description": "Worked on a desktop application written with Java and Java Swing. The mapped functions, modules, their input and output to the pins of the microcontrollers inside an ECU. I was responsible for maintenance and developing new features."
+          },
           "bosch": {
             "name": "Robert Bosch SRL",
             "position": "Software Developer",
             "location": "Cluj-Napoca, Romania",
-            "period": "July 2022 - Present",
+            "period": "September 2021 - Present",
             "description": "Working as a full-stack developer on internal tools and applications used within the company by hundreds of engineers, using Java, Spring Boot, Angular, Github Actions, and other related technologies."
           }
         }

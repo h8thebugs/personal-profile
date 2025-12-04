@@ -17,6 +17,7 @@
     "about": {
       "colors": "Színek",
       "colorInspiration": "Az oldalon használt színek a következő témából inspirálódtak: ",
+      "visuals": "Betűtípus- és Ikoncsomag",
       "technologiesUsed": "Felhasznált technológiák",
       "contact": "Elérhetőségek"
     },
@@ -28,7 +29,7 @@
         "birthTitle": "Születési dátum",
         "birth": "1998.03.08",
         "statusTitle": "Családi állapot",
-        "status": "egyedülálló",
+        "status": "Egyedülálló",
         "officeTitle": "Preferált munkavégzés helye",
         "office": "Távmunkában vagy Kolozsváron, Románia"
       },
@@ -92,7 +93,7 @@
         }
       },
       "work": {
-        "title": "Munkatapasztalat",
+        "title": "Tapasztalat",
         "experience": {
           "nokia": {
             "name": "Nokia Solutions and Networks KFT.",
@@ -100,6 +101,13 @@
             "location": "Budapest, Magyarország",
             "period": "2019 június - 2019 szeptember",
             "description": "Telekommunikációs szolgáltatások automatizált telepítése OpenStack cloud infrastruktúrára, speciális grafikus felület készítése a telepítések egyszerűbb testreszabásához."
+          },
+          "boschWS": {
+            "name": "Robert Bosch SRL",
+            "position": "Gyakornok",
+            "location": "Kolozsvár, Románia",
+            "period": "2021. július – 2021. szeptember",
+            "description": "Egy Java és Java Swing alapú asztali alkalmazáson dolgoztam. A funkciók, modulok, valamint azok bemenetei és kimenetei az ECU-n belüli mikrokontrollerek pinjeire való leképzés volt a feladata. A karbantartásért és az új funkciók fejlesztéséért voltam felelős."
           },
           "bosch": {
             "name": "Robert Bosch SRL",
