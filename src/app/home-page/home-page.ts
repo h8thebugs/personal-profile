@@ -1,17 +1,19 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, viewChild, viewChildren } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Sunset } from '../sunset/sunset';
 
 @Component({
   selector: 'app-home-page',
   imports: [
-    TranslatePipe
+    TranslatePipe,
+    Sunset
   ],
   templateUrl: './home-page.html',
   styleUrl: './home-page.scss',
 })
 export class HomePage implements OnInit {
- age = signal(0);
- experience = signal(0);
+  age = signal(0);
+  experience = signal(0);
 
   ngOnInit() {
    this.countUpAge();
