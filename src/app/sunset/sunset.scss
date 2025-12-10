@@ -1,0 +1,99 @@
+@use "../../styles" as *;
+
+.sunset-container {
+  position: relative;
+  height: 40vmax;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin-left: -4rem;
+  margin-right: -4rem;
+  margin-bottom: -4rem;
+  .sun {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    background: $secondary-color;
+    border-radius: 50%;
+    width: 10rem;
+    height: 10rem;
+    box-shadow: inset 0 0 3rem $error-color, 0 0 6rem $error-color;
+  }
+
+  .hill {
+    position: absolute;
+    bottom: 0;
+    width: 120%; /* slightly larger to overlap edges */
+    background: $primary-color;
+  }
+
+  .hill1 {
+    left: -10%;
+    height: 45vmax;
+    filter: brightness(.5);
+    clip-path: polygon(
+        0% 80%,
+        20% 45%,
+        40% 85%,
+        60% 50%,
+        80% 70%,
+        100% 100%,
+        0% 100%
+    );
+  }
+
+  .hill2 {
+    left: -10%;
+    filter: brightness(.75);
+    height: 40vmax;
+    clip-path: polygon(
+        0% 75%,
+        15% 55%,
+        35% 70%,
+        55% 45%,
+        75% 65%,
+        100% 50%,
+        100% 100%,
+        0% 100%
+    );
+  }
+
+  .hill3 {
+    left: -10%;
+    height: 35vmax;
+    clip-path: polygon(
+        0% 70%,
+        25% 50%,
+        50% 70%,
+        75% 40%,
+        100% 60%,
+        100% 100%,
+        0% 100%
+    );
+  }
+}
+
+@media (max-width: 800px) {
+  .sunset-container {
+    height: 45vmax;
+    margin-left: -2rem;
+    margin-right: -2rem;
+    margin-bottom: -2rem;
+  }
+  .sun {
+    top: -20%;
+  }
+}
+
+@media (max-width: 650px) {
+  .sunset-container {
+    margin-left: -1rem;
+    margin-right: -1rem;
+    margin-bottom: -1rem;
+    .sun {
+      top: -20%;
+    }
+  }
+}
