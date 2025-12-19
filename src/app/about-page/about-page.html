@@ -1,6 +1,6 @@
 <div animate.enter="enter-animation">
-  <h1>{{'app.heading.about' | translate}}</h1>
-  <h2>{{'app.about.contact' | translate}}</h2>
+  <h1>{{ 'app.heading.about' | translate }}</h1>
+  <h2>{{ 'app.about.contact' | translate }}</h2>
   <div class="link-container">
     <a href="https://www.linkedin.com/in/jakab-szilárd-051b21271">
       <div>
@@ -11,20 +11,21 @@
     <a href="https://www.facebook.com/jakab.szilard.961/">
       <div>
         Facebook
-        <img ngSrc="Facebook_Logo_Secondary.png" alt="LinkedIn Icon" width="20" height="20">
+        <img ngSrc="Facebook_Logo_Secondary.png" alt="LinkedIn Icon" width="20" height="20" priority>
       </div>
     </a>
   </div>
 
-  <h2> {{'app.about.visuals' | translate}}</h2>
+  <h2> {{ 'app.about.visuals' | translate }}</h2>
   <div class="link-container">
-    <a href="https://fonts.google.com/share?selection.family=Google+Sans+Code:ital,wght@0,300..800;1,300..800">Google Sans Code font</a>
+    <a href="https://fonts.google.com/share?selection.family=Google+Sans+Code:ital,wght@0,300..800;1,300..800">Google
+      Sans Code font</a>
     <a href="https://fontawesome.com/search?s=solid&ic=free-collection">FontAwesome</a>
   </div>
 
-  <h2>{{'app.about.colors' | translate}}</h2>
+  <h2>{{ 'app.about.colors' | translate }}</h2>
   <p>
-    {{'app.about.colorInspiration' | translate}}
+    {{ 'app.about.colorInspiration' | translate }}
     <a href="https://github.com/taniarascia/new-moon">New Moon Theme</a>.
   </p>
   <div class="color-palette">
@@ -46,18 +47,20 @@
   </div>
 
   <h2> {{ 'app.about.technologiesUsed' | translate }}</h2>
-  <div class="technologies-container">
-    <a href="https://angular.dev/">
-      <img ngSrc="Angular_gradient_logo.png" alt="Angular logo" width="150" height="150">
-    </a>
-    <a href="https://www.typescriptlang.org/">
-      <img ngSrc="Typescript_logo_2020.svg.png" alt="Typescript logo" width="150" height="150">
-    </a>
-    <a href="https://github.com/">
-      <img ngSrc="github-mark-white.svg" alt="GitHub logo" width="150" height="150">
-    </a>
-    <a href="https://github.com/ngx-translate/core">
-      <img ngSrc="ng-translate.png" alt="GitHub logo" width="150" height="150">
-    </a>
-  </div>
+  @defer (on immediate) {
+    <div class="technologies-container">
+      <a href="https://angular.dev/">
+        <img ngSrc="Angular_gradient_logo.png" alt="Angular logo" width="150" height="150">
+      </a>
+      <a href="https://www.typescriptlang.org/">
+        <img ngSrc="Typescript_logo_2020.svg.png" alt="Typescript logo" width="150" height="150">
+      </a>
+      <a href="https://github.com/">
+        <img ngSrc="github-mark-white.svg" alt="GitHub logo" width="150" height="150">
+      </a>
+      <a href="https://github.com/ngx-translate/core">
+        <img ngSrc="ng-translate.png" alt="GitHub logo" width="150" height="150">
+      </a>
+    </div>
+  }
 </div>

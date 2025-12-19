@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
+import { Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-cv-page',
@@ -23,11 +24,22 @@ export class CvPage implements AfterViewInit {
   slideHeight = 0;
   private readonly viewportCenter = window.innerHeight / 2;
 
+  constructor(private readonly meta: Meta) {
+    this.meta.updateTag({
+      property: 'og:description',
+      content: 'Personal information, work history, education and trainings.'
+    }, 'property="og:description"');
+    this.meta.updateTag({
+      property: 'og:title',
+      content: 'CV'
+    }, 'property="og:title"');
+  }
+
   ngAfterViewInit() {
     this.scrollContainer = document.getElementById('scroll-container') ?? undefined;
     this.slideHeight = this.firstSlide().nativeElement.offsetHeight ?? 0;
 
-    this.scrollContainer?.addEventListener('scroll', () =>{
+    this.scrollContainer?.addEventListener('scroll', () => {
       this.blur();
       if (this.firstSlide().nativeElement.offsetWidth >= 650) {
         this.parallax()

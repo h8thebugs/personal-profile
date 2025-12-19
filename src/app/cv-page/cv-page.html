@@ -1,105 +1,110 @@
 <div animate.enter="enter-animation">
   <div class="slideshow">
     <div class="slide" #slideElement>
-      <img  #imageElement ngSrc="child.svg" alt="Personal info Logo" width="200" height="200">
+      <img #imageElement ngSrc="child.svg" alt="Personal info Logo" width="200" height="200" priority>
       <div class="text-content">
-        <h1>{{'app.cv.personal.title' | translate }}</h1>
-        <h3>{{'app.cv.personal.locationTitle' | translate}}</h3>
-        {{'app.cv.personal.location' | translate}}
-        <h3>{{'app.cv.personal.officeTitle' | translate}}</h3>
-        {{'app.cv.personal.office' | translate}}
-        <h3>{{'app.cv.personal.statusTitle' | translate}}</h3>
-        {{'app.cv.personal.status' | translate}}
-        <h3>{{'app.cv.personal.birthTitle' | translate}}</h3>
-        {{'app.cv.personal.birth' | translate}}
+        <h1>{{ 'app.cv.personal.title' | translate }}</h1>
+        <h3>{{ 'app.cv.personal.locationTitle' | translate }}</h3>
+        {{ 'app.cv.personal.location' | translate }}
+        <h3>{{ 'app.cv.personal.officeTitle' | translate }}</h3>
+        {{ 'app.cv.personal.office' | translate }}
+        <h3>{{ 'app.cv.personal.statusTitle' | translate }}</h3>
+        {{ 'app.cv.personal.status' | translate }}
+        <h3>{{ 'app.cv.personal.birthTitle' | translate }}</h3>
+        {{ 'app.cv.personal.birth' | translate }}
       </div>
     </div>
     <div class="slide">
       <img #imageElement ngSrc="university.svg" alt="University logo" width="200" height="200">
-        <div class="text-content">
-          <h1>{{'app.cv.education.title' | translate}}</h1>
-          <h3>{{'app.cv.education.university.bachelor.degree' | translate}}</h3>
-          <p>
-            <b>{{'app.cv.education.university.bachelor.institution' | translate}}</b>
-            <br />
-            {{'app.cv.education.university.bachelor.year' | translate}}
-            <br />
-            {{'app.cv.education.university.bachelor.thesisTitle' | translate}}
-            {{ 'app.cv.education.university.bachelor.thesis' | translate}}
-          </p>
+      <div class="text-content">
+        <h1>{{ 'app.cv.education.title' | translate }}</h1>
+        <h3>{{ 'app.cv.education.university.bachelor.degree' | translate }}</h3>
+        <p>
+          <b>{{ 'app.cv.education.university.bachelor.institution' | translate }}</b>
+          <br/>
+          {{ 'app.cv.education.university.bachelor.year' | translate }}
+          <br/>
+          {{ 'app.cv.education.university.bachelor.thesisTitle' | translate }}
+          {{ 'app.cv.education.university.bachelor.thesis' | translate }}
+        </p>
 
-          <h3>{{'app.cv.education.university.master.degree' | translate}}</h3>
-          <p>
-            <b>{{'app.cv.education.university.master.institution' | translate}}</b>
-            <br />
-            {{'app.cv.education.university.master.year' | translate}}
-            <br />
-            {{'app.cv.education.university.bachelor.thesisTitle' | translate}}
-            {{'app.cv.education.university.master.thesis' | translate}}
-          </p>
-        </div>
+        <h3>{{ 'app.cv.education.university.master.degree' | translate }}</h3>
+        <p>
+          <b>{{ 'app.cv.education.university.master.institution' | translate }}</b>
+          <br/>
+          {{ 'app.cv.education.university.master.year' | translate }}
+          <br/>
+          {{ 'app.cv.education.university.bachelor.thesisTitle' | translate }}
+          {{ 'app.cv.education.university.master.thesis' | translate }}
+        </p>
+      </div>
     </div>
     <div class="slide">
       <img #imageElement ngSrc="brain.svg" alt="Brain logo" width="200" height="200" priority>
       <div class="text-content">
-        <h1>{{'app.cv.training.title' | translate}}</h1>
+        <h1>{{ 'app.cv.training.title' | translate }}</h1>
 
-        <h3>{{'app.cv.training.trainings.azure.name' | translate}}</h3>
-        <b>{{'app.cv.training.trainings.azure.organizer' | translate}}</b>, {{'app.cv.training.trainings.azure.year' | translate}}
-        <br />
+        <h3>{{ 'app.cv.training.trainings.azure.name' | translate }}</h3>
+        <b>{{ 'app.cv.training.trainings.azure.organizer' | translate }}</b>, {{ 'app.cv.training.trainings.azure.year' | translate }}
+        <br/>
         <a [href]="'app.cv.training.trainings.azure.link' | translate">YourAcclaim Link</a>
 
-        <h3>{{'app.cv.training.trainings.cleanCode.name' | translate}}</h3>
-        <b>{{'app.cv.training.trainings.cleanCode.organizer' | translate}}</b>, {{'app.cv.training.trainings.cleanCode.year' | translate}}
-        <br />
-        <a [href]="'app.cv.training.trainings.cleanCode.link' | translate">{{'app.cv.training.trainings.cleanCode.link' | translate}}</a>
+        <h3>{{ 'app.cv.training.trainings.cleanCode.name' | translate }}</h3>
+        <b>{{ 'app.cv.training.trainings.cleanCode.organizer' | translate }}</b>, {{ 'app.cv.training.trainings.cleanCode.year' | translate }}
+        <br/>
+        <a
+          [href]="'app.cv.training.trainings.cleanCode.link' | translate">{{ 'app.cv.training.trainings.cleanCode.link' | translate }}</a>
 
-        <h3>{{'app.cv.training.trainings.unitTests.name' | translate}}</h3>
-        <b>{{'app.cv.training.trainings.unitTests.organizer' | translate}}</b>, {{'app.cv.training.trainings.unitTests.year' | translate}}
-        <br />
-        <a [href]="'app.cv.training.trainings.unitTests.link' | translate">{{'app.cv.training.trainings.unitTests.link' | translate}}</a>
+        <h3>{{ 'app.cv.training.trainings.unitTests.name' | translate }}</h3>
+        <b>{{ 'app.cv.training.trainings.unitTests.organizer' | translate }}</b>, {{ 'app.cv.training.trainings.unitTests.year' | translate }}
+        <br/>
+        <a
+          [href]="'app.cv.training.trainings.unitTests.link' | translate">{{ 'app.cv.training.trainings.unitTests.link' | translate }}</a>
 
-        <h3>{{'app.cv.training.trainings.cleanArchitecture.name' | translate}}</h3>
-        <b>{{'app.cv.training.trainings.cleanArchitecture.organizer' | translate}}</b>, {{'app.cv.training.trainings.cleanArchitecture.year' | translate}}
-        <br />
-        <a [href]="'app.cv.training.trainings.cleanArchitecture.link' | translate">{{'app.cv.training.trainings.cleanArchitecture.link' | translate}}</a>
+        <h3>{{ 'app.cv.training.trainings.cleanArchitecture.name' | translate }}</h3>
+        <b>{{ 'app.cv.training.trainings.cleanArchitecture.organizer' | translate }}</b>, {{ 'app.cv.training.trainings.cleanArchitecture.year' | translate }}
+        <br/>
+        <a
+          [href]="'app.cv.training.trainings.cleanArchitecture.link' | translate">{{ 'app.cv.training.trainings.cleanArchitecture.link' | translate }}</a>
 
-        <h3>{{'app.cv.training.trainings.presentationSkills.name' | translate}}</h3>
-        <b>{{'app.cv.training.trainings.presentationSkills.organizer' | translate}}</b>, {{'app.cv.training.trainings.presentationSkills.year' | translate}}
-        <br />
-        <a [href]="'app.cv.training.trainings.presentationSkills.link' | translate">{{'app.cv.training.trainings.presentationSkills.link' | translate}}</a>
-        <h3>{{'app.cv.training.trainings.timeManagement.name' | translate}}</h3>
-        <b>{{'app.cv.training.trainings.timeManagement.organizer' | translate}}</b>, {{'app.cv.training.trainings.timeManagement.year' | translate}}
-        <br />
-        <a [href]="'app.cv.training.trainings.timeManagement.link' | translate">{{'app.cv.training.trainings.timeManagement.link' | translate}}</a>
+        <h3>{{ 'app.cv.training.trainings.presentationSkills.name' | translate }}</h3>
+        <b>{{ 'app.cv.training.trainings.presentationSkills.organizer' | translate }}</b>, {{ 'app.cv.training.trainings.presentationSkills.year' | translate }}
+        <br/>
+        <a
+          [href]="'app.cv.training.trainings.presentationSkills.link' | translate">{{ 'app.cv.training.trainings.presentationSkills.link' | translate }}</a>
+        <h3>{{ 'app.cv.training.trainings.timeManagement.name' | translate }}</h3>
+        <b>{{ 'app.cv.training.trainings.timeManagement.organizer' | translate }}</b>, {{ 'app.cv.training.trainings.timeManagement.year' | translate }}
+        <br/>
+        <a
+          [href]="'app.cv.training.trainings.timeManagement.link' | translate">{{ 'app.cv.training.trainings.timeManagement.link' | translate }}</a>
       </div>
     </div>
     <div class="slide">
       <img #imageElement ngSrc="briefcase.svg" alt="Briefcase logo" width="200" height="200">
       <div class="text-content">
-        <h1> {{'app.cv.work.title' | translate}}</h1>
-        <h3>{{'app.cv.work.experience.nokia.name' | translate}}</h3>
+        <h1> {{ 'app.cv.work.title' | translate }}</h1>
+        <h3>{{ 'app.cv.work.experience.nokia.name' | translate }}</h3>
         <p>
-          <b>{{'app.cv.work.experience.nokia.position' | translate}}</b><br>
-          <i>{{'app.cv.work.experience.nokia.period' | translate}}</i><br>
-          {{'app.cv.work.experience.nokia.location' | translate}}<br />
-          {{'app.cv.work.experience.nokia.description' | translate}}
+          <b>{{ 'app.cv.work.experience.nokia.position' | translate }}</b><br>
+          <i>{{ 'app.cv.work.experience.nokia.period' | translate }}</i><br>
+          {{ 'app.cv.work.experience.nokia.location' | translate }}<br/>
+          {{ 'app.cv.work.experience.nokia.description' | translate }}
         </p>
 
-        <h3>{{'app.cv.work.experience.boschWS.name' | translate}}</h3>
+        <h3>{{ 'app.cv.work.experience.boschWS.name' | translate }}</h3>
         <p>
-          <b>{{'app.cv.work.experience.boschWS.position' | translate}}</b><br>
-          <i>{{'app.cv.work.experience.boschWS.period' | translate}}</i><br>
-          {{'app.cv.work.experience.boschWS.location' | translate}}<br />
-          {{'app.cv.work.experience.boschWS.description' | translate}}
+          <b>{{ 'app.cv.work.experience.boschWS.position' | translate }}</b><br>
+          <i>{{ 'app.cv.work.experience.boschWS.period' | translate }}</i><br>
+          {{ 'app.cv.work.experience.boschWS.location' | translate }}<br/>
+          {{ 'app.cv.work.experience.boschWS.description' | translate }}
         </p>
 
-        <h3>{{'app.cv.work.experience.bosch.name' | translate}}</h3>
+        <h3>{{ 'app.cv.work.experience.bosch.name' | translate }}</h3>
         <p>
-          <b>{{'app.cv.work.experience.bosch.position' | translate}}</b><br>
-          <i>{{'app.cv.work.experience.bosch.period' | translate}}</i><br>
-          {{'app.cv.work.experience.bosch.location' | translate}}<br />
-          {{'app.cv.work.experience.bosch.description' | translate}}
+          <b>{{ 'app.cv.work.experience.bosch.position' | translate }}</b><br>
+          <i>{{ 'app.cv.work.experience.bosch.period' | translate }}</i><br>
+          {{ 'app.cv.work.experience.bosch.location' | translate }}<br/>
+          {{ 'app.cv.work.experience.bosch.description' | translate }}
         </p>
       </div>
     </div>
