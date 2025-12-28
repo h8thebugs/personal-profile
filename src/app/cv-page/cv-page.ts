@@ -24,15 +24,21 @@ export class CvPage implements AfterViewInit {
   slideHeight = 0;
   private readonly viewportCenter = window.innerHeight / 2;
 
+  private readonly description = 'Personal information, work history, education and trainings.';
+
   constructor(private readonly meta: Meta) {
     this.meta.updateTag({
       property: 'og:description',
-      content: 'Personal information, work history, education and trainings.'
+      content: this.description
     }, 'property="og:description"');
     this.meta.updateTag({
       property: 'og:title',
       content: 'CV'
     }, 'property="og:title"');
+    this.meta.updateTag({
+      name: 'description',
+      content: this.description
+    }, 'name="description"')
   }
 
   ngAfterViewInit() {

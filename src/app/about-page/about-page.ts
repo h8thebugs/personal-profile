@@ -14,14 +14,20 @@ import { Meta } from '@angular/platform-browser';
 })
 export class AboutPage {
 
+  private readonly description = 'The colors used on this page were inspired by the New Moon Theme. Technologies used: Angular, Typescript, GitHub';
+
   constructor(private readonly meta: Meta) {
     this.meta.updateTag({
       property: 'og:description',
-      content: 'The colors used on this page were inspired by the New Moon Theme. Technologies used: Angular, Typescript, GitHub'
+      content: this.description
     }, 'property="og:description"');
     this.meta.updateTag({
       property: 'og:title',
       content: 'About page'
     }, 'property="og:title"');
+    this.meta.updateTag({
+      name: 'description',
+      content: this.description
+    }, 'name="description"');
   }
 }

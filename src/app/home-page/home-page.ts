@@ -16,15 +16,21 @@ export class HomePage implements OnInit {
   age = signal(0);
   experience = signal(0);
 
+  private readonly description = 'My name is Jakab Szilárd, I am 27 years old. I am working as a software developer for 4 years. I decided to make a simple profile for myself attempting to make it interactive while keeping it simple design-wise and lightweight resource-wise.';
+
   constructor(private readonly meta: Meta) {
     this.meta.updateTag({
       property: 'og:description',
-      content: 'My name is Jakab Szilárd, I am 27 years old. I am working as a software developer for 4 years. I decided to make a simple profile for myself attempting to make it interactive while keeping it simple design-wise and lightweight resource-wise.'
+      content: this.description
     }, 'property="og:description"');
     this.meta.updateTag({
       property: 'og:title',
       content: 'Home page'
     }, 'property="og:title"');
+    this.meta.updateTag({
+      name: 'description',
+      content: this.description
+    }, 'name="description"')
   }
 
   ngOnInit() {
