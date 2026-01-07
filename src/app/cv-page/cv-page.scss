@@ -82,6 +82,28 @@
     }
 
     img {
+      height: 120px;
+      width: 120px;
+      margin-bottom: 2rem;
+    }
+  }
+}
+
+@media (max-width: 430px) {
+  .slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    .text-content {
+      font-size: 0.8rem;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+    }
+
+    img {
       height: 150px;
       width: 150px;
       margin-bottom: 2rem;

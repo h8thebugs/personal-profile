@@ -41,3 +41,22 @@
     }
   }
 }
+
+@media (max-width: 650px) {
+  .site-header {
+    padding: 0.5rem 0.5rem;
+    font-size: 0.8rem;
+    margin: 0.5rem 0.5rem 0 0.5rem;
+    nav a {
+      margin-left: 1rem;
+      font-size: 0.8rem;
+    }
+    .right-side-container {
+      display: flex;
+      align-items: center;
+    }
+    .right-side-container > * {
+      margin-right: 0.5rem;
+    }
+  }
+}
