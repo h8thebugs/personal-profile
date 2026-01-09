@@ -21,6 +21,17 @@
       "visuals": "Fontul și iconurile folosite",
       "contact": "Contact"
     },
+    "posts": {
+      "title": "Postări",
+      "manifesto": {
+        "title": "Manifest",
+        "description": "În ultimii ani, content farming-ul în blogurile de tehnologie a crescut vizibil, ceea ce a dus la o calitate mai scăzută a informațiilor, având unele fragmente de cod care nici măcar nu funcționează, text care este clar scris de AI. Mai mult, o mare parte a conținutului este replicată din alte surse fără nicio atribuire. În acest blog garantez personal că postez lucruri pe care le-am încercat și implementat în prototipuri sau în producție la un moment dat, unde au funcționat pentru mine, sunt rezultatul propriei mele munci și cercetări, omițând detaliile care nu sunt în sfera subiectului sau sunt informații legate de proiect, făcându-l în același timp cât mai apropiat de un exemplu funcțional. Deși fac tot posibilul, nu pot garanta că pot actualiza și menține informațiile într-o stare funcțională. Dacă doriți să-mi susțineți munca, vă rog să distribuiți și să faceți referire la postarea pe care ați găsit-o utilă cu linkul către postarea mea și numele meu (Jakab Szilárd)."
+      },
+      "motivation": {
+        "title": "Motivație",
+        "description": "În anii mei în domeniul IT, am scris o mulțime de documentații argumentând de ce am ales anumite tehnologii, biblioteci și soluții. Am ținut și câteva prezentări în echipele mele și în mai multe echipe pe o serie de subiecte. Acestea au început să se adune și mi-am dat seama că nu au nicio valoare stând pe computerul meu, așa că am decis să le rescriu în timpul meu liber într-un format în care să le pot face publice, beneficiind astfel unele persoane care ar putea ajunge să încerce să facă aceeași cercetare ca și mine."
+      }
+    },
     "cv": {
       "personal": {
         "title": "Informații personale",

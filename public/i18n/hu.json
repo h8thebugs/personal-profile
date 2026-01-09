@@ -2,7 +2,7 @@
   "app": {
     "heading": {
       "home": "Főoldal",
-      "about": "Az oldalról",
+      "about": "Web",
       "cv": "CV"
     },
     "home": {
@@ -13,6 +13,17 @@
       "specialty": " éve, főként full-stack webfejlesztéssel foglalkozom, kiemelt figyelmet fordítva a háttérben levő logikára. A backend oldalon főként java-val és Spring Boot-al foglalkozom, míg a frontend oldalon Angular-el dolgozok.",
       "site": "Az interneten sokféle weboldal design-al találkoztam, és mindig meglepett, hogy mennyire bonyolultak, nehezen mennek, furcsa kinézettel. Volt egy kis szabadidőm, és úgy döntöttem, hogy készítek magamnak egy egyszerű interaktív profilt, ami egyszerű mégis elég sok stílus van benne, miközben nem használja túl az erőforrásokat.",
       "opinions": "Egy webhelynek megfelelő kontraszttal, könnyen olvasható szöveggel, tiszta és egyszerű elrendezéssel kell rendelkeznie. Az animációknak sima átmenetekkel kell működniük. Ha egyszerű, egylapos alkalmazásként megírható, akkor úgy kell megírni. A statikus fájlok mérete nem haladhatja meg az 1 MB-ot, és minden teszten legalább megfelelő eredményt kell elérnie."
+    },
+    "posts": {
+      "title": "Posztok",
+      "manifesto": {
+        "title": "Manifesto",
+        "description": "Az utóbbi években a tech blogokkal való content farming láthatóan megnőtt, ami alacsonyabb minőségű információt eredményezett, sok esetben a kódrészlet nem is működik, a szöveg egyértelműen MI által íródott. Továbbá, a tartalom nagy része más forrásokból van másolva, bármiféle hivatkozás nélkül. Ebben a blogban személyesen garantálom, hogy olyan dolgokat teszek közzé, amiket kipróbáltam és implementáltam prototípusokban vagy élesben valamikor, ahol nekem működtek, ezek a saját munkám és kutatásom eredményei, kihagyva azokat a részleteket, amelyek nem tartoznak a téma körébe vagy projekt-specifikus információk, miközben a lehető legközelebb hozom egy működő példához. Bár minden tőlem telhetőt megteszek, nem tudom garantálni, hogy frissíteni tudom és működőképes állapotban tudom tartani az információkat. Ha támogatni szeretnéd a munkámat, kérlek oszd meg és hivatkozz a bejegyzésre, amit hasznosnak találtál, a bejegyzésemre mutató linkkel és a nevemmel (Jakab Szilárd)."
+      },
+      "motivation": {
+        "title": "Motiváció",
+        "description": "Az informatikai területen töltött éveim során sok dokumentációt írtam arról, hogy miért választottam bizonyos technológiákat, könyvtárakat és megoldásokat. Tartottam néhány előadást is a csapataimban és  egyszerre több csapatnak is több témában. Ezek elkezdtek felhalmozódni, és rájöttem, hogy nincs semmi értékük a számítógépemen ülve, ezért úgy döntöttem, hogy a szabadidőmben újraírom őket egy olyan formátumba, amelyben nyilvánosságra hozhatom, ezzel segítve néhány embert, aki esetleg ugyanazt a kutakodást próbálja elvégezni, mint én."
+      }
     },
     "about": {
       "colors": "Színek",

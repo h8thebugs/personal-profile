@@ -3,7 +3,7 @@
     "heading": {
       "home": "Home",
       "about": "About",
-       "cv": "CV"
+      "cv": "CV"
     },
     "home": {
       "name": "My name is ",
@@ -20,6 +20,17 @@
       "technologiesUsed": "Technologies used",
       "visuals": "Font and Icon pack",
       "contact": "Contact"
+    },
+    "posts": {
+      "title": "Posts",
+      "manifesto": {
+        "title": "Manifesto",
+        "description": "In recent years, content farming with tech blogs rose by a visible amount, which resulted in lower quality of information, having some code snippets that do not even work, text that is clearly written by AI. Furthermore, a lot of the content is replicated from other sources without any attribution. In this blog I personally guarantee that I post things I have tried and implemented in prototypes or in production at some point where they worked for me, they are the result of my own work and research, omitting the details that are not in the scope of the subject or is project-related information, while making it as close to a working example as possible. Although I try my best, I cannot guarantee that I can update and keep the informations in a working state. If you want to support my work, please share and refer the post you found useful with the link pointing to my post, and my name (Jakab Szilárd)."
+      },
+      "motivation": {
+        "title": "Motivation",
+        "description": "During my years in the IT field, I wrote a lot of documentation reasoning on why I choose certain technologies, libraries, and solutions. I also held some presentations in my teams and across multiple teams regarding a range of topics. They started to add up, and I've realised they do not have any value sitting on my computer, so I decided to rewrite them in my spare time to a format in which I can make it public, benefitting some people that might end up trying to do the same research as I did."
+      }
     },
     "cv": {
       "personal": {

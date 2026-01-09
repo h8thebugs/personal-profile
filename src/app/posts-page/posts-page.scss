@@ -1,0 +1,23 @@
+@use "../../styles" as *;
+
+.posts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .keywords {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .keyword {
+      opacity: 0.5;
+      transition: opacity 0.3s ease-in-out
+    }
+
+    .keyword:hover {
+      opacity: 1;
+    }
+  }
+}

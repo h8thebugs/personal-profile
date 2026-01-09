@@ -32,6 +32,7 @@ body {
 h1, h2, h3, h4, h5, h6 {
   color: $primary-color;
   transition: color 0.3s ease;
+
   &:hover {
     color: $secondary-color;
   }
@@ -45,15 +46,18 @@ h1 {
 a {
   text-decoration: none;
   font-weight: bold;
-  min-width: 2rem;
+  min-width: 1rem;
   color: $text-color;
+
   &:hover {
     transition: color 0.3s ease;
     color: $secondary-color;
   }
+
   img {
     opacity: 0.5;
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+
     &:hover {
       transform: scale(105%);
       opacity: 1;
@@ -68,6 +72,34 @@ em {
 
 .enter-animation {
   animation: enterAnimation 0.5s ease;
+}
+
+.card {
+  border: $border;
+  border-radius: $border-radius;
+  padding: 1rem;
+  margin-top: 2rem;
+  font-size: 1rem;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+
+  box-shadow: none;
+
+  &:hover {
+    transform: scale(101%);
+    box-shadow: 0 0 1rem $primary-color;
+  }
+}
+
+@media (max-width: 800px) {
+  .card {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .card {
+    font-size: 0.8rem;
+  }
 }
 
 @keyframes enterAnimation {

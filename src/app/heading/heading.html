@@ -1,11 +1,13 @@
 <header class="site-header">
   <nav>
-    <a routerLink="/">{{'app.heading.home' | translate}}</a>
-    <a routerLink="cv">{{'app.heading.cv' | translate}}</a>
-    <a routerLink="about">{{'app.heading.about' | translate}}</a>
+    <a routerLink="/">{{ 'app.heading.home' | translate }}</a>
+    <a routerLink="/cv">{{ 'app.heading.cv' | translate }}</a>
+    <a routerLink="/about">{{ 'app.heading.about' | translate }}</a>
+    <a routerLink="/posts">{{ 'app.posts.title' | translate }}</a>
   </nav>
   <div class="right-side-container">
-    <app-dropdown-component [options]="languageOptions()" [selectedOption]="selectedLanguage()" (selectionChanged)="changeSelection($event)"></app-dropdown-component>
+    <app-dropdown-component [options]="languageOptions()" [selectedOption]="selectedLanguage()"
+                            (selectionChanged)="changeSelection($event)"></app-dropdown-component>
     <a href="https://github.com/h8thebugs/personal-profile">
       <img ngSrc="github-mark-white.svg" alt="Github repository for this page" height="30" width="30">
     </a>

@@ -2,7 +2,7 @@
   <div class="slideshow">
     <div class="slide" #slideElement>
       <img #imageElement ngSrc="child.svg" alt="Personal info Logo" width="200" height="200" priority>
-      <div class="text-content">
+      <div class="text-content card">
         <h1>{{ 'app.cv.personal.title' | translate }}</h1>
         <h3>{{ 'app.cv.personal.locationTitle' | translate }}</h3>
         {{ 'app.cv.personal.location' | translate }}
@@ -16,7 +16,7 @@
     </div>
     <div class="slide">
       <img #imageElement ngSrc="university.svg" alt="University logo" width="200" height="200">
-      <div class="text-content">
+      <div class="text-content card">
         <h1>{{ 'app.cv.education.title' | translate }}</h1>
         <h3>{{ 'app.cv.education.university.bachelor.degree' | translate }}</h3>
         <p>
@@ -41,7 +41,7 @@
     </div>
     <div class="slide">
       <img #imageElement ngSrc="brain.svg" alt="Brain logo" width="200" height="200" priority>
-      <div class="text-content">
+      <div class="text-content card">
         <h1>{{ 'app.cv.training.title' | translate }}</h1>
 
         <h3>{{ 'app.cv.training.trainings.azure.name' | translate }}</h3>
@@ -81,7 +81,7 @@
     </div>
     <div class="slide">
       <img #imageElement ngSrc="briefcase.svg" alt="Briefcase logo" width="200" height="200">
-      <div class="text-content">
+      <div class="text-content card">
         <h1> {{ 'app.cv.work.title' | translate }}</h1>
         <h3>{{ 'app.cv.work.experience.nokia.name' | translate }}</h3>
         <p>
