@@ -1,12 +1,8 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef, viewChild,
-  viewChildren,
-} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, viewChild, viewChildren, } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Meta } from '@angular/platform-browser';
+import { CanonicalService } from '../services/canonical.service';
 
 @Component({
   selector: 'app-cv-page',
@@ -25,6 +21,7 @@ export class CvPage implements AfterViewInit {
   private readonly viewportCenter = window.innerHeight / 2;
 
   private readonly description = 'Personal information, work history, education and trainings.';
+  private readonly canonical = inject(CanonicalService);
 
   constructor(private readonly meta: Meta) {
     this.meta.updateTag({
@@ -42,6 +39,8 @@ export class CvPage implements AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.canonical.setCanonical();
+
     this.scrollContainer = document.getElementById('scroll-container') ?? undefined;
     this.slideHeight = this.firstSlide().nativeElement.offsetHeight ?? 0;
 

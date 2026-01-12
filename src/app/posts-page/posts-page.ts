@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import Post from '../models/post.model';
 import { Router, RouterLink } from '@angular/router';
+import { CanonicalService } from '../services/canonical.service';
 
 @Component({
   selector: 'app-posts-page',
@@ -12,7 +13,7 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './posts-page.html',
   styleUrl: './posts-page.scss'
 })
-export class PostsPage {
+export class PostsPage implements AfterViewInit {
   posts: Post[] = [
     {
       title: 'Playwright',
@@ -28,8 +29,13 @@ export class PostsPage {
     }
   ];
   router = inject(Router);
+  canonical = inject(CanonicalService);
 
   async onClick(link: string) {
     await this.router.navigateByUrl(link);
+  }
+
+  ngAfterViewInit(): void {
+    this.canonical.setCanonical();
   }
 }

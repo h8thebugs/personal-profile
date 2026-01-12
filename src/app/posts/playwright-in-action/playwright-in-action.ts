@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-playwright-in-action',
-  imports: [],
+  imports: [
+    NgOptimizedImage
+  ],
   templateUrl: './playwright-in-action.html',
   styleUrl: './playwright-in-action.scss'
 })

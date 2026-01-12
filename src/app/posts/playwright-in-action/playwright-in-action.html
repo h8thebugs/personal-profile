@@ -1,1 +1,294 @@
-<p>playwright-in-action works!</p>
+<div animate.enter="enter-animation">
+  <h1>Playwright in Action</h1>
+  <p>This post is a followup for the previous post of Playwright, with an example of a practical approach, detailing the
+    necessary configurations.
+    Now, we are focusing more on how to integrate it with an application and how I integrated it with the development
+    workflow that we had.
+    The application has a Java backend with <b>Spring boot</b>, and an <b>Angular Single Page App</b> frontend.</p>
+  <h2>Test environment</h2>
+  <p>The first thing that comes up is the environment, where should we put the application and how should we host it for
+    the testing?
+    For our use-case, let’s imagine that we have an Acceptance environment at hand where we want to run our tests.</p>
+  <h3>Profiling</h3>
+  <p>Another thing regarding the environment is to how to set up and prepare the application for end to end testing. To
+    that, the answer is profiling.</p>
+  <p><strong>Benefits:</strong></p>
+  <ul>
+    <li>Isolate test configuration from production/development</li>
+    <li>Inject environment-specific settings</li>
+    <li>Declarative and easy to interpret</li>
+  </ul>
+  <p><strong>What is our goal?</strong></p>
+  <ul>
+    <li>We have an application that uses OAUTH</li>
+    <li>Dealing with OAuth is complex in testing scenarios</li>
+    <li>Tests should validate application functionality, not external auth providers</li>
+    <li>Eliminating authentication steps for speed and simplicity</li>
+  </ul>
+  <h4>Spring boot Profile</h4>
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre
+    style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic"># setting the active profile in application.properties</span>
+<span style="color: #DCDCCC">spring</span><span style="color: #F0EFD0">.</span><span
+      style="color: #DCDCCC">profiles</span><span style="color: #F0EFD0">.</span><span
+      style="color: #DCDCCC">active</span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC">e2e</span>
+</pre>
+  </div>
+
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto"><pre
+    style="margin: 0; line-height: 125%;"><span></span><span style="color: #DCDCCC">&#64;Configuration</span>
+<span style="color: #DCDCCC">&#64;Profile</span><span style="color: #F0EFD0">&#40;</span><span style="color: #CC9393">&quot;e2e&quot;</span><span
+      style="color: #F0EFD0">&#41;</span>
+<span style="color: #DCDCCC">&#64;EnableWebSecurity</span>
+<span style="color: #DCDCCC">&#64;EnableGlobalMethodSecurity</span><span style="color: #F0EFD0">&#40;</span><span
+      style="color: #DCDCCC">prePostEnabled </span><span style="color: #F0EFD0">=</span><span
+      style="color: #DCDCCC"> </span><span style="color: #DCA3A3">true</span><span style="color: #F0EFD0">,</span><span
+      style="color: #DCDCCC"> securedEnabled </span><span style="color: #F0EFD0">=</span><span
+      style="color: #DCDCCC"> </span><span style="color: #DCA3A3">true</span><span style="color: #F0EFD0">&#41;</span>
+<span style="color: #F0DFAF">public</span><span style="color: #DCDCCC"> </span><span style="color: #F0DFAF">class</span> <span
+      style="color: #EFEF8F">SecurityConfigE2E</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">    &#64;Bean</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0DFAF">public</span><span style="color: #DCDCCC"> SecurityFilterChain </span><span
+      style="color: #EFEF8F">securityFilterChain</span><span style="color: #F0EFD0">&#40;</span><span
+      style="color: #DCDCCC">HttpSecurity http</span><span style="color: #F0EFD0">&#41;</span><span
+      style="color: #DCDCCC"> </span><span style="color: #F0DFAF">throws</span><span
+      style="color: #DCDCCC"> Exception </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">        http</span><span style="color: #F0EFD0">.</span><span
+      style="color: #EFEF8F">cors</span><span style="color: #F0EFD0">&#40;&#41;.</span><span
+      style="color: #EFEF8F">and</span><span style="color: #F0EFD0">&#40;&#41;.</span><span
+      style="color: #EFEF8F">csrf</span><span style="color: #F0EFD0">&#40;&#41;</span>
+<span style="color: #DCDCCC">            </span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">disable</span><span
+      style="color: #F0EFD0">&#40;&#41;</span>
+<span style="color: #DCDCCC">            </span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">authorizeRequests</span><span
+      style="color: #F0EFD0">&#40;&#41;</span>
+<span style="color: #DCDCCC">            </span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">antMatchers</span><span
+      style="color: #F0EFD0">&#40;</span><span style="color: #CC9393">&quot;/api/**&quot;</span><span
+      style="color: #F0EFD0">&#41;.</span><span style="color: #EFEF8F">permitAll</span><span
+      style="color: #F0EFD0">&#40;&#41;</span>
+<span style="color: #DCDCCC">            </span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">antMatchers</span><span
+      style="color: #F0EFD0">&#40;</span><span style="color: #CC9393">&quot;/socket/**&quot;</span><span
+      style="color: #F0EFD0">&#41;.</span><span style="color: #EFEF8F">permitAll</span><span
+      style="color: #F0EFD0">&#40;&#41;</span>
+<span style="color: #DCDCCC">            </span><span style="color: #F0EFD0">.</span><span
+      style="color: #EFEF8F">and</span><span style="color: #F0EFD0">&#40;&#41;</span>
+<span style="color: #DCDCCC">            </span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">sessionManagement</span><span
+      style="color: #F0EFD0">&#40;&#41;</span>
+<span style="color: #DCDCCC">            </span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">sessionCreationPolicy</span><span
+      style="color: #F0EFD0">&#40;</span><span style="color: #DCDCCC">SessionCreationPolicy</span><span
+      style="color: #F0EFD0">.</span><span style="color: #EFEF8F">STATELESS</span><span
+      style="color: #F0EFD0">&#41;;</span>
+<span style="color: #DCDCCC">        </span><span style="color: #EFDCBC">return</span><span
+      style="color: #DCDCCC"> http</span><span style="color: #F0EFD0">.</span><span
+      style="color: #EFEF8F">build</span><span style="color: #F0EFD0">&#40;&#41;;</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">&#125;</span>
+<span style="color: #F0EFD0">&#125;</span>
+</pre>
+  </div>
+  <h4>Angular Profile</h4>
+  <p>We create a profile in Angular as well for our end-to-end tests.</p>
+
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto"><pre
+    style="margin: 0; line-height: 125%;"><span></span><span
+    style="color: #E89393; font-weight: bold">&quot;e2e&quot;</span><span style="color: #F0EFD0">:</span><span
+    style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span><span style="color: #DCDCCC"> </span><span
+    style="color: #7F9F7F; font-style: italic">// angular.json</span>
+<span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">&quot;budgets&quot;</span><span
+      style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">[</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">      </span><span style="color: #E89393; font-weight: bold">&quot;type&quot;</span><span
+      style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;initial&quot;</span><span
+      style="color: #F0EFD0">,</span>
+<span style="color: #DCDCCC">      </span><span
+      style="color: #E89393; font-weight: bold">&quot;maximumWarning&quot;</span><span
+      style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span
+      style="color: #CC9393">&quot;500kb&quot;</span><span style="color: #F0EFD0">,</span>
+<span style="color: #DCDCCC">      </span><span
+      style="color: #E89393; font-weight: bold">&quot;maximumError&quot;</span><span
+      style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span
+      style="color: #CC9393">&quot;2mb&quot;</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">&#125;,</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">      </span><span style="color: #E89393; font-weight: bold">&quot;type&quot;</span><span
+      style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;anyComponentStyle&quot;</span><span
+      style="color: #F0EFD0">,</span>
+<span style="color: #DCDCCC">      </span><span
+      style="color: #E89393; font-weight: bold">&quot;maximumWarning&quot;</span><span
+      style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span
+      style="color: #CC9393">&quot;2kb&quot;</span><span style="color: #F0EFD0">,</span>
+<span style="color: #DCDCCC">      </span><span
+      style="color: #E89393; font-weight: bold">&quot;maximumError&quot;</span><span
+      style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span
+      style="color: #CC9393">&quot;2mb&quot;</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">&#125;</span>
+<span style="color: #DCDCCC">  </span><span style="color: #F0EFD0">],</span>
+<span style="color: #DCDCCC">  </span><span
+      style="color: #E89393; font-weight: bold">&quot;fileReplacements&quot;</span><span style="color: #F0EFD0">:</span><span
+      style="color: #DCDCCC"> </span><span style="color: #F0EFD0">[</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">      </span><span
+      style="color: #E89393; font-weight: bold">&quot;replace&quot;</span><span style="color: #F0EFD0">:</span><span
+      style="color: #DCDCCC"> </span><span
+      style="color: #CC9393">&quot;src/environments/environment.ts&quot;</span><span style="color: #F0EFD0">,</span>
+<span style="color: #DCDCCC">      </span><span style="color: #E89393; font-weight: bold">&quot;with&quot;</span><span
+      style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;src/environments/environment.e2e.ts&quot;</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">&#125;</span>
+<span style="color: #DCDCCC">  </span><span style="color: #F0EFD0">],</span>
+<span style="color: #DCDCCC">  </span><span
+      style="color: #E89393; font-weight: bold">&quot;outputHashing&quot;</span><span
+      style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span
+      style="color: #CC9393">&quot;all&quot;</span>
+<span style="color: #F0EFD0">&#125;</span>
+</pre>
+  </div>
+
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre
+    style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic">// environment.e2e.ts</span>
+<span style="color: #EFDCBC">export</span><span style="color: #DCDCCC"> </span><span style="color: #F0DFAF">const</span><span
+      style="color: #DCDCCC"> environment </span><span style="color: #F0EFD0">=</span><span
+      style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">  production</span><span style="color: #F0EFD0">:</span><span
+      style="color: #DCDCCC"> </span><span style="color: #DFDFBF; font-weight: bold">false</span><span
+      style="color: #F0EFD0">,</span>
+<span style="color: #DCDCCC">  auth</span><span style="color: #F0EFD0">:</span><span
+      style="color: #DCDCCC"> </span><span style="color: #DFDFBF; font-weight: bold">false</span><span
+      style="color: #F0EFD0">,</span>
+<span style="color: #F0EFD0">&#125;;</span>
+</pre>
+  </div>
+
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre
+    style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic">// app.component.ts</span>
+<span style="color: #EFDCBC">export</span><span style="color: #DCDCCC"> </span><span style="color: #F0DFAF">class</span><span
+      style="color: #DCDCCC"> AppComponent </span><span style="color: #EFDCBC">implements</span><span
+      style="color: #DCDCCC"> OnInit </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">  </span><span style="color: #EFDCBC">constructor</span><span
+      style="color: #F0EFD0">&#40;&#41;</span><span style="color: #DCDCCC"> </span><span
+      style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">    </span><span style="color: #EFDCBC">if</span><span style="color: #DCDCCC"> </span><span
+      style="color: #F0EFD0">&#40;!</span><span style="color: #DCDCCC">environment</span><span
+      style="color: #F0EFD0">.</span><span style="color: #DCDCCC">auth</span><span
+      style="color: #F0EFD0">&#41;</span><span
+      style="color: #DCDCCC"> </span><span style="color: #EFDCBC">return</span><span style="color: #F0EFD0">;</span>
+<span style="color: #DCDCCC">    </span><span style="color: #7F9F7F; font-style: italic">// Oauth logic here</span>
+<span style="color: #DCDCCC">  </span><span style="color: #F0EFD0">&#125;</span>
+<span style="color: #DCDCCC">  ngOnInit</span><span style="color: #F0EFD0">&#40;&#41;:</span><span
+      style="color: #DCDCCC"> </span><span style="color: #F0EFD0">void</span><span style="color: #DCDCCC"> </span><span
+      style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">    </span><span style="color: #EFDCBC">if</span><span style="color: #DCDCCC"> </span><span
+      style="color: #F0EFD0">&#40;!</span><span style="color: #DCDCCC">environment</span><span
+      style="color: #F0EFD0">.</span><span style="color: #DCDCCC">auth</span><span
+      style="color: #F0EFD0">&#41;</span><span
+      style="color: #DCDCCC"> </span><span style="color: #EFDCBC">return</span><span style="color: #F0EFD0">;</span>
+<span style="color: #DCDCCC">    </span><span style="color: #7F9F7F; font-style: italic">// Oauth logic here</span>
+<span style="color: #DCDCCC">  </span><span style="color: #F0EFD0">&#125;</span>
+<span style="color: #F0EFD0">&#125;</span>
+</pre>
+  </div>
+
+
+  <h2>Pipeline execution</h2>
+  <p>Now that we have the necessary settings for running the tests, let’s design a pipeline to run our things. Let’s
+    start with this initial approach:</p>
+  <div class="image-container" [style.aspect-ratio]="1253 / 403">
+    <img ngSrc="posts/playwright-in-action/playwright-in-action-pipeline-rough.png" alt="initial-pipeline-structure"
+         fill>
+  </div>
+
+  <p>Now, we need to make these deployments with our new e2e profile. Let’s make another 2 deploy steps for deploying
+    another version after the tests run successfully, which we can call <b>acceptance</b>. Also don’t forget to deal
+    with the deployments that were made only for the end-to-end testing after it’s done, to not waste any resource.</p>
+
+  <div class="image-container" [style.aspect-ratio]="1762 / 406">
+    <img ngSrc="posts/playwright-in-action/playwright-in-action-pipeline.png" alt="initial-pipeline-structure"
+         fill>
+  </div>
+
+  <p>Below you can find a more generic version of the pipeline I had used to achieve this in Github Actions, merging it
+    into a single workflow file &#40;for better traceability&#41;. I’ve also kept only the details which is in the scope
+    of this
+    post.</p>
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #E89393; font-weight: bold">on</span><span style="color: #F0EFD0">:</span>
+<span style="color: #7F9F7F; font-style: italic"># Controls when the workflow will run</span>
+
+<span style="color: #E89393; font-weight: bold">jobs</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">build-backend</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">runs-on</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">[</span><span style="color: #DCDCCC">self-hosted</span><span style="color: #F0EFD0">]</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">defaults</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">      </span><span style="color: #E89393; font-weight: bold">run</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">working-directory</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">&dollar;&#123; &#123; inputs.path-to-backend&#125; &#125; </span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">steps</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">uses</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">actions/setup-java&commat;v4</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">with</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">          </span><span style="color: #E89393; font-weight: bold">distribution</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">adopt</span>
+<span style="color: #DCDCCC">          </span><span style="color: #E89393; font-weight: bold">java-version</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">&dollar;&#123; &#123;  inputs.java-version &#125; &#125; </span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">uses</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">actions/checkout&commat;v4</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">name</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">Set profile for spring</span><span style="color: #DCDCCC"> </span><span style="color: #7F9F7F; font-style: italic"># this version works under powershell, you can do a similar one in bash</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">run</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">(Get-Content -Path &#39;src\main\resources\application.properties&#39;) -replace &#39;^spring.profiles.active=.+&dollar;&#39;, &#39;spring.profiles.active=e2e&#39; | Set-Content -Path &#39;src\main\resources\application.properties&#39;</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">name</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">Build</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">shell</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">cmd</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">run</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">.\mvnw.cmd clean install</span>
+<span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">build-frontend</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">runs-on</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">[</span><span style="color: #DCDCCC">self-hosted</span><span style="color: #F0EFD0">]</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">defaults</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">      </span><span style="color: #E89393; font-weight: bold">run</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">working-directory</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">&dollar;&#123; &#123; inputs.path-to-frontend&#125; &#125; </span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">steps</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">uses</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">actions/checkout&commat;v4</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">uses</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">actions/setup-node&commat;v4</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">with</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">          </span><span style="color: #E89393; font-weight: bold">cache</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">npm</span>
+<span style="color: #DCDCCC">          </span><span style="color: #E89393; font-weight: bold">cache-dependency-path</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;**/package-lock.json&quot;</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">name</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">Code quality check</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">run</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">npm run lint --if-present</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">name</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">Install dependencies</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">run</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">npm ci --ignore-scripts</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">name</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">Run tests</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">if</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">&dollar;&#123; &#123;  inputs.frontend-test &#125; &#125; </span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">run</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">npm test</span>
+
+<span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">deploy-frontend</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">needs</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">build-frontend</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">uses</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">.github/workflows/build-npm.yml&commat;main</span><span style="color: #DCDCCC"> </span><span style="color: #7F9F7F; font-style: italic"># own pipeline for deployment</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">secrets</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">inherit</span>
+<span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">deploy-backend</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">needs</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">build-backend</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">uses</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">.github/workflows/build-maven.yml&commat;main</span><span style="color: #DCDCCC"> </span><span style="color: #7F9F7F; font-style: italic"># own pipeline for deployment</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">secrets</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">inherit</span>
+<span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">e2e-playwright</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">needs</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">[</span><span style="color: #DCDCCC">deploy-frontend</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC">deploy-backend</span><span style="color: #F0EFD0">]</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">runs-on</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">[</span><span style="color: #DCDCCC">self-hosted</span><span style="color: #F0EFD0">]</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">defaults</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">      </span><span style="color: #E89393; font-weight: bold">run</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">working-directory</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">&dollar;&#123; &#123; inputs.path-to-frontend&#125; &#125; </span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">steps</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">name</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">Checkout</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">uses</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">actions/checkout&commat;v4</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">name</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">Setup Node.js</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">uses</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">actions/setup-node&commat;v4</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">with</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">          </span><span style="color: #E89393; font-weight: bold">node-version</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;&lt;YOUR_RELEVANT_VERSION&gt;&quot;</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">name</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">Setup Playwright</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">run</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">npm ci --force --ignore-scripts</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">name</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">Install Playwright Browsers</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">run</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">npx playwright install --with-deps</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">shell</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">cmd</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">name</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">Run Playwright tests</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">run</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">npx playwright test -x</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">uses</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">actions/upload-artifact&commat;v4</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">if</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">&dollar;&#123; &#123;  !cancelled() &#125; &#125; </span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">with</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">          </span><span style="color: #E89393; font-weight: bold">name</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">playwright-report</span>
+<span style="color: #DCDCCC">          </span><span style="color: #E89393; font-weight: bold">path</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">playwright-report/</span>
+<span style="color: #DCDCCC">          </span><span style="color: #E89393; font-weight: bold">retention-days</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">30</span>
+
+<span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">deploy-frontend-acceptance</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">needs</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">e2e-playwright</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">uses</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">.github/workflows/build-npm.yml&commat;main</span><span style="color: #DCDCCC"> </span><span style="color: #7F9F7F; font-style: italic"># own pipeline for deployment</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">secrets</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">inherit</span>
+<span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">deploy-backend-acceptance</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">needs</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">build-e2e-playwright</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">uses</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">.github/workflows/build-maven.yml&commat;main</span><span style="color: #DCDCCC"> </span><span style="color: #7F9F7F; font-style: italic"># own pipeline for deployment</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">secrets</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">inherit</span>
+</pre></div>
+
+
+</div>
