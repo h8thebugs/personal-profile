@@ -103,6 +103,25 @@ em {
   }
 }
 
+.button {
+  font-family: 'Google Sans Code', monospace;
+  font-size: 1rem;
+  background-color: $background-color;
+  color: $text-color;
+  border: $border;
+  border-radius: $border-radius;
+  padding: 0.5rem 1rem;
+  height: 4rem;
+  align-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    background-color: $text-color;
+    color: $background-color;
+  }
+}
+
 @media (max-width: 800px) {
   .card {
     font-size: 0.9rem;

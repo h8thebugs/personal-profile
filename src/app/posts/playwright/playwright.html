@@ -1,0 +1,118 @@
+<div animate.enter="enter-animation">
+  <h1>Introduction to Playwright</h1>
+  <p>In this post, I will share some details regarding Playwright, a testing framework I choose to write some end-to-end tests for some applications I worked on.</p>
+  <h2>Why Test Automation Matters</h2>
+  <h3>The Value of Automated Testing</h3>
+  <ul>
+    <li>Quality Assurance: Consistently verify application behavior</li>
+    <li>Regression Prevention: Catch bugs before they reach production</li>
+    <li>Confidence: Deploy with greater certainty of application stability</li>
+    <li>Documentation: Tests serve as living documentation of expected behavior for the developers</li>
+    <li>Improves test coverage across application</li>
+    <li>Reduces human error in repetitive testing</li>
+    <li>Consistency in test execution</li>
+  </ul>
+  <h3>Automated E2E Testing Challenges</h3>
+  <ul>
+    <li>Flaky Tests: Inconsistent test results, sometimes failing and sometimes succeeding</li>
+    <li>Speed: Slower execution compared to Unit Tests</li>
+    <li>Dynamic Content: Modern web apps with async operations</li>
+    <li>Authentication: Managing login states and cookies</li>
+    <li>Maintenance overhead as applications change</li>
+    <li>Cannot replace manual tests completely</li>
+    <li>Initial investment of time and resources</li>
+    <li>May miss UI/UX issues that a human could observe otherwise</li>
+  </ul>
+  <h2>Introduction to Playwright</h2>
+  <p>Keeping the challenges mentioned in mind, I chose Playwright as a framework for implementing a verification and validation workflow for our application because of the way it handles common end-to-end testing challenges.</p>
+  <h3>Core Capabilities</h3>
+  <ul>
+    <li>Cross-browser automation: Chrome, Firefox, Safari, and Edge</li>
+    <li>Cross-platform: Windows, macOS, and Linux</li>
+    <li>Multiple languages: JavaScript/TypeScript, Python, Java, .NET</li>
+    <li>Auto-waiting: Built-in smart waiting mechanisms</li>
+    <li>Headless &amp; headful mode: Run with or without UI</li>
+  </ul>
+  <h2>Installation Guide</h2>
+  <h3>Basic Installation for TypeScript</h3>
+
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #DCDCCC">npm</span> <span style="color: #DCDCCC">init</span> <span style="color: #DCDCCC">playwright</span>
+<span style="color: #DCDCCC">npm</span> <span style="color: #DCDCCC">install</span> <span style="color: #DCDCCC">dotenv</span>
+</pre></div>
+
+
+  <h2>Basic Usage</h2>
+  <h3>Simple test: testing scroll and header</h3>
+
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #EFDCBC">import</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span><span style="color: #DCDCCC"> test</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> expect </span><span style="color: #F0EFD0">&#125;</span><span style="color: #DCDCCC"> </span><span style="color: #EFDCBC">from</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&#39; &commat;playwright/test&#39;</span><span style="color: #F0EFD0">;</span>
+
+<span style="color: #DCDCCC">test</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;tool landscape should have correct basic layout&#39;</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> </span><span style="color: #EFDCBC">async</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">(&#123;</span><span style="color: #DCDCCC"> page </span><span style="color: #F0EFD0">&#125;)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">=&gt;</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">  </span><span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> page</span><span style="color: #F0EFD0">.</span><span style="color: #EFDCBC">goto</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;https://example.com/home-page&#39;</span><span style="color: #F0EFD0">);</span>
+<span style="color: #DCDCCC">  </span><span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> expect</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">locator</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;app-navbar&#39;</span><span style="color: #F0EFD0">)).</span><span style="color: #DCDCCC">toContainText</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;foo&#39;</span><span style="color: #F0EFD0">);</span>
+<span style="color: #DCDCCC">  </span><span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> expect</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">locator</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;app-navbar&#39;</span><span style="color: #F0EFD0">)).</span><span style="color: #DCDCCC">toContainText</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;bar&#39;</span><span style="color: #F0EFD0">);</span>
+<span style="color: #DCDCCC">  </span><span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">evaluate</span><span style="color: #F0EFD0">(()</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">=&gt;</span><span style="color: #DCDCCC"> </span><span style="color: #EFEF8F">window</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">scrollBy</span><span style="color: #F0EFD0">(</span><span style="color: #C0BED1">0</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> </span><span style="color: #C0BED1">600</span><span style="color: #F0EFD0">));</span>
+<span style="color: #DCDCCC">  </span><span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> expect</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">getByRole</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;button&#39;</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span><span style="color: #DCDCCC"> name</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&#39;Scroll to top&#39;</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#125;)).</span><span style="color: #DCDCCC">toBeVisible</span><span style="color: #F0EFD0">();</span>
+<span style="color: #DCDCCC">  </span><span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> expect</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">getByLabel</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;dropdown-select&#39;</span><span style="color: #F0EFD0">))</span>
+<span style="color: #DCDCCC">          </span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">toContainText</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;LoremIpsumDolor sit&#39;</span><span style="color: #F0EFD0">);</span>
+<span style="color: #DCDCCC">  </span><span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> expect</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">locator</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;#board&#39;</span><span style="color: #F0EFD0">))</span>
+<span style="color: #DCDCCC">          </span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">toContainText</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;Lorem ipsum dolor sit amet.&#39;</span><span style="color: #F0EFD0">);</span>
+<span style="color: #F0EFD0">&#125;);</span>
+</pre></div>
+
+  <h3>Interacting with elements</h3>
+
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic">// Common user interactions</span>
+<span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">getByRole</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;textbox&#39;</span><span style="color: #F0EFD0">).</span><span style="color: #DCDCCC">fill</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;Hello World&#39;</span><span style="color: #F0EFD0">);</span>
+<span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">getByRole</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;button&#39;</span><span style="color: #F0EFD0">).</span><span style="color: #DCDCCC">click</span><span style="color: #F0EFD0">();</span>
+<span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">getByRole</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;checkbox&#39;</span><span style="color: #F0EFD0">).</span><span style="color: #DCDCCC">check</span><span style="color: #F0EFD0">();</span>
+<span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">locator</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;select#dropdown&#39;</span><span style="color: #F0EFD0">).</span><span style="color: #DCDCCC">selectOption</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;Option 2&#39;</span><span style="color: #F0EFD0">);</span>
+<span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">keyboard</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">press</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;Enter&#39;</span><span style="color: #F0EFD0">);</span>
+<span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">mouse</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">click</span><span style="color: #F0EFD0">(</span><span style="color: #C0BED1">100</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> </span><span style="color: #C0BED1">200</span><span style="color: #F0EFD0">);</span>
+<span style="color: #7F9F7F; font-style: italic">// Navigation</span>
+<span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> page</span><span style="color: #F0EFD0">.</span><span style="color: #EFDCBC">goto</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;https://example.com&#39;</span><span style="color: #F0EFD0">);</span>
+<span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">goBack</span><span style="color: #F0EFD0">();</span>
+<span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">goForward</span><span style="color: #F0EFD0">();</span>
+</pre></div>
+
+  <h3>Test hooks and Grouping</h3>
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic">// Test grouping</span>
+<span style="color: #DCDCCC">test</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">describe</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;Authentication flows&#39;</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">()</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">=&gt;</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">  </span><span style="color: #7F9F7F; font-style: italic">// Setup before each test</span>
+<span style="color: #DCDCCC">  test</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">beforeEach</span><span style="color: #F0EFD0">(</span><span style="color: #EFDCBC">async</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">(&#123;</span><span style="color: #DCDCCC"> page </span><span style="color: #F0EFD0">&#125;)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">=&gt;</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">    </span><span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> page</span><span style="color: #F0EFD0">.</span><span style="color: #EFDCBC">goto</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;https://example.com/login&#39;</span><span style="color: #F0EFD0">);</span>
+<span style="color: #DCDCCC">  </span><span style="color: #F0EFD0">&#125;);</span>
+<span style="color: #DCDCCC">  </span>
+<span style="color: #DCDCCC">  test</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;valid login&#39;</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> </span><span style="color: #EFDCBC">async</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">(&#123;</span><span style="color: #DCDCCC"> page </span><span style="color: #F0EFD0">&#125;)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">=&gt;</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">    </span><span style="color: #7F9F7F; font-style: italic">// Test implementation</span>
+<span style="color: #DCDCCC">  </span><span style="color: #F0EFD0">&#125;);</span>
+<span style="color: #DCDCCC">  </span>
+<span style="color: #DCDCCC">  test</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;invalid login&#39;</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> </span><span style="color: #EFDCBC">async</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">(&#123;</span><span style="color: #DCDCCC"> page </span><span style="color: #F0EFD0">&#125;)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">=&gt;</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">    </span><span style="color: #7F9F7F; font-style: italic">// Test implementation</span>
+<span style="color: #DCDCCC">  </span><span style="color: #F0EFD0">&#125;);</span>
+<span style="color: #DCDCCC">  </span>
+<span style="color: #DCDCCC">  </span><span style="color: #7F9F7F; font-style: italic">// Cleanup after each test</span>
+<span style="color: #DCDCCC">  test</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">afterEach</span><span style="color: #F0EFD0">(</span><span style="color: #EFDCBC">async</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">(&#123;</span><span style="color: #DCDCCC"> page </span><span style="color: #F0EFD0">&#125;)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">=&gt;</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">    </span><span style="color: #EFDCBC">await</span><span style="color: #DCDCCC"> page</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">evaluate</span><span style="color: #F0EFD0">(()</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">=&gt;</span><span style="color: #DCDCCC"> localStorage</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">clear</span><span style="color: #F0EFD0">());</span>
+<span style="color: #DCDCCC">  </span><span style="color: #F0EFD0">&#125;);</span>
+<span style="color: #F0EFD0">&#125;);</span>
+</pre></div>
+
+  <h3>Best practices</h3>
+  <ol>
+    <li>Test workflows and user stories</li>
+    <li>Avoid relying on implementation details</li>
+    <li>Make tests as isolated as possible</li>
+    <li>Frequent testing by integrating it into a CI/CD pipeline</li>
+  </ol>
+  <h2>When would this benefit the applications?</h2>
+  <ul>
+    <li>When you already have some features that are stable</li>
+    <li>When the project is under active maintenance/development</li>
+    <li>When you can put it on a pipeline</li>
+    <li>When manual testing takes quite a big effort</li>
+  </ul>
+  <p>Source: <a href="https://playwright.dev/">Playwright Official Page</a></p>
+  <div class="right-side-container">
+    <a class="button" routerLink="/posts/playwright-in-action">Next: Playwright in Action</a>
+  </div>
+</div>
