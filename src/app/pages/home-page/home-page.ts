@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Sunset } from '../sunset/sunset';
+import { Sunset } from 'src/app/components/sunset/sunset';
 import { Meta } from '@angular/platform-browser';
-import { CanonicalService } from '../services/canonical.service';
+import { CanonicalService } from 'src/app/services/canonical.service';
 
 @Component({
   selector: 'app-home-page',
@@ -17,13 +17,9 @@ export class HomePage implements OnInit {
   age = signal(0);
   experience = signal(0);
   canonical = inject(CanonicalService);
-  private readonly description = 'My name is Jakab Szilárd, I am 27 years old. I am working as a software developer for 4 years. I decided to make a simple profile for myself attempting to make it interactive while keeping it simple design-wise and lightweight resource-wise.';
+  private readonly description = 'A web developer\'s Profile, CV, Tech guides, Opinions and more. It is also a testament that web pages can and should be fast';
 
   constructor(private readonly meta: Meta) {
-    this.meta.updateTag({
-      property: 'og:description',
-      content: this.description
-    }, 'property="og:description"');
     this.meta.updateTag({
       property: 'og:title',
       content: 'Home page'
@@ -37,7 +33,6 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.countUpAge();
     this.countUpExperience();
-    this.canonical.setCanonical();
   }
 
   async countUpAge() {

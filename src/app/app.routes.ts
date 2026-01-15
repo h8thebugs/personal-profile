@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { HomePage } from './home-page/home-page';
-import { AboutPage } from './about-page/about-page';
-import { CvPage } from './cv-page/cv-page';
-import { PostsPage } from './posts-page/posts-page';
-import { Playwright } from './posts/playwright/playwright';
-import { PlaywrightInAction } from './posts/playwright-in-action/playwright-in-action';
+import { HomePage } from './pages/home-page/home-page';
+import { PostsPage } from './pages/posts-page/posts-page';
+import { Playwright } from './pages/posts/playwright/playwright';
+import { PlaywrightInAction } from './pages/posts/playwright-in-action/playwright-in-action';
+import { AboutPage } from 'src/app/pages/about-page/about-page';
+import { CvPage } from 'src/app/pages/cv-page/cv-page';
 
 export const routes: Routes = [
   {

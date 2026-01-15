@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import Post from '../models/post.model';
+import Post from 'src/app/models/post.model';
 import { Router, RouterLink } from '@angular/router';
-import { CanonicalService } from '../services/canonical.service';
+import { Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-posts-page',
@@ -13,7 +13,7 @@ import { CanonicalService } from '../services/canonical.service';
   templateUrl: './posts-page.html',
   styleUrl: './posts-page.scss'
 })
-export class PostsPage implements AfterViewInit {
+export class PostsPage {
   posts: Post[] = [
     {
       title: 'Playwright',
@@ -29,13 +29,20 @@ export class PostsPage implements AfterViewInit {
     }
   ];
   router = inject(Router);
-  canonical = inject(CanonicalService);
+  private readonly description = 'Posts, opinions, tech guides about programming and web development. From a developer, to developers.'
+
+  constructor(private readonly meta: Meta) {
+    this.meta.updateTag({
+      property: 'og:title',
+      content: 'Posts and Guides'
+    }, 'property="og:title"');
+    this.meta.updateTag({
+      name: 'description',
+      content: this.description
+    }, 'name="description"')
+  }
 
   async onClick(link: string) {
     await this.router.navigateByUrl(link);
-  }
-
-  ngAfterViewInit(): void {
-    this.canonical.setCanonical();
   }
 }

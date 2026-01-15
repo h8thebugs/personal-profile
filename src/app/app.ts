@@ -1,6 +1,7 @@
-import { Component, ElementRef, viewChild } from '@angular/core';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { Heading } from './heading/heading';
+import { Heading } from './components/heading/heading';
+import { CanonicalService } from './services/canonical.service';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +11,12 @@ import { Heading } from './heading/heading';
 })
 export class App {
  scrollContainer = viewChild.required<ElementRef<HTMLDivElement>>('scrollContainer');
+ private readonly canonicalService = inject(CanonicalService);
   constructor(private readonly router: Router) {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.scrollContainer().nativeElement.scrollTo({ top: 0})
+        this.canonicalService.setCanonical();
       }
     })
   }
