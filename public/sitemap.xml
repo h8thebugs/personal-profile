@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://jakabszilard.work</loc>
+  </url>
+  <url>
+    <loc>https://jakabszilard.work/about</loc>
+  </url>
+  <url>
+    <loc>https://jakabszilard.work/cv</loc>
+  </url>
+  <url>
+    <loc>https://jakabszilard.work/posts</loc>
+  </url>
+  <url>
+    <loc>https://jakabszilard.work/posts/playwright</loc>
+  </url>
+  <url>
+    <loc>https://jakabszilard.work/posts/playwright-in-action</loc>
+  </url>
+</urlset>
