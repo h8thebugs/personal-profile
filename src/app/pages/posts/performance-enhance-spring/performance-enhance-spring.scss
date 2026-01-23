@@ -1,0 +1,31 @@
+.stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  img {
+    width: auto !important;
+    max-height: 450px !important;
+  }
+}
+
+@media (max-width: 800px) {
+  .stats > img {
+    width: auto !important;
+    max-height: 350px !important;
+  }
+}
+@media (max-width: 625px) {
+  .stats > img {
+    width: auto !important;
+    max-height: 250px !important;
+  }
+}
+@media (max-width: 425px) {
+  .stats > img {
+    width: auto !important;
+    max-height: 180px !important;
+  }
+}
+

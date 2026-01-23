@@ -5,6 +5,7 @@ import { Playwright } from './pages/posts/playwright/playwright';
 import { PlaywrightInAction } from './pages/posts/playwright-in-action/playwright-in-action';
 import { AboutPage } from 'src/app/pages/about-page/about-page';
 import { CvPage } from 'src/app/pages/cv-page/cv-page';
+import { PerformanceEnhanceSpring } from 'src/app/pages/posts/performance-enhance-spring/performance-enhance-spring';
 
 export const routes: Routes = [
   {
@@ -30,5 +31,9 @@ export const routes: Routes = [
   {
     path: 'posts/playwright-in-action',
     component: PlaywrightInAction
+  },
+  {
+    path: 'posts/legacy-spring-boot-performance',
+    component: PerformanceEnhanceSpring
   }
 ];

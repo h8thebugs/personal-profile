@@ -16,6 +16,12 @@ import { Meta } from '@angular/platform-browser';
 export class PostsPage {
   posts: Post[] = [
     {
+      title: 'Enhance Performance in Legacy Spring Boot Apps',
+      description: 'Sharing some of my experience regarding how to take over legacy applications, and what can one do to improve their performance',
+      keywords: ['Spring Boot', 'Backend', 'Performance Optimization', 'Caching', 'CI/CD'],
+      url: '/posts/legacy-spring-boot-performance'
+    },
+    {
       title: 'Playwright',
       description: 'An introduction to Playwright highlighting it\'s core features, why I chose it, how I used it with an Angular application',
       keywords: ['Angular', 'E2E Tests', 'Playwright', 'Frontend'],

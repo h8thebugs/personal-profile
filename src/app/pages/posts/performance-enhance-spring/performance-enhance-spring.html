@@ -1,0 +1,201 @@
+<div animate.enter="enter-animation">
+  <h1>Enhance Performance in Legacy Spring Boot Apps</h1>
+  <p>In this article, I want to discuss taking ownership of legacy web applications, and what can one do with them in
+    terms of performance based on my experience. We will talk about <strong>caching, parallelism, testing and
+    CI/CD</strong> - providing technology-agnostic ideas, and examples based in Spring Boot.</p>
+
+  <h2>What is Legacy Code?</h2>
+  <p>I&#39;d start with some definitions and some context in case some of the readers were lucky enough to not have the
+    chance to work with legacy code. Legacy code simply is an existing source code / software component that is
+    inherited from other teams, projects, which is usually in a maintenance lifecycle since it is used either by some
+    users, or by some software components. It&#39;s famous for being hard to deal with due to possibly having outdated
+    technologies, lack of proper documentation and having complex business logic that is hard to understand at first
+    glance. Often times legacy software components generate most of the weird workarounds and complex logic in the new
+    software that is written.</p>
+  <p>I strongly believe that it&#39;s an important skill to be able to deal with legacy code, although it may be a huge
+    challenge, only a developer can fix something that became broken, slow, outdated due to the negligence of another
+    developer / product owner or the passage of time.</p>
+  <p>Source: <a href="https://www.sonarsource.com/resources/library/legacy-code/">Legacy Code definition</a></p>
+
+  <h2>First steps</h2>
+
+  <h3>What to do after the takeover?</h3>
+  <p>So, one day I received a legacy Spring Boot application, with a simple Angular frontend. I had to extend some
+    existing functionality and also add some new features. The first thing after running it locally and playing around
+    with it was to check the tests. In my case most of them worked and passed, there were a few tests that failed from
+    the start, some of them I could fix because simply it was not updated after some modifications, some of them I had
+    to disable with JUnit&#39;s <code>&commat;Disabled</code> annotation because I could not figure it out if it&#39;s a
+    relevant test case or not and how can I fix it. A very important thing to mention: <strong>don&#39;t delete
+      non-working tests immediately, unless you&#39;re convinced they are not necessary!</strong> They might be of value
+    when you understand the business logic better or the users report some bugs regarding some functionality.</p>
+
+  <h3>Assuring continuous integration before modifications</h3>
+  <p>When dealing with legacy code, it&#39;s even more essential to run your tests frequently, so I integrated it into a
+    CI/CD pipeline. In the case of a Spring Boot project with Maven, it would look like this in Github Actions:
+    <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #E89393; font-weight: bold">on</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">workflow_call</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">pull_request</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">branches</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">      </span><span style="color: #7F9F7F; font-style: italic"># list your branches here</span>
+<span style="color: #E89393; font-weight: bold">jobs</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">deploy</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">runs-on</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">self-hosted</span>
+<span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">steps</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">uses</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">actions/checkout&commat;v5</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">uses</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">actions/setup-java&commat;v5</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">with</span><span style="color: #F0EFD0">:</span>
+<span style="color: #DCDCCC">          </span><span style="color: #E89393; font-weight: bold">distribution</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">&lt;YOUR_JAVA_DISTRIBUTION&gt;</span>
+<span style="color: #DCDCCC">          </span><span style="color: #E89393; font-weight: bold">java-version</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">&lt;YOUR_JAVA_VERSION&gt;</span>
+<span style="color: #DCDCCC">          </span><span style="color: #E89393; font-weight: bold">overwrite-settings</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">false</span>
+<span style="color: #DCDCCC">      </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #E89393; font-weight: bold">name</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">Build</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">shell</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">cmd</span>
+<span style="color: #DCDCCC">        </span><span style="color: #E89393; font-weight: bold">run</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #9FAFAF">.\mvnw.cmd clean install</span>
+</pre></div>
+
+  <p>The <code>install</code> lifecycle in Maven will also run the tests in the project, so this is all we have to do.
+  </p>
+
+  <h3>Identifying uncovered code</h3>
+  <p>In many cases with legacy code, there is a considerable amount of code that&#39;s not covered, and it is a good
+    idea to do something about it, if possible. I would recommend some <strong>Black-box</strong> testing strategy,
+    which - to put it plainly - relies on the inputs and outputs and does not rely that heavily on the implementation
+    details, which is what we exactly need when we don&#39;t understand the implementation.</p>
+  <p>In my case this meant to write some End-to-end tests interacting with the UI - since that was fairly simple to use
+    and understand, but this always depends on the code and the tools you have at hand, in theory black-box testing can
+    be achieved at any levels of testing.</p>
+
+  <h2>Evaluating the functionality</h2>
+  <p>The good thing when you have tests is that they give you a feedback regarding the performance as well. This in my
+    case was visible on the pipeline, where my tests had a total runtime of <strong>34m 36s</strong>.</p>
+
+  <h3>Key Bottlenecks</h3>
+  <p>In most of the web applications, the most expensive operations are the network calls, whether it&#39;s a database,
+    a third-party API, a microservice, etc. In any situation when I face a performance bottleneck, this is the first
+    thing I check.</p>
+  <p>In this case, I&#39;ve found that the application heavily uses a REST API for obtaining some necessary data, and
+    upon investigating the runtime with <a href="https://www.jetbrains.com/pages/intellij-idea-profiler/">IntelliJ&#39;s
+      Profiler</a> it confirmed that indeed 99% of the time is spent there. Now the goal is to address this without
+    modifying the business logic itself too much, to avoid introducing bugs to the system. I&#39;d also like to mention
+    that these points can be used in any system to improve the performance, but more like a last resort. It&#39;s always
+    better to make the implementation itself good enough in terms of performance as you can achieve lot bigger
+    improvements there. In the case of a legacy code that you don&#39;t understand yet, that&#39;s not an option
+    unfortunately.</p>
+
+  <h3>Caching</h3>
+  <p>Caching can be a good solution for reducing the number of network calls. The main idea is to avoid getting
+    information that the application already has and it is up-to-date. The trick is to find out how can you invalidate
+    the caches. There are multiple strategies for this which you can combine depending on your specific use-case.</p>
+  <p>In my use-case a simple time-based cache invalidation strategy was enough, since the app only read data from the
+    problematic API endpoints, and it wasn&#39;t frequently modified by others as well. In my case I used <a
+      href="https://github.com/ben-manes/caffeine">Caffeine</a> as a cache provider. Below you can find the
+    configurations and examples with Spring boot:</p>
+
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic">&lt;!--pom.xml--&gt;</span>
+<span style="color: #E89393; font-weight: bold">&lt;dependency&gt;</span>
+<span style="color: #DCDCCC">	</span><span style="color: #E89393; font-weight: bold">&lt;groupId&gt;</span>org.springframework.boot<span style="color: #E89393; font-weight: bold">&lt;/groupId&gt;</span>
+<span style="color: #DCDCCC">	</span><span style="color: #E89393; font-weight: bold">&lt;artifactId&gt;</span>spring-boot-starter-cache<span style="color: #E89393; font-weight: bold">&lt;/artifactId&gt;</span>
+<span style="color: #E89393; font-weight: bold">&lt;/dependency&gt;</span>
+<span style="color: #E89393; font-weight: bold">&lt;dependency&gt;</span>
+<span style="color: #DCDCCC">	</span><span style="color: #E89393; font-weight: bold">&lt;groupId&gt;</span>com.github.ben-manes.caffeine<span style="color: #E89393; font-weight: bold">&lt;/groupId&gt;</span>
+<span style="color: #DCDCCC">	</span><span style="color: #E89393; font-weight: bold">&lt;artifactId&gt;</span>caffeine<span style="color: #E89393; font-weight: bold">&lt;/artifactId&gt;</span>
+<span style="color: #E89393; font-weight: bold">&lt;/dependency&gt;</span>
+</pre></div>
+
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #DCDCCC">&#64;SpringBootApplication</span>
+<span style="color: #DCDCCC">&#64;EnableCaching</span>
+<span style="color: #F0DFAF">public</span><span style="color: #DCDCCC"> </span><span style="color: #F0DFAF">class</span> <span style="color: #EFEF8F">MyApplication</span><span style="color: #DCDCCC"> </span><span style="color: #F0DFAF">extends</span><span style="color: #DCDCCC"> SpringBootServletInitializer </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0DFAF">public</span><span style="color: #DCDCCC"> </span><span style="color: #F0DFAF">static</span><span style="color: #DCDCCC"> </span><span style="color: #DFDFBF; font-weight: bold">void</span><span style="color: #DCDCCC"> </span><span style="color: #EFEF8F">main</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">String</span><span style="color: #F0EFD0">[]</span><span style="color: #DCDCCC"> args</span><span style="color: #F0EFD0">)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">        SpringApplication</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">run</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">MyApplication</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">class</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> args</span><span style="color: #F0EFD0">);</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">&#125;</span>
+<span style="color: #F0EFD0">&#125;</span>
+</pre></div>
+
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic">// your class containing these methods with requests</span>
+
+<span style="color: #DCDCCC">&#64;Cacheable</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">value </span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;anElementCache&quot;</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> key </span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;#reference&quot;</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> unless </span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;#result == null&quot;</span><span style="color: #F0EFD0">)</span>
+<span style="color: #F0DFAF">public</span><span style="color: #DCDCCC"> Element </span><span style="color: #EFEF8F">getElementByReference</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">String reference</span><span style="color: #F0EFD0">)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">  </span><span style="color: #7F9F7F; font-style: italic">// ...</span>
+<span style="color: #F0EFD0">&#125;</span>
+
+<span style="color: #DCDCCC">&#64;Cacheable</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">value </span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;parentsCache&quot;</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> key </span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;#reference&quot;</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> unless </span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;#result == null || #result.isEmpty()&quot;</span><span style="color: #F0EFD0">)</span>
+<span style="color: #F0DFAF">public</span><span style="color: #DCDCCC"> List</span><span style="color: #F0EFD0">&lt;</span><span style="color: #DCDCCC">Element</span><span style="color: #F0EFD0">&gt;</span><span style="color: #DCDCCC"> </span><span style="color: #EFEF8F">getParentsByIdentifier</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">String reference</span><span style="color: #F0EFD0">)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">  </span><span style="color: #7F9F7F; font-style: italic">// ...</span>
+<span style="color: #F0EFD0">&#125;</span>
+<span style="color: #F0EFD0">&#125;</span>
+</pre></div>
+
+  <h3>Parallelism</h3>
+  <p>Running some things in parallel is another common approach to save some time. It can greatly improve the
+    performance of any piece of code that doesn&#39;t mutate a state or variable, so it works well with <strong>REST
+      API</strong>s and algorithms written in a <strong>functional programming</strong> style.</p>
+  <p>I&#39;ve came across a piece of code that after taking a closer look, it basically just iterated over a list of ID&#39;s
+    and made some GET requests to obtain that object. Of course, if possible one should implement an endpoint for this
+    if they really need it to avoid the unnecessary round trips between the servers, and get the requested information
+    in one go, but in some cases you simply do not own the endpoint and there&#39;s no endpoint for fetching a list of
+    items. If the list has only a few items it&#39;s not that big of a deal, but in this case I received a feature
+    request that required to obtain the information from hundreds of these items and the original implementation was
+    just too slow for this.</p>
+  <p>I resorted to Java&#39;s <a href="https://docs.oracle.com/javase/tutorial/collections/streams/parallelism.html">Parallel
+    Stream</a> and managed to squeeze out a 3x performance boost from that part of the code. One thing to note is that
+    one should be careful to not overload the server they use, so I recommend using a mechanism to limit the number of
+    the parallel requests. Here&#39;s an example how I achieved it:</p>
+
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic">// BATCH_SIZE is a defined constant in your application e.g. 10 - controls the number of parallel requests</span>
+<span style="color: #DCDCCC">IntStream</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">range</span><span style="color: #F0EFD0">(</span><span style="color: #8CD0D3">0</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">ids</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">size</span><span style="color: #F0EFD0">()</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">+</span><span style="color: #DCDCCC"> BATCH_SIZE </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #8CD0D3">1</span><span style="color: #F0EFD0">)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">/</span><span style="color: #DCDCCC"> BATCH_SIZE</span><span style="color: #F0EFD0">)</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">mapToObj</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">i </span><span style="color: #F0EFD0">-&gt;</span><span style="color: #DCDCCC"> ids</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">subList</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">i </span><span style="color: #F0EFD0">*</span><span style="color: #DCDCCC"> BATCH_SIZE</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> Math</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">min</span><span style="color: #F0EFD0">((</span><span style="color: #DCDCCC">i </span><span style="color: #F0EFD0">+</span><span style="color: #DCDCCC"> </span><span style="color: #8CD0D3">1</span><span style="color: #F0EFD0">)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">*</span><span style="color: #DCDCCC"> BATCH_SIZE</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> ids</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">size</span><span style="color: #F0EFD0">())))</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">map</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">idBatch </span><span style="color: #F0EFD0">-&gt;</span><span style="color: #DCDCCC"> </span>
+<span style="color: #DCDCCC">      idBatch</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">parallelStream</span><span style="color: #F0EFD0">()</span>
+<span style="color: #DCDCCC">        </span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">map</span><span style="color: #F0EFD0">(</span><span style="color: #7F9F7F; font-style: italic">/* your code with the API call */</span><span style="color: #F0EFD0">))</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">flatMap</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">Collection</span><span style="color: #F0EFD0">::</span><span style="color: #DCDCCC">stream</span><span style="color: #F0EFD0">)</span>
+<span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">toList</span><span style="color: #F0EFD0">();</span>
+</pre></div>
+  <p>If your goal is to improve the execution time of the CI/CD pipeline, you can also consider running tests in
+    parallel. I&#39;d recommend running them in 2 threads, one for the tests that usually take longer, and one for the
+    others. Why only 2 threads? Most of the CI/CD runners have 1-2 vCPUs so you wouldn&#39;t actually gain too much by
+    having a lot of parallel tests, plus not all tests can be executed in parallel, it depends on the implementation,
+    the statelessness, etc.</p>
+  <p>In my case there were some integration tests that took quite a while to execute, which I could execute completely
+    separate from the rest. Here&#39;s how this would look like with Spring Boot and Maven:</p>
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic"># junit-platform.properties</span>
+<span style="color: #7F9F7F; font-style: italic"># Enable parallel execution system-wide</span>
+<span style="color: #DCDCCC">junit</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">jupiter</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">execution</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">parallel</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">enabled</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCDCCC">true</span>
+<span style="color: #DCDCCC">junit</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">jupiter</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">execution</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">parallel</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">config</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">strategy</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCDCCC">fixed</span>
+<span style="color: #DCDCCC">junit</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">jupiter</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">execution</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">parallel</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">config</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">fixed</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">parallelism</span> <span style="color: #F0EFD0">=</span> <span style="color: #8CD0D3">2</span>
+
+<span style="color: #7F9F7F; font-style: italic"># By default, run tests sequentially</span>
+<span style="color: #DCDCCC">junit</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">jupiter</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">execution</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">parallel</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">mode</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">default</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCDCCC">same_thread</span>
+<span style="color: #DCDCCC">junit</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">jupiter</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">execution</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">parallel</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">mode</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">classes</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">default</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCDCCC">same_thread</span>
+
+<span style="color: #7F9F7F; font-style: italic"># Only classes annotated with &#64;Execution(CONCURRENT) run in parallel</span>
+</pre></div>
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #DCDCCC">&#64;SpringBootTest</span>
+<span style="color: #DCDCCC">&#64;Execution</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">ExecutionMode</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">CONCURRENT</span><span style="color: #F0EFD0">)</span>
+<span style="color: #F0DFAF">class</span> <span style="color: #EFEF8F">SlowIntegrationTests</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
+<span style="color: #DCDCCC">  </span><span style="color: #7F9F7F; font-style: italic">// ...</span>
+<span style="color: #F0EFD0">&#125;</span>
+</pre></div>
+
+
+  <p>One note to this is that if you use an older Maven version it might be possible that parallel test execution is not
+    supported, make sure you have the maven surefire plugin (which executes the tests) with <code>&gt;3.1.0</code>
+    version.</p>
+
+  <h2>Results</h2>
+  <p>The time taken for <strong>executing tests on the CI</strong> dropped from <strong>34m36s</strong> to <strong>21m
+    15s</strong>, thus I saved 13 minutes without modifying any of the core logic, just applied caching and running a
+    test class in a separate thread. In the case of the <code>parallelStream</code> in the other application, the
+    problematic endpoint&#39;s execution time dropped from <strong>39s</strong> to <strong>13.5s</strong></p>
+  <div class="stats">
+    <img ngSrc="posts/performance-enhance-spring/parallel_execution_time_stats.svg"
+         alt="parallel-execution-time-graph"
+         width="1650"
+         height="950"
+    >
+    <img ngSrc="posts/performance-enhance-spring/test_execution_time_stats.svg"
+         alt="test-execution-time-graph"
+         width="1395"
+         height="950"
+    >
+  </div>
+
+</div>
