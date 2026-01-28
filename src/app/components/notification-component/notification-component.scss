@@ -2,10 +2,12 @@
 
 .notification-container {
   position: fixed;
-  top: 4.5rem;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 10rem;
   z-index: 1000;
+  text-align: center;
   .notification {
     border: $border;
     border-radius: $border-radius;
