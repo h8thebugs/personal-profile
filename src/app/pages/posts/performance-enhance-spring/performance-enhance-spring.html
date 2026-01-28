@@ -33,7 +33,7 @@
   <h3>Assuring continuous integration before modifications</h3>
   <p>When dealing with legacy code, it&#39;s even more essential to run your tests frequently, so I integrated it into a
     CI/CD pipeline. In the case of a Spring Boot project with Maven, it would look like this in Github Actions:
-    <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #E89393; font-weight: bold">on</span><span style="color: #F0EFD0">:</span>
+    <div class="code-block" appCopyToClipboard style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #E89393; font-weight: bold">on</span><span style="color: #F0EFD0">:</span>
 <span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">workflow_call</span><span style="color: #F0EFD0">:</span>
 <span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">pull_request</span><span style="color: #F0EFD0">:</span>
 <span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">branches</span><span style="color: #F0EFD0">:</span>
@@ -91,7 +91,7 @@
       href="https://github.com/ben-manes/caffeine">Caffeine</a> as a cache provider. Below you can find the
     configurations and examples with Spring boot:</p>
 
-  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic">&lt;!--pom.xml--&gt;</span>
+  <div class="code-block" appCopyToClipboard style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic">&lt;!--pom.xml--&gt;</span>
 <span style="color: #E89393; font-weight: bold">&lt;dependency&gt;</span>
 <span style="color: #DCDCCC">	</span><span style="color: #E89393; font-weight: bold">&lt;groupId&gt;</span>org.springframework.boot<span style="color: #E89393; font-weight: bold">&lt;/groupId&gt;</span>
 <span style="color: #DCDCCC">	</span><span style="color: #E89393; font-weight: bold">&lt;artifactId&gt;</span>spring-boot-starter-cache<span style="color: #E89393; font-weight: bold">&lt;/artifactId&gt;</span>
@@ -102,7 +102,7 @@
 <span style="color: #E89393; font-weight: bold">&lt;/dependency&gt;</span>
 </pre></div>
 
-  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #DCDCCC">&#64;SpringBootApplication</span>
+  <div class="code-block" appCopyToClipboard style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #DCDCCC">&#64;SpringBootApplication</span>
 <span style="color: #DCDCCC">&#64;EnableCaching</span>
 <span style="color: #F0DFAF">public</span><span style="color: #DCDCCC"> </span><span style="color: #F0DFAF">class</span> <span style="color: #EFEF8F">MyApplication</span><span style="color: #DCDCCC"> </span><span style="color: #F0DFAF">extends</span><span style="color: #DCDCCC"> SpringBootServletInitializer </span><span style="color: #F0EFD0">&#123;</span>
 <span style="color: #DCDCCC">    </span><span style="color: #F0DFAF">public</span><span style="color: #DCDCCC"> </span><span style="color: #F0DFAF">static</span><span style="color: #DCDCCC"> </span><span style="color: #DFDFBF; font-weight: bold">void</span><span style="color: #DCDCCC"> </span><span style="color: #EFEF8F">main</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">String</span><span style="color: #F0EFD0">[]</span><span style="color: #DCDCCC"> args</span><span style="color: #F0EFD0">)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
@@ -111,7 +111,7 @@
 <span style="color: #F0EFD0">&#125;</span>
 </pre></div>
 
-  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic">// your class containing these methods with requests</span>
+  <div class="code-block" appCopyToClipboard style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic">// your class containing these methods with requests</span>
 
 <span style="color: #DCDCCC">&#64;Cacheable</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">value </span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;anElementCache&quot;</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> key </span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;#reference&quot;</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> unless </span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;#result == null&quot;</span><span style="color: #F0EFD0">)</span>
 <span style="color: #F0DFAF">public</span><span style="color: #DCDCCC"> Element </span><span style="color: #EFEF8F">getElementByReference</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">String reference</span><span style="color: #F0EFD0">)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
@@ -141,7 +141,7 @@
     one should be careful to not overload the server they use, so I recommend using a mechanism to limit the number of
     the parallel requests. Here&#39;s an example how I achieved it:</p>
 
-  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic">// BATCH_SIZE is a defined constant in your application e.g. 10 - controls the number of parallel requests</span>
+  <div class="code-block" appCopyToClipboard style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic">// BATCH_SIZE is a defined constant in your application e.g. 10 - controls the number of parallel requests</span>
 <span style="color: #DCDCCC">IntStream</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">range</span><span style="color: #F0EFD0">(</span><span style="color: #8CD0D3">0</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">ids</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">size</span><span style="color: #F0EFD0">()</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">+</span><span style="color: #DCDCCC"> BATCH_SIZE </span><span style="color: #F0EFD0">-</span><span style="color: #DCDCCC"> </span><span style="color: #8CD0D3">1</span><span style="color: #F0EFD0">)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">/</span><span style="color: #DCDCCC"> BATCH_SIZE</span><span style="color: #F0EFD0">)</span>
 <span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">mapToObj</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">i </span><span style="color: #F0EFD0">-&gt;</span><span style="color: #DCDCCC"> ids</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">subList</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">i </span><span style="color: #F0EFD0">*</span><span style="color: #DCDCCC"> BATCH_SIZE</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> Math</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">min</span><span style="color: #F0EFD0">((</span><span style="color: #DCDCCC">i </span><span style="color: #F0EFD0">+</span><span style="color: #DCDCCC"> </span><span style="color: #8CD0D3">1</span><span style="color: #F0EFD0">)</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">*</span><span style="color: #DCDCCC"> BATCH_SIZE</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> ids</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">size</span><span style="color: #F0EFD0">())))</span>
 <span style="color: #DCDCCC">    </span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">map</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">idBatch </span><span style="color: #F0EFD0">-&gt;</span><span style="color: #DCDCCC"> </span>
@@ -157,7 +157,7 @@
     the statelessness, etc.</p>
   <p>In my case there were some integration tests that took quite a while to execute, which I could execute completely
     separate from the rest. Here&#39;s how this would look like with Spring Boot and Maven:</p>
-  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic"># junit-platform.properties</span>
+  <div class="code-block" appCopyToClipboard style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic"># junit-platform.properties</span>
 <span style="color: #7F9F7F; font-style: italic"># Enable parallel execution system-wide</span>
 <span style="color: #DCDCCC">junit</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">jupiter</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">execution</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">parallel</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">enabled</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCDCCC">true</span>
 <span style="color: #DCDCCC">junit</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">jupiter</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">execution</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">parallel</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">config</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">strategy</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCDCCC">fixed</span>
@@ -169,7 +169,7 @@
 
 <span style="color: #7F9F7F; font-style: italic"># Only classes annotated with &#64;Execution(CONCURRENT) run in parallel</span>
 </pre></div>
-  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #DCDCCC">&#64;SpringBootTest</span>
+  <div class="code-block" appCopyToClipboard style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #DCDCCC">&#64;SpringBootTest</span>
 <span style="color: #DCDCCC">&#64;Execution</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">ExecutionMode</span><span style="color: #F0EFD0">.</span><span style="color: #EFEF8F">CONCURRENT</span><span style="color: #F0EFD0">)</span>
 <span style="color: #F0DFAF">class</span> <span style="color: #EFEF8F">SlowIntegrationTests</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
 <span style="color: #DCDCCC">  </span><span style="color: #7F9F7F; font-style: italic">// ...</span>

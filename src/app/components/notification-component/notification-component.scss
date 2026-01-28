@@ -1,0 +1,16 @@
+@use 'styles' as *;
+
+.notification-container {
+  position: fixed;
+  top: 4.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  .notification {
+    border: $border;
+    border-radius: $border-radius;
+    background-color: $text-color;
+    color: $background-color;
+    padding: 0.5rem;
+  }
+}

@@ -93,6 +93,10 @@ em {
   animation: enterAnimation 0.5s ease;
 }
 
+.exit-animation {
+  animation: exitAnimation 0.5s ease-out;
+}
+
 .image-container {
   position: relative;
   width: auto;
@@ -101,9 +105,24 @@ em {
 .code-block {
   border: $border;
   border-radius: $border-radius;
+  cursor: pointer;
   padding: 1rem;
   margin-top: 2rem;
   font-size: 1rem;
+  transition: transform 0.3s ease-in-out, filter 0.1s ease-in-out;
+  .copy-to-clipboard-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  &:hover {
+    transform: scale(101%);
+    .copy-to-clipboard-icon {
+      opacity: 1;
+    }
+  }
 }
 
 @media (max-width: 800px) {
@@ -174,5 +193,18 @@ em {
   to {
     filter: blur(0rem);
     transform: translateY(0rem);
+  }
+}
+
+@keyframes exitAnimation {
+  from {
+    filter: blur(0rem);
+    transform: translateY(0rem);
+  }
+
+  to {
+    opacity: 0;
+    filter: blur(2rem);
+    transform: translateY(-5rem);
   }
 }

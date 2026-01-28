@@ -1,0 +1,5 @@
+@if (notificationService.notification()) {
+  <div class="notification-container" animate.enter="enter-animation" animate.leave="exit-animation">
+    <div class="notification"> {{notificationService.notification()}} </div>
+  </div>
+}

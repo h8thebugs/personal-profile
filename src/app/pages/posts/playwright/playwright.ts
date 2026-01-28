@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
 import { EnglishOnlyNotice } from 'src/app/components/english-only-notice/english-only-notice';
+import { CopyToClipboard } from 'src/app/directives/copy-to-clipboard';
 
 @Component({
   selector: 'app-playwright',
   imports: [
     RouterLink,
-    EnglishOnlyNotice
+    EnglishOnlyNotice,
+    CopyToClipboard
   ],
   templateUrl: './playwright.html',
   styleUrl: './playwright.scss'

@@ -2,10 +2,11 @@ import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Heading } from './components/heading/heading';
 import { CanonicalService } from './services/canonical.service';
+import { NotificationComponent } from 'src/app/components/notification-component/notification-component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Heading],
+  imports: [RouterOutlet, Heading, NotificationComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

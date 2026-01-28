@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { NgOptimizedImage } from "@angular/common";
 import { Meta } from '@angular/platform-browser';
 import { EnglishOnlyNotice } from 'src/app/components/english-only-notice/english-only-notice';
+import { CopyToClipboard } from 'src/app/directives/copy-to-clipboard';
 
 @Component({
   selector: 'app-performance-enhance-spring',
   imports: [
     NgOptimizedImage,
-    EnglishOnlyNotice
+    EnglishOnlyNotice,
+    CopyToClipboard
   ],
   templateUrl: './performance-enhance-spring.html',
   styleUrl: './performance-enhance-spring.scss',
