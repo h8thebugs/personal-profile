@@ -85,8 +85,7 @@ a {
 }
 
 em {
-  color: $secondary-color;
-  font-style: normal;
+  color: color-mix(in srgb, currentColor 80%, black);
 }
 
 .enter-animation {
@@ -110,6 +109,7 @@ em {
   margin-top: 2rem;
   font-size: 1rem;
   transition: transform 0.3s ease-in-out, filter 0.1s ease-in-out;
+
   .copy-to-clipboard-icon {
     position: absolute;
     top: 1rem;
@@ -117,8 +117,10 @@ em {
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
   }
+
   &:hover {
     transform: scale(101%);
+
     .copy-to-clipboard-icon {
       opacity: 1;
     }
