@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
+import {Component, inject} from '@angular/core';
+import {TranslatePipe} from '@ngx-translate/core';
 import Post from 'src/app/models/post.model';
-import { Router, RouterLink } from '@angular/router';
-import { Meta } from '@angular/platform-browser';
+import {Router, RouterLink} from '@angular/router';
+import {Meta} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-posts-page',
@@ -15,6 +15,12 @@ import { Meta } from '@angular/platform-browser';
 })
 export class PostsPage {
   posts: Post[] = [
+    {
+      title: 'Integration testing And WireMock',
+      description: 'My journey of drawing a test strategy using WireMock, and how I used it to serve the necessary data/files.',
+      keywords: ['Spring Boot', 'Backend', 'Testing', 'Integration tests', 'WireMock', 'Spring Cloud Contract Stub Runner'],
+      url: '/posts/integration-testing-and-wire-mock',
+    },
     {
       title: 'Enhance Performance in Legacy Spring Boot Apps',
       description: 'Sharing some of my experience regarding how to take over legacy applications, and what can one do to improve their performance',
