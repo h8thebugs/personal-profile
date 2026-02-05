@@ -19,7 +19,7 @@ export class PostsPage {
       title: 'Integration testing And WireMock',
       description: 'My journey of drawing a test strategy using WireMock, and how I used it to serve the necessary data/files.',
       keywords: ['Spring Boot', 'Backend', 'Testing', 'Integration tests', 'WireMock', 'Spring Cloud Contract Stub Runner'],
-      url: '/posts/integration-testing-and-wire-mock',
+      url: '/posts/integration-testing-and-wiremock',
     },
     {
       title: 'Enhance Performance in Legacy Spring Boot Apps',
