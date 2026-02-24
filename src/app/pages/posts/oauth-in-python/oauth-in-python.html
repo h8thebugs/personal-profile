@@ -1,0 +1,118 @@
+<div animate.enter="enter-animation">
+  <app-english-only-notice></app-english-only-notice>
+  <h1 id="oauth-on-client-side-with-python">OAUTH on client-side with Python</h1>
+  <p>I was developing an internal CLI application with <em>Python</em>. It invoked some HTTP endpoints to obtain data and verify the ongoing tasks of the currently logged in user from a central location and generate a report of it.</p>
+  <p>The problem I was facing was the authentication: The endpoint I invoked used OAUTH, and although I implemented OAUTH on a web front-end, I&#39;ve never done it in a desktop application or CLI, and it also raised a question for me: how it is usually done? After quite some research, I&#39;ve managed to find and implement a solution. After this I&#39;ve managed to understand better what happens behind the scenes and behind the OAUTH libraries, what&#39;s the actual workflow, and how certain security issues are adressed.</p>
+  <h2 id="oauth-2-0-for-native-apps">OAuth 2.0 for Native Apps</h2>
+  <div class="image-container" [style.aspect-ratio]="1007/837">
+    <img ngSrc="posts/oauth-in-python/oauth_flow.svg" alt="oauth-flow" fill>
+  </div>
+  <p>The general best practices and standards are extensively documented under <a href="https://datatracker.ietf.org/doc/html/rfc8252#section-7">RFC-8252</a>. I will try to brake it down in short:</p>
+  <ul>
+    <li>The authorization process shall happen through a web browser thus the OAUTH 2.0 specification and the provider does not have to modify its standards and implementations</li>
+    <li>The Application creates an <em>Authorization Request</em> by opening the OAUTH Provider&#39;s <em>Authorization Endpoint</em> through the browser</li>
+    <li>The OAUTH Provider will process the <em>Authorization Request</em> and will send back the necessary data (<em>Authorization Code</em>) to the callback URL of your application</li>
+    <li>The Application listens on the callback URL, and receives the <em>Authorization Code</em></li>
+    <li>The Application creates a request towards the <em>OAUTH Provider&#39;s Token Endpoint</em> with the <em>Authorization Code</em></li>
+    <li>The <em>Access Token</em> and <em>Refresh Token</em> is returned</li>
+  </ul>
+  <h2 id="catching-the-authorization-code">Catching the Authorization Code</h2>
+  <p>To configure the endpoint for receiving the <em>Authorization Code</em>, there are three possibilities:</p>
+  <ol>
+    <li>Private-Use URI Scheme redirection e.g. com.mycli.app:/example-provider</li>
+    <li>Claimed &quot;https&quot; Scheme URI redirection e.g. <a href="https://app.mycli.com/example-provider">https://app.mycli.com/example-provider</a></li>
+    <li>Loopback Interface Redirection e.g. <a href="http://127.0.0.1:51004/example-provider">http://127.0.0.1:51004/example-provider</a></li>
+  </ol>
+  <p>In my case, the problem with the first two approach is that it requires the endpoint to be registered to the device&#39;s OS, which would mean it requires an installation process. I wanted to make the application as portable as possible and to avoid any hassle on the user&#39;s end with an installation, so I opted for the third option: the application will open a port on the host machine and listens for the response there.</p>
+  <p>In terms of security, a mechanism is needed to avoid another application to register to the same endpoint and receive the <em>Authorization Code</em> and stole the user credentials. For this an <a href="https://datatracker.ietf.org/doc/html/rfc7636">OAUTH 2.0 extension</a> was created in order to make the intercepting actor unable to use the received code. To provide protection, this extension has the client generate a secret verifier; it passes a hash of this verifier in the initial authorization request, and must present the unhashed verifier when redeeming the authorization code. An app that intercepted the authorization code would not be in possession of this secret, rendering the code useless.</p>
+  <h2 id="implementing-oauth-in-python">Implementing OAUTH in Python</h2>
+  <p>To implement the OAUTH workflow, I used the <a href="https://github.com/requests/requests-oauthlib">requests-oauthlib</a> library in python which handles the OAUTH session as well as automatically handling the tokens when making requests towards the protected endpoint.</p>
+  <p>To catch the response from the <em>Authorization Endpoint</em> I created a temporal web server after I&#39;ve made the request and stopped it as soon as the response arrived. For this I used <a href="https://flask.palletsprojects.com/en/stable/">Flask</a>. Unfortunately, <em>Microsoft</em>&#39;s OAUTH platform does not let you to configure a callback URL with a dynamic port, so, against the recommendation of the standard, I had to use a fix one. Now, this does not affect the security of the application since nobody else can use the token anyway, the only downside is that if that port is in use, the application will not be functional, but in that case we can inform the user of the situation. </p>
+  <p>Here&#39;s the full list of relevant dependencies:</p>
+  <div class="code-block" appCopyToClipboard style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span>&quot;requests&quot;,
+&quot;requests-oauthlib&quot;,
+&quot;python-dotenv&quot;,
+&quot;flask&quot;,
+</pre></div>
+  <p>I&#39;ve created a separate script that abstracted all the logic in the background:</p>
+  <div class="code-block" appCopyToClipboard style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic"># auth_client.py</span>
+<span style="color: #F0DFAF">from</span><span style="color: #DCDCCC"> flask </span><span style="color: #F0DFAF">import</span> <span style="color: #DCDCCC">Flask</span><span style="color: #F0EFD0">,</span> <span style="color: #DCDCCC">request</span><span style="color: #F0EFD0">,</span> <span style="color: #DCDCCC">send_file</span>
+<span style="color: #F0DFAF">from</span><span style="color: #DCDCCC"> werkzeug.serving </span><span style="color: #F0DFAF">import</span> <span style="color: #DCDCCC">make_server</span>
+<span style="color: #F0DFAF">from</span><span style="color: #DCDCCC"> requests_oauthlib </span><span style="color: #F0DFAF">import</span> <span style="color: #DCDCCC">OAuth2Session</span>
+<span style="color: #F0DFAF">import</span><span style="color: #DCDCCC"> os</span>
+<span style="color: #F0DFAF">import</span><span style="color: #DCDCCC"> webbrowser</span>
+<span style="color: #F0DFAF">import</span><span style="color: #DCDCCC"> logging</span>
+
+<span style="color: #F0DFAF">import</span><span style="color: #DCDCCC"> time</span>
+
+<span style="color: #DCDCCC">logging</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">basicConfig</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">level</span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC">logging</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">INFO</span><span style="color: #F0EFD0">)</span>
+
+<span style="color: #DCDCCC">SERVER_PORT</span> <span style="color: #F0EFD0">=</span> <span style="color: #8CD0D3">4200</span>
+<span style="color: #DCDCCC">PATH</span> <span style="color: #F0EFD0">=</span> <span style="color: #CC9393">&quot;/auth&quot;</span>
+<span style="color: #DCDCCC">app</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCDCCC">Flask</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">__name__</span><span style="color: #F0EFD0">)</span>
+<span style="color: #DCDCCC">_AUTH_RESPONSE</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCA3A3">None</span>
+
+<span style="color: #EFDCBC">class</span><span style="color: #DCDCCC"> </span><span style="color: #EFEF8F">AuthClient</span><span style="color: #F0EFD0">:</span>
+    <span style="color: #DCDCCC">_oauth</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCA3A3">None</span>
+
+    <span style="color: #EFDCBC">def</span><span style="color: #DCDCCC"> </span><span style="color: #EFEF8F">auth</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">self</span><span style="color: #F0EFD0">):</span>
+<span style="color: #DCDCCC">        </span><span style="color: #7F9F7F">&quot;&quot;&quot;Authenticates and returns an http client (requests) that has all the headers automatically set</span>
+
+<span style="color: #7F9F7F">        Returns:</span>
+<span style="color: #7F9F7F">            Oauth2Session: Similar to `requests`, but with all the auth already handled</span>
+<span style="color: #7F9F7F">        &quot;&quot;&quot;</span>
+        <span style="color: #EFDCBC">if</span> <span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">AuthClient</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">_oauth</span> <span style="color: #F0EFD0">!=</span> <span style="color: #DCA3A3">None</span><span style="color: #F0EFD0">):</span>
+            <span style="color: #EFDCBC">return</span> <span style="color: #DCDCCC">AuthClient</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">_oauth</span>
+        <span style="color: #7F9F7F; font-style: italic"># Configure the data that will be transmitted towards the Authorization Endpoint</span>
+        <span style="color: #DCDCCC">AuthClient</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">_oauth</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCDCCC">OAuth2Session</span><span style="color: #F0EFD0">(</span>
+            <span style="color: #DCDCCC">os</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">getenv</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&quot;AUTH_CLIENT_ID&quot;</span><span style="color: #F0EFD0">),</span>
+            <span style="color: #DCDCCC">redirect_uri</span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC">os</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">getenv</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&quot;AUTH_REDIRECT_URI&quot;</span><span style="color: #F0EFD0">),</span>
+            <span style="color: #DCDCCC">scope</span><span style="color: #F0EFD0">=[</span><span style="color: #CC9393">&quot;api://&lt;auth-client-id&gt;/user&quot;</span><span style="color: #F0EFD0">],</span>
+            <span style="color: #DCDCCC">pkce</span><span style="color: #F0EFD0">=</span><span style="color: #CC9393">&quot;S256&quot;</span><span style="color: #DCDCCC">)</span><span style="color: #7F9F7F; font-style: italic"> # this enables PKCE automatically</span>
+
+        <span style="color: #7F9F7F; font-style: italic"># Construct the Authorization Endpoint and a State from the OAUTH library</span>
+        <span style="color: #DCDCCC">authorization_url</span><span style="color: #F0EFD0">,</span> <span style="color: #DCDCCC">_state</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCDCCC">AuthClient</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">_oauth</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">authorization_url</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">f&#39;</span><span style="color: #DCA3A3; font-weight: bold">&#123;</span><span style="color: #DCDCCC">os</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">getenv</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&quot;AUTH_ISSUER&quot;</span><span style="color: #F0EFD0">)</span><span style="color: #DCA3A3; font-weight: bold">&#125;</span><span style="color: #CC9393">/oauth2/v2.0/authorize/&#39;</span><span style="color: #F0EFD0">)</span>
+        <span style="color: #DCDCCC">logging</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">info</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&quot;Opening browser to authorize user&quot;</span><span style="color: #F0EFD0">)</span>
+        <span style="color: #7F9F7F; font-style: italic"># Invoke Authorization Endpoint</span>
+        <span style="color: #DCDCCC">webbrowser</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">open</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">authorization_url</span><span style="color: #F0EFD0">)</span>
+        <span style="color: #DCDCCC">logging</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">info</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&quot;Listening for authorization callback&quot;</span><span style="color: #F0EFD0">)</span>
+        <span style="color: #DCDCCC">run_server</span><span style="color: #F0EFD0">()</span>
+        <span style="color: #EFDCBC">while</span> <span style="color: #DCDCCC">_AUTH_RESPONSE</span> <span style="color: #F0EFD0">==</span> <span style="color: #DCA3A3">None</span><span style="color: #F0EFD0">:</span>
+            <span style="color: #DCDCCC">time</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">sleep</span><span style="color: #F0EFD0">(</span><span style="color: #8CD0D3">1</span><span style="color: #F0EFD0">)</span>
+        <span style="color: #7F9F7F; font-style: italic"># Resolve challenge in the state and send it with the Authorization Code to the Token Endpoint</span>
+        <span style="color: #DCDCCC">AuthClient</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">_oauth</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">fetch_token</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">f&#39;</span><span style="color: #DCA3A3; font-weight: bold">&#123;</span><span style="color: #DCDCCC">os</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">getenv</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&quot;AUTH_ISSUER&quot;</span><span style="color: #F0EFD0">)</span><span style="color: #DCA3A3; font-weight: bold">&#125;</span><span style="color: #CC9393">/oauth2/v2.0/token/&#39;</span><span style="color: #F0EFD0">,</span> <span style="color: #DCDCCC">authorization_response</span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC">_AUTH_RESPONSE</span><span style="color: #F0EFD0">,</span> <span style="color: #DCDCCC">include_client_id</span><span style="color: #F0EFD0">=</span><span style="color: #DCA3A3">True</span><span style="color: #F0EFD0">,</span> <span style="color: #DCDCCC">client_secret</span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC">os</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">getenv</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&quot;CLIENT_SECRET&quot;</span><span style="color: #F0EFD0">))</span>
+        <span style="color: #7F9F7F; font-style: italic"># Return HTTP Client that has the Access Token and Refresh Token and use them automatically</span>
+        <span style="color: #EFDCBC">return</span> <span style="color: #DCDCCC">AuthClient</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">_oauth</span>
+
+<span style="color: #EFDCBC">def</span><span style="color: #DCDCCC"> </span><span style="color: #EFEF8F">run_server</span><span style="color: #F0EFD0">():</span>
+    <span style="color: #DCDCCC">server</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCDCCC">make_server</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;localhost&#39;</span><span style="color: #F0EFD0">,</span> <span style="color: #DCDCCC">SERVER_PORT</span><span style="color: #F0EFD0">,</span> <span style="color: #DCDCCC">app</span><span style="color: #F0EFD0">)</span>
+    <span style="color: #DCDCCC">server</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">timeout</span> <span style="color: #F0EFD0">=</span> <span style="color: #8CD0D3">10</span>  <span style="color: #7F9F7F; font-style: italic"># Set a timeout for server operations</span>
+    <span style="color: #DCDCCC">log</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCDCCC">logging</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">getLogger</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;werkzeug&#39;</span><span style="color: #F0EFD0">)</span>
+    <span style="color: #DCDCCC">log</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">setLevel</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">logging</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">ERROR</span><span style="color: #F0EFD0">)</span>
+    <span style="color: #DCDCCC">server</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">handle_request</span><span style="color: #F0EFD0">()</span>
+
+
+<span style="color: #DCDCCC">&#64;app</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">route</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&quot;/auth&quot;</span><span style="color: #F0EFD0">)</span>
+<span style="color: #EFDCBC">def</span><span style="color: #DCDCCC"> </span><span style="color: #EFEF8F">on_auth</span><span style="color: #F0EFD0">():</span>
+
+    <span style="color: #EFDCBC">global</span> <span style="color: #DCDCCC">_AUTH_RESPONSE</span>
+    <span style="color: #DCDCCC">_AUTH_RESPONSE</span> <span style="color: #F0EFD0">=</span> <span style="color: #CC9393">f&#39;</span><span style="color: #DCA3A3; font-weight: bold">&#123;</span><span style="color: #DCDCCC">os</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">getenv</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&quot;AUTH_REDIRECT_URI&quot;</span><span style="color: #F0EFD0">)</span><span style="color: #DCA3A3; font-weight: bold">&#125;</span><span style="color: #CC9393">?code=</span><span style="color: #DCA3A3; font-weight: bold">&#123;</span><span style="color: #DCDCCC">request</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">args</span><span style="color: #F0EFD0">[</span><span style="color: #CC9393">&quot;code&quot;</span><span style="color: #F0EFD0">]</span><span style="color: #DCA3A3; font-weight: bold">&#125;</span><span style="color: #CC9393">&amp;state=</span><span style="color: #DCA3A3; font-weight: bold">&#123;</span><span style="color: #DCDCCC">request</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">args</span><span style="color: #F0EFD0">[</span><span style="color: #CC9393">&quot;state&quot;</span><span style="color: #F0EFD0">]</span><span style="color: #DCA3A3; font-weight: bold">&#125;</span><span style="color: #CC9393">&#39;</span>
+    <span style="color: #EFDCBC">return</span> <span style="color: #DCDCCC">send_file</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&quot;index.html&quot;</span><span style="color: #F0EFD0">)</span> <span style="color: #7F9F7F; font-style: italic"># confirmation page that everything went well and user can close the browser</span>
+</pre></div>
+
+
+  <p>Here&#39;s an example usage:</p>
+  <div class="code-block" appCopyToClipboard style="background: #3f3f3f; overflow:auto;width:auto;"><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #DCDCCC">auth_client</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCDCCC">AuthClient</span><span style="color: #F0EFD0">()</span> <span style="color: #7F9F7F; font-style: italic"># instantiate the client</span>
+<span style="color: #DCDCCC">requests</span> <span style="color: #F0EFD0">=</span> <span style="color: #DCDCCC">auth_client</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">auth</span><span style="color: #F0EFD0">()</span> <span style="color: #7F9F7F; font-style: italic"># authenticate</span>
+<span style="color: #DCDCCC">requests</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">get</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;https://example.com/data&#39;</span><span style="color: #F0EFD0">)</span> <span style="color: #7F9F7F; font-style: italic"># use requests the same way as the requests library works</span>
+</pre></div>
+
+  <p>Sources:</p>
+  <ul>
+    <li><a href="https://datatracker.ietf.org/doc/html/rfc8252#section-7">RFC-8252</a></li>
+    <li><a href="https://datatracker.ietf.org/doc/html/rfc7636">OAUTH 2.0 extension (RFC-7636)</a></li>
+    <li><a href="https://github.com/requests/requests-oauthlib">requests-oauthlib</a></li>
+    <li><a href="https://flask.palletsprojects.com/en/stable/">Flask</a></li>
+  </ul>
+
+</div>
