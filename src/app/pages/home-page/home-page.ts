@@ -1,8 +1,8 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { TranslatePipe } from '@ngx-translate/core';
-import { Sunset } from 'src/app/components/sunset/sunset';
-import { Meta } from '@angular/platform-browser';
-import { CanonicalService } from 'src/app/services/canonical.service';
+import {Component, inject, OnInit, signal} from '@angular/core';
+import {TranslatePipe} from '@ngx-translate/core';
+import {Sunset} from 'src/app/components/sunset/sunset';
+import {Meta, Title} from '@angular/platform-browser';
+import {CanonicalService} from 'src/app/services/canonical.service';
 
 @Component({
   selector: 'app-home-page',
@@ -19,7 +19,8 @@ export class HomePage implements OnInit {
   canonical = inject(CanonicalService);
   private readonly description = 'A web developer\'s Profile, CV, Tech guides, Opinions and more. It is also a testament that web pages can and should be fast';
 
-  constructor(private readonly meta: Meta) {
+  constructor(private readonly meta: Meta, private title: Title) {
+    this.title.setTitle(`${title.getTitle().split("-")[0]} - Home`)
     this.meta.updateTag({
       property: 'og:title',
       content: 'Home page'

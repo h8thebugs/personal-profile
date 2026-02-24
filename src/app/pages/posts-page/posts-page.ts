@@ -2,7 +2,7 @@ import {Component, inject} from '@angular/core';
 import {TranslatePipe} from '@ngx-translate/core';
 import Post from 'src/app/models/post.model';
 import {Router, RouterLink} from '@angular/router';
-import {Meta} from '@angular/platform-browser';
+import {Meta, Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-posts-page',
@@ -15,6 +15,12 @@ import {Meta} from '@angular/platform-browser';
 })
 export class PostsPage {
   posts: Post[] = [
+    {
+      title: 'OAUTH on client-side with Python',
+      description: 'An overview of OAUTH in non-web apps and the general data-flow of an OAUTH Client.',
+      keywords: ['OAUTH', 'Security', 'CLI', 'Python'],
+      url: '/posts/oauth-in-python',
+    },
     {
       title: 'Integration testing And WireMock',
       description: 'My journey of drawing a test strategy using WireMock, and how I used it to serve the necessary data/files.',
@@ -43,7 +49,8 @@ export class PostsPage {
   router = inject(Router);
   private readonly description = 'Posts, opinions, tech guides about programming and web development. From a developer, to developers.'
 
-  constructor(private readonly meta: Meta) {
+  constructor(private readonly meta: Meta, private title: Title) {
+    this.title.setTitle(`${title.getTitle().split("-")[0]} - Posts`)
     this.meta.updateTag({
       property: 'og:title',
       content: 'Posts and Guides'

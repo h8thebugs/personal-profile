@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {CopyToClipboard} from '../../../directives/copy-to-clipboard';
 import {EnglishOnlyNotice} from '../../../components/english-only-notice/english-only-notice';
-import {Meta} from '@angular/platform-browser';
+import {Meta, Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-integration-testing-and-wiremock',
@@ -15,7 +15,8 @@ import {Meta} from '@angular/platform-browser';
 export class IntegrationTestingAndWiremock {
   private readonly description = 'My journey of drawing a test strategy using WireMock, and how I used it to serve the necessary data/files.';
 
-  constructor(private readonly meta: Meta) {
+  constructor(private readonly meta: Meta, private title: Title) {
+    this.title.setTitle(`${title.getTitle().split("-")[0]} - Integration Testing and Wiremock`);
     this.meta.updateTag(
       {
         property: 'og:title',

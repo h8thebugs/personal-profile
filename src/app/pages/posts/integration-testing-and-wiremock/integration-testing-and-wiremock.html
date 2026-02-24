@@ -1,67 +1,68 @@
-<app-english-only-notice></app-english-only-notice>
-<h1 id="integration-testing-and-wiremock">Integration testing And Wiremock</h1>
-<p>Once I was tasked to create a backend service that needed to connect to a <em>Version Control System</em> (you
-  can imagine something similar to Git for example) to obtain some metadata regarding projects and its files, and to
-  extract some information from the files themselves. The goal was to automate the process of creating some kind of
-  security bulletins for these projects and their different versions. The most challenging thing on this service was to
-  find a way to test the business logic of the application. </p>
-<p>I will share some details regarding <em>Testing in Spring Boot</em>, how I chose my testing strategy, how I used
-  <em>WireMock</em> to provide a stable test environment and how can one configure it for some less-common
-  use-cases.</p>
+<div animate.enter="enter-animation">
+  <app-english-only-notice></app-english-only-notice>
+  <h1 id="integration-testing-and-wiremock">Integration testing And Wiremock</h1>
+  <p>Once I was tasked to create a backend service that needed to connect to a <em>Version Control System</em> (you
+    can imagine something similar to Git for example) to obtain some metadata regarding projects and its files, and to
+    extract some information from the files themselves. The goal was to automate the process of creating some kind of
+    security bulletins for these projects and their different versions. The most challenging thing on this service was to
+    find a way to test the business logic of the application. </p>
+  <p>I will share some details regarding <em>Testing in Spring Boot</em>, how I chose my testing strategy, how I used
+    <em>WireMock</em> to provide a stable test environment and how can one configure it for some less-common
+    use-cases.</p>
 
-<h2 id="defining-the-testing-strategy">Defining the testing strategy</h2>
-<p>When you write tests, you have to isolate them from external dependencies.</p>
-<p>In unit tests this means dependencies e.g. another service in your <em>service layer</em> or the repository the
-  service accesses. For this situation <a href="https://site.mockito.org/">Mockito</a> is the solution to-go in Java.
-  The problem is that in my service layer I interact with a lot of the file utilities, since I receive ZIP archives from
-  the version control system, and I need to parse it, search for a specific file, and so on. This makes it really
-  tedious to mock, to construct files to return, and would result in tests where the setup would be more complex then
-  the teardown, which signals that it&#39;s not the best strategy to aim for.</p>
-<p>Another possibility is to aim for integration testing. In that case there are other possibilities to isolate the
-  tests in further layers. If you have a database you can use an in-memory DB like <a
-    href="https://github.com/h2database/h2database">H2</a>, or if your CI environment permits it, you can use <a
-    href="https://java.testcontainers.org/">TestContainers</a>. When you communicate with other system through <em>REST
-    APIs</em> however, <a href="https://wiremock.org/docs/getting-started/">WireMock</a> is the solution to go for.
-  You can predefine responses for your endpoints instead of connecting to a live test server, which has the benefit that
-  there&#39;s no state that will be persisted and needs to be managed, making your tests easy to reproduce and to
-  execute them repeatedly. For my use-case this approach would be great, because I can configure it easily to return the
-  same metadata and file as the original server does for any of the invoked endpoint, and I don&#39;t need to deal with
-  mocking all the file parsing utilities that I use, I just need to verify the output.</p>
+  <h2 id="defining-the-testing-strategy">Defining the testing strategy</h2>
+  <p>When you write tests, you have to isolate them from external dependencies.</p>
+  <p>In unit tests this means dependencies e.g. another service in your <em>service layer</em> or the repository the
+    service accesses. For this situation <a href="https://site.mockito.org/">Mockito</a> is the solution to-go in Java.
+    The problem is that in my service layer I interact with a lot of the file utilities, since I receive ZIP archives from
+    the version control system, and I need to parse it, search for a specific file, and so on. This makes it really
+    tedious to mock, to construct files to return, and would result in tests where the setup would be more complex then
+    the teardown, which signals that it&#39;s not the best strategy to aim for.</p>
+  <p>Another possibility is to aim for integration testing. In that case there are other possibilities to isolate the
+    tests in further layers. If you have a database you can use an in-memory DB like <a
+      href="https://github.com/h2database/h2database">H2</a>, or if your CI environment permits it, you can use <a
+      href="https://java.testcontainers.org/">TestContainers</a>. When you communicate with other system through <em>REST
+      APIs</em> however, <a href="https://wiremock.org/docs/getting-started/">WireMock</a> is the solution to go for.
+    You can predefine responses for your endpoints instead of connecting to a live test server, which has the benefit that
+    there&#39;s no state that will be persisted and needs to be managed, making your tests easy to reproduce and to
+    execute them repeatedly. For my use-case this approach would be great, because I can configure it easily to return the
+    same metadata and file as the original server does for any of the invoked endpoint, and I don&#39;t need to deal with
+    mocking all the file parsing utilities that I use, I just need to verify the output.</p>
 
-<h2 id="setting-up-integration-tests-with-wiremock">Setting up Integration Tests with WireMock</h2>
-<p>To integrate <em>WireMock</em> seemlessly into you <em>Spring Boot</em> tests, the framework released a
-  fairly new package called <a
-    href="https://cloud.spring.io/spring-cloud-contract/1.2.x/multi/multi__spring_cloud_contract_stub_runner.html">Spring
-    Cloud Contract Stub Runner</a>, which makes it easy to stub the responses (and also can help with a lot of advanced
-  stuff with other spring cloud contract packages, but for this example we use it only to set up Wiremock). Here&#39;s
-  how you can add the dependency in Maven:</p>
+  <h2 id="setting-up-integration-tests-with-wiremock">Setting up Integration Tests with WireMock</h2>
+  <p>To integrate <em>WireMock</em> seemlessly into you <em>Spring Boot</em> tests, the framework released a
+    fairly new package called <a
+      href="https://cloud.spring.io/spring-cloud-contract/1.2.x/multi/multi__spring_cloud_contract_stub_runner.html">Spring
+      Cloud Contract Stub Runner</a>, which makes it easy to stub the responses (and also can help with a lot of advanced
+    stuff with other spring cloud contract packages, but for this example we use it only to set up Wiremock). Here&#39;s
+    how you can add the dependency in Maven:</p>
 
-<div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;" appCopyToClipboard><pre
-  style="margin: 0; line-height: 125%;"><span></span><span
-  style="color: #E89393; font-weight: bold">&lt;dependency&gt;</span>
+  <div class="code-block" style="background: #3f3f3f; overflow:auto;width:auto;" appCopyToClipboard><pre
+    style="margin: 0; line-height: 125%;"><span></span><span
+    style="color: #E89393; font-weight: bold">&lt;dependency&gt;</span>
 <span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">&lt;groupId&gt;</span>org.springframework.cloud<span
-    style="color: #E89393; font-weight: bold">&lt;/groupId&gt;</span>
+      style="color: #E89393; font-weight: bold">&lt;/groupId&gt;</span>
 <span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">&lt;artifactId&gt;</span>spring-cloud-starter-contract-stub-runner<span
-    style="color: #E89393; font-weight: bold">&lt;/artifactId&gt;</span>
+      style="color: #E89393; font-weight: bold">&lt;/artifactId&gt;</span>
 <span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">&lt;scope&gt;</span>test<span
-    style="color: #E89393; font-weight: bold">&lt;/scope&gt;</span>
+      style="color: #E89393; font-weight: bold">&lt;/scope&gt;</span>
 <span style="color: #E89393; font-weight: bold">&lt;/dependency&gt;</span>
 </pre>
-</div>
+  </div>
 
-<p>With this package, you can create a test profile replacing the connection string to the real server with your
-  Wiremock instance using a dynamically allocated port:</p>
+  <p>With this package, you can create a test profile replacing the connection string to the real server with your
+    Wiremock instance using a dynamically allocated port:</p>
 
-<div
-  style="background: #3f3f3f; overflow:auto;width:auto;" class="code-block" appCopyToClipboard><pre
-  style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic"># src/test/resources/application-test.properties</span>
+  <div
+    style="background: #3f3f3f; overflow:auto;width:auto;" class="code-block" appCopyToClipboard><pre
+    style="margin: 0; line-height: 125%;"><span></span><span style="color: #7F9F7F; font-style: italic"># src/test/resources/application-test.properties</span>
 <span style="color: #EFEF8F">my.client.base-url</span><span style="color: #F0EFD0">=</span><span style="color: #CC9393">http://localhost:$&#123;wiremock.server.port&#125;</span>
 </pre>
-</div>
+  </div>
 
-<p>You can define your <em>Spring MVC Test</em> like this:</p>
+  <p>You can define your <em>Spring MVC Test</em> like this:</p>
 
-<div style="background: #3f3f3f; overflow:auto;width:auto;" class="code-block" appCopyToClipboard><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #DCDCCC">&#64;SpringBootTest</span>
+  <div style="background: #3f3f3f; overflow:auto;width:auto;" class="code-block" appCopyToClipboard><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #DCDCCC">&#64;SpringBootTest</span>
 <span style="color: #DCDCCC">&#64;AutoConfigureMockMvc </span><span style="color: #7F9F7F; font-style: italic">// apply application-test.properties</span>
 <span style="color: #DCDCCC">&#64;ActiveProfiles</span><span style="color: #F0EFD0">(&#123;</span><span style="color: #CC9393">&quot;test&quot;</span><span style="color: #F0EFD0">&#125;)</span><span style="color: #DCDCCC"> </span><span style="color: #7F9F7F; font-style: italic">// dynamically find a free port</span>
 <span style="color: #DCDCCC">&#64;AutoConfigureWireMock</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">port </span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC"> </span><span style="color: #8CD0D3">0</span><span style="color: #F0EFD0">)</span>
@@ -71,11 +72,11 @@
 <span style="color: #F0EFD0">&#125;</span>
 </pre></div>
 
-<p>WireMock has a standard directory where it searches for your files you want to use in their configurations, which is
-  <em>src/test/resources/__files</em>. Your <em>API mappings</em> by default are under <em>src/test/resources/mappings</em>.
-  These are <em>JSON</em> files that describe for what request, what response should be given:</p>
+  <p>WireMock has a standard directory where it searches for your files you want to use in their configurations, which is
+    <em>src/test/resources/__files</em>. Your <em>API mappings</em> by default are under <em>src/test/resources/mappings</em>.
+    These are <em>JSON</em> files that describe for what request, what response should be given:</p>
 
-<div style="background: #3f3f3f; overflow:auto;width:auto;" class="code-block" appCopyToClipboard><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #F0EFD0">&#123;</span>
+  <div style="background: #3f3f3f; overflow:auto;width:auto;" class="code-block" appCopyToClipboard><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #F0EFD0">&#123;</span>
 <span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">&quot;request&quot;</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
 <span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">&quot;method&quot;</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;POST&quot;</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> </span><span style="color: #7F9F7F; font-style: italic">// GET, PUT, etc. or ANY</span>
 <span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">&quot;url&quot;</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;&lt;your-api-endpoint&gt;&quot;</span><span style="color: #F0EFD0">,</span><span style="color: #DCDCCC"> </span><span style="color: #7F9F7F; font-style: italic">// or /everything</span>
@@ -100,12 +101,12 @@
 <span style="color: #F0EFD0">&#125;</span>
 </pre></div>
 
-<p>In my case, I want to configure it so it returns a ZIP file for an example request which accesses the POM of a Spring
-  Boot project, and my application will extract the dependencies and the versions of it. I obtained from the real server
-  the data I want and put it under <em>src/test/resources/__files/pom.xml.zip</em>. Now I can create a request matcher
-  with the exact request my application would make and set the response for it:</p>
+  <p>In my case, I want to configure it so it returns a ZIP file for an example request which accesses the POM of a Spring
+    Boot project, and my application will extract the dependencies and the versions of it. I obtained from the real server
+    the data I want and put it under <em>src/test/resources/__files/pom.xml.zip</em>. Now I can create a request matcher
+    with the exact request my application would make and set the response for it:</p>
 
-<div style="background: #3f3f3f; overflow:auto;width:auto;" class="code-block" appCopyToClipboard><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #F0EFD0">&#123;</span>
+  <div style="background: #3f3f3f; overflow:auto;width:auto;" class="code-block" appCopyToClipboard><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #F0EFD0">&#123;</span>
 <span style="color: #DCDCCC">  </span><span style="color: #E89393; font-weight: bold">&quot;request&quot;</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #F0EFD0">&#123;</span>
 <span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">&quot;method&quot;</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;GET&quot;</span><span style="color: #F0EFD0">,</span>
 <span style="color: #DCDCCC">    </span><span style="color: #E89393; font-weight: bold">&quot;urlPath&quot;</span><span style="color: #F0EFD0">:</span><span style="color: #DCDCCC"> </span><span style="color: #CC9393">&quot;/api/vcs/fetch-files&quot;</span><span style="color: #F0EFD0">,</span>
@@ -132,9 +133,9 @@
 <span style="color: #F0EFD0">&#125;</span>
 </pre></div>
 
-<p>Now, let&#39;s look back to our test and write a test case for it:</p>
+  <p>Now, let&#39;s look back to our test and write a test case for it:</p>
 
-<div style="background: #3f3f3f; overflow:auto;width:auto;" class="code-block" appCopyToClipboard><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #DCDCCC">&#64;SpringBootTest</span>
+  <div style="background: #3f3f3f; overflow:auto;width:auto;" class="code-block" appCopyToClipboard><pre style="margin: 0; line-height: 125%;"><span></span><span style="color: #DCDCCC">&#64;SpringBootTest</span>
 <span style="color: #DCDCCC">&#64;AutoConfigureMockMvc</span>
 <span style="color: #DCDCCC">&#64;ActiveProfiles</span><span style="color: #F0EFD0">(&#123;</span><span style="color: #CC9393">&quot;test&quot;</span><span style="color: #F0EFD0">&#125;)</span>
 <span style="color: #DCDCCC">&#64;AutoConfigureWireMock</span><span style="color: #F0EFD0">(</span><span style="color: #DCDCCC">port </span><span style="color: #F0EFD0">=</span><span style="color: #DCDCCC"> </span><span style="color: #8CD0D3">0</span><span style="color: #F0EFD0">)</span>
@@ -167,14 +168,16 @@
 <span style="color: #F0EFD0">&#125;</span>
 </pre></div>
 
-<p>
-  Sources:
-</p>
-<ul>
-  <li><a href="https://site.mockito.org/">Mockito</a></li>
-  <li><a href="https://github.com/h2database/h2database">H2</a></li>
-  <li><a href="https://java.testcontainers.org/">TestContainers</a></li>
-  <li> <a href="https://wiremock.org/docs/getting-started/">WireMock</a></li>
-  <li><a href="https://cloud.spring.io/spring-cloud-contract/1.2.x/multi/multi__spring_cloud_contract_stub_runner.html">Spring Cloud Contract Stub Runner</a></li>
-</ul>
+  <p>
+    Sources:
+  </p>
+  <ul>
+    <li><a href="https://site.mockito.org/">Mockito</a></li>
+    <li><a href="https://github.com/h2database/h2database">H2</a></li>
+    <li><a href="https://java.testcontainers.org/">TestContainers</a></li>
+    <li> <a href="https://wiremock.org/docs/getting-started/">WireMock</a></li>
+    <li><a href="https://cloud.spring.io/spring-cloud-contract/1.2.x/multi/multi__spring_cloud_contract_stub_runner.html">Spring Cloud Contract Stub Runner</a></li>
+  </ul>
 
+
+</div>

@@ -9,6 +9,7 @@ import {PerformanceEnhanceSpring} from 'src/app/pages/posts/performance-enhance-
 import {
   IntegrationTestingAndWiremock
 } from './pages/posts/integration-testing-and-wiremock/integration-testing-and-wiremock';
+import {OauthInPython} from './pages/posts/oauth-in-python/oauth-in-python';
 
 export const routes: Routes = [
   {
@@ -42,5 +43,9 @@ export const routes: Routes = [
   {
     path: 'posts/integration-testing-and-wiremock',
     component: IntegrationTestingAndWiremock
+  },
+  {
+    path: 'posts/oauth-in-python',
+    component: OauthInPython,
   }
 ];
