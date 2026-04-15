@@ -101,6 +101,12 @@
             "organizer": "Ascendis",
             "year": "2025",
             "link": "https://ascendis.ro/"
+          },
+          "docker": {
+            "name": "Introduction to Containers w/ Docker, Kubernetes & OpenShift",
+            "organizer": "IBM Skills Network",
+            "year": "2026",
+            "link": "https://coursera.org/share/9372efbd9ad7e4b0f8061bc55f573148"
           }
         }
       },
