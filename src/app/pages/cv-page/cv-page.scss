@@ -99,5 +99,9 @@
       margin-bottom: 2rem;
     }
   }
-
+  @media (max-height: 800px) {
+    .slide {
+      height: 135dvh;
+    }
+  }
 }
