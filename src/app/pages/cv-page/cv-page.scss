@@ -1,8 +1,8 @@
 @use 'styles' as *;
 
 .slide {
-  height: 105vh;
-  margin-bottom: 10vh;
+  height: 105dvh;
+  margin-bottom: 10dvh;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -37,11 +37,11 @@
 
 @media (max-width: 800px) {
   .slide {
-    height: 105vh;
+    height: 105dvh;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    margin-bottom: 10vh;
+    margin-bottom: 10dvh;
     justify-content: space-between;
     scroll-snap-align: center;
     scroll-snap-stop: always;
