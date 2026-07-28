@@ -1,15 +1,20 @@
-<div animate.enter="enter-animation">
-  <h1>{{'app.heading.home' | translate}}</h1>
+<div animate.enter="enter-animation" itemscope itemtype="https://schema.org/ProfilePage">
+  <meta itemprop="url" content="https://jakabszilard.work/">
+  <div itemprop="mainEntity" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="url" content="https://jakabszilard.work/">
+    <meta itemprop="name" content="Jakab Szilárd">
+    <h1>{{'app.heading.home' | translate}}</h1>
   <p>
     {{'app.home.name' | translate}}
-    Jakab Szilárd,
+    <span itemprop="name">Jakab Szilárd</span>,
     {{'app.home.agePrefix' | translate}}
     {{` ${age()}`}}
     {{'app.home.ageSuffix' | translate}}
-    {{'app.home.profession' | translate}}
+    <span itemprop="jobTitle">{{'app.home.profession' | translate}}</span>
     {{experience()}}
     {{'app.home.specialty' | translate}}
-  </p>
+    </p>
+  </div>
   <p>{{'app.home.site' | translate}}</p>
   <p>{{'app.home.opinions' | translate}}</p>
   <app-sunset></app-sunset>

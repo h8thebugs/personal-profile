@@ -13,14 +13,14 @@ import {Meta, Title} from '@angular/platform-browser';
   styleUrl: './integration-testing-and-wiremock.scss',
 })
 export class IntegrationTestingAndWiremock {
-  private readonly description = 'My journey of drawing a test strategy using WireMock, and how I used it to serve the necessary data/files.';
+  private readonly description = 'Step-by-step guide to Spring Boot integration testing using WireMock. Learn how to stub third-party REST APIs and mock file downloads with dynamically allocated ports.';
 
   constructor(private readonly meta: Meta, private title: Title) {
-    this.title.setTitle(`${title.getTitle().split("-")[0]} - Integration Testing and Wiremock`);
+    this.title.setTitle(`${title.getTitle().split("-")[0]} - Spring Boot Integration Testing: Mock APIs with WireMock`);
     this.meta.updateTag(
       {
         property: 'og:title',
-        content: 'Integration Testing and Wiremock',
+        content: 'Spring Boot Integration Testing: Mock APIs with WireMock',
       }, 'property="og:title"'
     );
     this.meta.updateTag({

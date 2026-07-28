@@ -18,4 +18,13 @@
   <url>
     <loc>https://jakabszilard.work/posts/playwright-in-action</loc>
   </url>
+  <url>
+    <loc>https://jakabszilard.work/posts/legacy-spring-boot-performance</loc>
+  </url>
+  <url>
+    <loc>https://jakabszilard.work/posts/integration-testing-and-wiremock</loc>
+  </url>
+  <url>
+    <loc>https://jakabszilard.work/posts/oauth-in-python</loc>
+  </url>
 </urlset>

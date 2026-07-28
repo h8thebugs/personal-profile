@@ -15,14 +15,14 @@ import {CopyToClipboard} from 'src/app/directives/copy-to-clipboard';
   styleUrl: './performance-enhance-spring.scss',
 })
 export class PerformanceEnhanceSpring {
-  private readonly description = 'Sharing some of my experience regarding how to take over legacy Spring Boot applications, and what can one do to improve their performance';
+  private readonly description = 'Sharing some of my experience regarding how to how to boost legacy Spring Boot app performance. Discover practical, low-risk tips for caching, Java parallel streams, CI/CD, and black-box testing.';
 
   constructor(private readonly meta: Meta, private title: Title) {
-    this.title.setTitle(`${title.getTitle().split("-")[0]} - Performance in legacy apps`)
+    this.title.setTitle(`${title.getTitle().split("-")[0]} - How to Enhance Performance in Legacy Spring Boot Apps`)
     this.meta.updateTag(
       {
         property: 'og:title',
-        content: 'Enhance Performance in Legacy Spring Boot Apps'
+        content: 'How to Enhance Performance in Legacy Spring Boot Apps'
       }, 'property="og:title"'
     );
     this.meta.updateTag({

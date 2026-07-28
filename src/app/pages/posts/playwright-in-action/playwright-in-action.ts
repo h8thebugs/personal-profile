@@ -17,7 +17,7 @@ import {CopyToClipboard} from 'src/app/directives/copy-to-clipboard';
   styleUrl: './playwright-in-action.scss'
 })
 export class PlaywrightInAction {
-  private readonly description = 'Integrate E2E tests written in Playwright into a pipeline, how to configure it with Angular, Spring Boot, and Github Actions.'
+  private readonly description = 'Learn how to configure Playwright E2E tests for Spring Boot and Angular. Bypass complex OAuth login steps using profiles, and automatically run it with GitHub Actions CI pipeline.'
 
   constructor(private readonly meta: Meta, private title: Title) {
     this.title.setTitle(`${title.getTitle().split("-")[0]} - Playwright in Action`);

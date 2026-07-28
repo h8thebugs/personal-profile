@@ -1,6 +1,7 @@
-<div animate.enter="enter-animation">
+<article animate.enter="enter-animation" itemscope itemtype="https://schema.org/BlogPosting">
+  <meta itemprop="author" content="Jakab Szilárd">
   <app-english-only-notice></app-english-only-notice>
-  <h1 id="integration-testing-and-wiremock">Integration testing And Wiremock</h1>
+  <h1 id="integration-testing-and-wiremock" itemprop="headline">Integration testing And Wiremock</h1>
   <p>Once I was tasked to create a backend service that needed to connect to a <em>Version Control System</em> (you
     can imagine something similar to Git for example) to obtain some metadata regarding projects and its files, and to
     extract some information from the files themselves. The goal was to automate the process of creating some kind of
@@ -180,4 +181,4 @@
   </ul>
 
 
-</div>
+</article>

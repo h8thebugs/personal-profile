@@ -1,6 +1,7 @@
-<div animate.enter="enter-animation">
+<article animate.enter="enter-animation" itemscope itemtype="https://schema.org/BlogPosting">
+  <meta itemprop="author" content="Jakab Szilárd">
   <app-english-only-notice></app-english-only-notice>
-  <h1 id="oauth-on-client-side-with-python">OAUTH on the client side with Python</h1>
+  <h1 id="oauth-on-client-side-with-python" itemprop="headline">OAUTH on the client side with Python</h1>
   <p>I was developing an internal CLI application with <em>Python</em>. It invoked some HTTP endpoints to obtain data and verify the ongoing tasks of the currently logged-in user from a central location, and generated a report.</p>
   <p>The problem I was facing was authentication: The endpoint I invoked used OAUTH, and although I implemented OAUTH on a web front-end, I&#39;ve never done it in a desktop application or CLI. It also raised a question for me: how is it usually done? After quite some research, I&#39;ve managed to find and implement a solution. After that, I&#39;ve managed to better understand what happens behind the scenes of OAUTH libraries, what the actual workflow is, and how certain security issues are addressed.</p>
   <h2 id="oauth-2-0-for-native-apps">OAuth 2.0 for Native Apps</h2>
@@ -115,4 +116,4 @@
     <li><a href="https://flask.palletsprojects.com/en/stable/">Flask</a></li>
   </ul>
 
-</div>
+</article>

@@ -1,22 +1,24 @@
-<div animate.enter="enter-animation">
-  <h1>{{ 'app.posts.title' | translate }}</h1>
+<div animate.enter="enter-animation" itemscope itemtype="https://schema.org/CollectionPage">
+  <meta itemprop="url" content="https://jakabszilard.work/posts">
+  <h1 itemprop="name">{{ 'app.posts.title' | translate }}</h1>
   <h2>{{ 'app.posts.motivation.title' | translate }}</h2>
   <p>{{ 'app.posts.motivation.description' | translate }}</p>
   <h2>{{ 'app.posts.manifesto.title' | translate }}</h2>
   <p>{{ 'app.posts.manifesto.description' | translate }}</p>
   <div class="posts">
     @for (post of posts; track post.title) {
-      <div class="card" [style.width]="'80%'" [style.cursor]="'pointer'" (click)="onClick(post.url)">
-        <a [routerLink]="post.url" [style.font-size]="'1.2rem'">
-          {{ post.title }}
+      <article class="card" itemscope itemtype="https://schema.org/BlogPosting" [style.width]="'80%'" [style.cursor]="'pointer'" (click)="onClick(post.url)">
+        <meta itemprop="author" content="Jakab Szilárd">
+        <a itemprop="url" [routerLink]="post.url" [style.font-size]="'1.2rem'">
+          <span itemprop="headline">{{ post.title }}</span>
         </a>
-        <p>{{ post.description }}</p>
+        <p itemprop="description">{{ post.description }}</p>
         <div class="keywords">
           @for (keyword of post.keywords; track keyword) {
             <div class="keyword">{{ keyword }}</div>
           }
         </div>
-      </div>
+      </article>
     }
   </div>
 

@@ -1,5 +1,8 @@
-<div animate.enter="enter-animation">
-  <div class="slideshow">
+<div animate.enter="enter-animation" itemscope itemtype="https://schema.org/ProfilePage">
+  <div itemprop="mainEntity" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="Jakab Szilárd">
+    <meta itemprop="url" content="https://jakabszilard.work/cv">
+    <div class="slideshow">
     <div class="slide" #slideElement>
       <img #imageElement ngSrc="child.svg" alt="Personal info Logo" width="200" height="200" priority>
       <div class="text-content card">
@@ -112,6 +115,7 @@
           {{ 'app.cv.work.experience.bosch.description' | translate }}
         </p>
       </div>
+    </div>
     </div>
   </div>
 </div>

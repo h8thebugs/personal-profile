@@ -15,10 +15,10 @@ import {CopyToClipboard} from 'src/app/directives/copy-to-clipboard';
   styleUrl: './playwright.scss'
 })
 export class Playwright {
-  private readonly description = 'Playwright core capabilities, advantages and challenges of E2E testing, and how it is handled in this framework'
+  private readonly description = 'An introductory guide to Playwright for TypeScript. Learn how to set up automated E2E tests, handle user interactions, and apply hooks'
 
   constructor(private readonly meta: Meta, private title: Title) {
-    this.title.setTitle(`${title.getTitle().split("-")[0]} - Playwright`);
+    this.title.setTitle(`${title.getTitle().split("-")[0]} - Introduction to Playwright: E2E Testing Made Easy`);
     this.meta.updateTag({
       property: 'og:title',
       content: 'An introduction to Playwright'
