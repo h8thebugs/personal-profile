@@ -3,13 +3,15 @@ import {EnglishOnlyNotice} from 'src/app/components/english-only-notice/english-
 import {NgOptimizedImage} from '@angular/common';
 import {RouterLink} from '@angular/router';
 import {PageSeoService} from 'src/app/services/page-seo.service';
+import {PostAuthor} from 'src/app/components/post-author/post-author';
 
 @Component({
   selector: 'app-containers-and-clouds',
   imports: [
     EnglishOnlyNotice,
     NgOptimizedImage,
-    RouterLink
+    RouterLink,
+    PostAuthor
   ],
   templateUrl: './containers-and-clouds.html',
   styleUrl: './containers-and-clouds.scss',

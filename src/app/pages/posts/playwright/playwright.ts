@@ -3,13 +3,15 @@ import {RouterLink} from '@angular/router';
 import {EnglishOnlyNotice} from 'src/app/components/english-only-notice/english-only-notice';
 import {CopyToClipboard} from 'src/app/directives/copy-to-clipboard';
 import {PageSeoService} from 'src/app/services/page-seo.service';
+import {PostAuthor} from 'src/app/components/post-author/post-author';
 
 @Component({
   selector: 'app-playwright',
   imports: [
     RouterLink,
     EnglishOnlyNotice,
-    CopyToClipboard
+    CopyToClipboard,
+    PostAuthor
   ],
   templateUrl: './playwright.html',
   styleUrl: './playwright.scss'

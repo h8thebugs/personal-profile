@@ -3,13 +3,15 @@ import {RouterLink} from '@angular/router';
 import {CopyToClipboard} from '../../../directives/copy-to-clipboard';
 import {EnglishOnlyNotice} from '../../../components/english-only-notice/english-only-notice';
 import {PageSeoService} from 'src/app/services/page-seo.service';
+import {PostAuthor} from 'src/app/components/post-author/post-author';
 
 @Component({
   selector: 'app-integration-testing-and-wiremock',
   imports: [
     CopyToClipboard,
     EnglishOnlyNotice,
-    RouterLink
+    RouterLink,
+    PostAuthor
   ],
   templateUrl: './integration-testing-and-wiremock.html',
   styleUrl: './integration-testing-and-wiremock.scss',

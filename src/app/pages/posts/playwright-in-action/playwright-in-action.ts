@@ -4,6 +4,7 @@ import {RouterLink} from '@angular/router';
 import {EnglishOnlyNotice} from 'src/app/components/english-only-notice/english-only-notice';
 import {CopyToClipboard} from 'src/app/directives/copy-to-clipboard';
 import {PageSeoService} from 'src/app/services/page-seo.service';
+import {PostAuthor} from 'src/app/components/post-author/post-author';
 
 @Component({
   selector: 'app-playwright-in-action',
@@ -11,7 +12,8 @@ import {PageSeoService} from 'src/app/services/page-seo.service';
     NgOptimizedImage,
     RouterLink,
     EnglishOnlyNotice,
-    CopyToClipboard
+    CopyToClipboard,
+    PostAuthor
   ],
   templateUrl: './playwright-in-action.html',
   styleUrl: './playwright-in-action.scss'
