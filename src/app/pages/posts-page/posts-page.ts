@@ -2,7 +2,7 @@ import {Component, inject} from '@angular/core';
 import {TranslatePipe} from '@ngx-translate/core';
 import Post from 'src/app/models/post.model';
 import {Router, RouterLink} from '@angular/router';
-import {Meta, Title} from '@angular/platform-browser';
+import {PageSeoService} from 'src/app/services/page-seo.service';
 
 @Component({
   selector: 'app-posts-page',
@@ -15,6 +15,12 @@ import {Meta, Title} from '@angular/platform-browser';
 })
 export class PostsPage {
   posts: Post[] = [
+    {
+      title: "Containers and Clouds",
+      description: 'Learn how modern cloud infrastructures work, how they leverage containers to scale, and what concepts are used to manage them. This article is a beginner-friendly introduction to cloud computing and containerization.',
+      keywords: ['docker', 'container', 'kubernetes', 'cloud', 'infrastructure'],
+      url: "/posts/containers-and-clouds"
+    },
     {
       title: 'OAUTH on client-side with Python',
       description: 'An overview of OAUTH in non-web apps and the general data-flow of an OAUTH Client.',
@@ -49,16 +55,12 @@ export class PostsPage {
   router = inject(Router);
   private readonly description = 'Posts, opinions, tech guides about programming and web development. From a developer, to developers.'
 
-  constructor(private readonly meta: Meta, private title: Title) {
-    this.title.setTitle(`${title.getTitle().split("-")[0]} - Posts`)
-    this.meta.updateTag({
-      property: 'og:title',
-      content: 'Posts and Guides'
-    }, 'property="og:title"');
-    this.meta.updateTag({
-      name: 'description',
-      content: this.description
-    }, 'name="description"')
+  constructor(private readonly pageSeo: PageSeoService) {
+    this.pageSeo.update({
+      title: 'Posts and Guides',
+      description: this.description,
+      path: '/posts'
+    });
   }
 
   async onClick(link: string) {

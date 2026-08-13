@@ -1,7 +1,11 @@
-<article animate.enter="enter-animation" itemscope itemtype="https://schema.org/BlogPosting">
-  <meta itemprop="author" content="Jakab Szilárd">
+<article animate.enter="enter-animation" itemscope itemtype="https://schema.org/BlogPosting"
+         itemid="https://jakabszilard.work/posts/legacy-spring-boot-performance">
+  <link itemprop="mainEntityOfPage" href="https://jakabszilard.work/posts/legacy-spring-boot-performance">
+  <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="Jakab Szilárd">
+  </span>
   <app-english-only-notice></app-english-only-notice>
-  <h1 itemprop="headline">Enhance Performance in Legacy Spring Boot Apps</h1>
+  <h1 id="legacy-spring-boot-performance" itemprop="headline">Enhance Performance in Legacy Spring Boot Apps</h1>
   <p>In this article, I want to discuss taking ownership of legacy web applications, and what can one do with them in
     terms of performance based on my experience. We will talk about <strong>caching, parallelism, testing and
     CI/CD</strong> - providing technology-agnostic ideas, and examples based in Spring Boot.</p>
@@ -200,4 +204,7 @@
     >
   </div>
 
+  <div class="left-side-container">
+    <a class="button" routerLink="/posts">More programming posts</a>
+  </div>
 </article>

@@ -1,5 +1,9 @@
-<article animate.enter="enter-animation" itemscope itemtype="https://schema.org/BlogPosting">
-  <meta itemprop="author" content="Jakab Szilárd">
+<article animate.enter="enter-animation" itemscope itemtype="https://schema.org/BlogPosting"
+         itemid="https://jakabszilard.work/posts/integration-testing-and-wiremock">
+  <link itemprop="mainEntityOfPage" href="https://jakabszilard.work/posts/integration-testing-and-wiremock">
+  <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="Jakab Szilárd">
+  </span>
   <app-english-only-notice></app-english-only-notice>
   <h1 id="integration-testing-and-wiremock" itemprop="headline">Integration testing And Wiremock</h1>
   <p>Once I was tasked to create a backend service that needed to connect to a <em>Version Control System</em> (you
@@ -169,9 +173,7 @@
 <span style="color: #F0EFD0">&#125;</span>
 </pre></div>
 
-  <p>
-    Sources:
-  </p>
+  <h2>Sources</h2>
   <ul>
     <li><a href="https://site.mockito.org/">Mockito</a></li>
     <li><a href="https://github.com/h2database/h2database">H2</a></li>
@@ -179,6 +181,7 @@
     <li> <a href="https://wiremock.org/docs/getting-started/">WireMock</a></li>
     <li><a href="https://cloud.spring.io/spring-cloud-contract/1.2.x/multi/multi__spring_cloud_contract_stub_runner.html">Spring Cloud Contract Stub Runner</a></li>
   </ul>
-
-
+  <div class="left-side-container">
+    <a class="button" routerLink="/posts">More programming posts</a>
+  </div>
 </article>

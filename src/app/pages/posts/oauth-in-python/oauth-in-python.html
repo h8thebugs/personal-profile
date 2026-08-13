@@ -1,12 +1,17 @@
-<article animate.enter="enter-animation" itemscope itemtype="https://schema.org/BlogPosting">
-  <meta itemprop="author" content="Jakab Szilárd">
+<article animate.enter="enter-animation" itemscope itemtype="https://schema.org/BlogPosting"
+         itemid="https://jakabszilard.work/posts/oauth-in-python">
+  <link itemprop="mainEntityOfPage" href="https://jakabszilard.work/posts/oauth-in-python">
+  <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="Jakab Szilárd">
+  </span>
   <app-english-only-notice></app-english-only-notice>
   <h1 id="oauth-on-client-side-with-python" itemprop="headline">OAUTH on the client side with Python</h1>
   <p>I was developing an internal CLI application with <em>Python</em>. It invoked some HTTP endpoints to obtain data and verify the ongoing tasks of the currently logged-in user from a central location, and generated a report.</p>
   <p>The problem I was facing was authentication: The endpoint I invoked used OAUTH, and although I implemented OAUTH on a web front-end, I&#39;ve never done it in a desktop application or CLI. It also raised a question for me: how is it usually done? After quite some research, I&#39;ve managed to find and implement a solution. After that, I&#39;ve managed to better understand what happens behind the scenes of OAUTH libraries, what the actual workflow is, and how certain security issues are addressed.</p>
   <h2 id="oauth-2-0-for-native-apps">OAuth 2.0 for Native Apps</h2>
   <div class="image-container" [style.aspect-ratio]="1007/837">
-    <img ngSrc="posts/oauth-in-python/oauth_flow.svg" alt="oauth-flow" fill>
+    <img ngSrc="posts/oauth-in-python/oauth_flow.svg"
+         alt="OAuth 2.0 authorization code flow for a native application" fill>
   </div>
   <p>The general best practices and standards are extensively documented under <a href="https://datatracker.ietf.org/doc/html/rfc8252#section-7">RFC-8252</a>. I will try to break it down briefly:</p>
   <ul>
@@ -108,12 +113,14 @@
 <span style="color: #DCDCCC">requests</span><span style="color: #F0EFD0">.</span><span style="color: #DCDCCC">get</span><span style="color: #F0EFD0">(</span><span style="color: #CC9393">&#39;https://example.com/data&#39;</span><span style="color: #F0EFD0">)</span> <span style="color: #7F9F7F; font-style: italic"># use requests the same way as the requests library works</span>
 </pre></div>
 
-  <p>Sources:</p>
+  <h2>Sources</h2>
   <ul>
     <li><a href="https://datatracker.ietf.org/doc/html/rfc8252#section-7">RFC-8252</a></li>
     <li><a href="https://datatracker.ietf.org/doc/html/rfc7636">OAUTH 2.0 extension (RFC-7636)</a></li>
     <li><a href="https://github.com/requests/requests-oauthlib">requests-oauthlib</a></li>
     <li><a href="https://flask.palletsprojects.com/en/stable/">Flask</a></li>
   </ul>
-
+  <div class="left-side-container">
+    <a class="button" routerLink="/posts">More programming posts</a>
+  </div>
 </article>

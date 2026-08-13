@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ElementRef, viewChild, viewChildren,} from '@angular/core';
 import {NgOptimizedImage} from '@angular/common';
 import {TranslatePipe} from '@ngx-translate/core';
-import {Meta, Title} from '@angular/platform-browser';
+import {PageSeoService} from 'src/app/services/page-seo.service';
 
 @Component({
   selector: 'app-cv-page',
@@ -21,20 +21,12 @@ export class CvPage implements AfterViewInit {
 
   private readonly description = 'Personal information, work history, education and trainings.';
 
-  constructor(private readonly meta: Meta, private title: Title) {
-    this.title.setTitle(`${title.getTitle().split("-")[0]} - CV`)
-    this.meta.updateTag({
-      property: 'og:description',
-      content: this.description
-    }, 'property="og:description"');
-    this.meta.updateTag({
-      property: 'og:title',
-      content: 'CV'
-    }, 'property="og:title"');
-    this.meta.updateTag({
-      name: 'description',
-      content: this.description
-    }, 'name="description"')
+  constructor(private readonly pageSeo: PageSeoService) {
+    this.pageSeo.update({
+      title: 'CV',
+      description: this.description,
+      path: '/cv'
+    });
   }
 
   ngAfterViewInit() {

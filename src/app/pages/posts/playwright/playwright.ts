@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {RouterLink} from '@angular/router';
-import {Meta, Title} from '@angular/platform-browser';
 import {EnglishOnlyNotice} from 'src/app/components/english-only-notice/english-only-notice';
 import {CopyToClipboard} from 'src/app/directives/copy-to-clipboard';
+import {PageSeoService} from 'src/app/services/page-seo.service';
 
 @Component({
   selector: 'app-playwright',
@@ -17,15 +17,12 @@ import {CopyToClipboard} from 'src/app/directives/copy-to-clipboard';
 export class Playwright {
   private readonly description = 'An introductory guide to Playwright for TypeScript. Learn how to set up automated E2E tests, handle user interactions, and apply hooks'
 
-  constructor(private readonly meta: Meta, private title: Title) {
-    this.title.setTitle(`${title.getTitle().split("-")[0]} - Introduction to Playwright: E2E Testing Made Easy`);
-    this.meta.updateTag({
-      property: 'og:title',
-      content: 'An introduction to Playwright'
-    }, 'property="og:title"');
-    this.meta.updateTag({
-      name: 'description',
-      content: this.description
-    }, 'name="description"')
+  constructor(private readonly pageSeo: PageSeoService) {
+    this.pageSeo.update({
+      title: 'Introduction to Playwright: E2E Testing Made Easy',
+      description: this.description,
+      path: '/posts/playwright',
+      type: 'article'
+    });
   }
 }

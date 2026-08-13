@@ -9,6 +9,7 @@
     @for (post of posts; track post.title) {
       <article class="card" itemscope itemtype="https://schema.org/BlogPosting" [style.width]="'80%'" [style.cursor]="'pointer'" (click)="onClick(post.url)">
         <meta itemprop="author" content="Jakab Szilárd">
+        <meta itemprop="keywords" [attr.content]="post.keywords.join(', ')">
         <a itemprop="url" [routerLink]="post.url" [style.font-size]="'1.2rem'">
           <span itemprop="headline">{{ post.title }}</span>
         </a>

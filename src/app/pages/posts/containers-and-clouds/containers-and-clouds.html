@@ -1,0 +1,66 @@
+<article animate.enter="enter-animation" itemscope itemtype="https://schema.org/BlogPosting"
+         itemid="https://jakabszilard.work/posts/containers-and-clouds">
+  <link itemprop="mainEntityOfPage" href="https://jakabszilard.work/posts/containers-and-clouds">
+  <meta itemprop="description"
+        content="Learn how modern cloud infrastructures use containers to scale in this beginner-friendly introduction to cloud computing and containerization.">
+  <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+    <meta itemprop="name" content="Jakab Szilárd">
+  </span>
+  <app-english-only-notice></app-english-only-notice>
+  <h1 id="containers-and-clouds" itemprop="headline">Containers and Clouds: A Beginner's Guide</h1>
+  <p>There are lots of decent materials about the technical background of <em>containerization</em>. There are some good articles about how the <em>cloud</em> actually works. But (from what I can observe at least) there are no articles explaining why these two play so nice hand in hand from the technological point of view. All the major cloud platforms offer to manage your applications on Kubernetes, and most of their &quot;out-of-the-box&quot; services are also managed with it. In this post I will try to provide a collection of definitions that can be of use.</p>
+  <h2 id="what-is-a-cloud">What is a Cloud?</h2>
+  <p>To make it a lot easier to explain, let&#39;s start with a <em>Virtual Machine</em>. With a Virtual Machine, you can emulate a guest operating system that is different from the host operationg system. This can be useful for a number of reasons, here are some examples I can think of:</p>
+  <ul>
+    <li>Try out different operating systems before directly installing it</li>
+    <li>Testing Android Applications directly on the developer&#39;s machine</li>
+    <li>Testing cross-platform applications on different target platforms</li>
+    <li>Use a software that was developed for a specific operating system that does not match the host operating system</li>
+  </ul>
+  <p>Essentially you can run a different system on a part of the host machine&#39;s resources. You can even run multiple virtual machines on the host if that&#39;s your use-case e.g. all supported operating system of a cross platform applications. The software that does this is usually called <em>hypervisor</em>, and the process is called <em>virtualization</em>. It takes a part of the host&#39;s resource and runs isolated systems on it.</p>
+  <p>If in the case of classic VM&#39;s multiple machines can run on the same host, the <em>Cloud</em> Platforms do the opposite: multiple servers are combined into a single unified platform with the combined resources. This can even mean that the separate types of resources run in separate machines: specific servers for computing (CPU and RAM), specific servers for storage, specific servers with GPUs, etc.</p>
+  <p>This unified platform is mostly referred to as Hyperconverged Infrastructure (<a href="https://www.vmware.com/topics/hyperconverged-infrastructure">HCI</a>). The main benefits of it is that it&#39;s easier to manage resources, you don&#39;t need to care at what exact server will your VM / container end up running, it enables the creation of specific servers for specific resources optimizing the infrastructure, makes the deployment process a lot more automated, and so on.</p>
+  <div class="image-container" [style.aspect-ratio]="1008/750">
+    <img ngSrc="posts/containers-and-clouds/hci.svg"
+         alt="Diagram of hyperconverged infrastructure combining compute, storage, and networking resources" fill>
+  </div>
+
+  <h2 id="what-is-a-container">What is a Container?</h2>
+  <p>A <a href="https://www.docker.com/resources/what-container/">Container</a> is a way to package your application with its dependencies to run in different environments. It is a middleground between a virtual machine and an application running directly on the host machine. <em>Containers</em> try to acheive a similar level of isolation as a full virtual machine while reducing some of the overhead. This is possible to achieve with two main kernel features (to keep things simple, I&#39;m only referring to kernel features in linux, most servers are using linux anyway): </p>
+  <ul>
+    <li>Process-level isolation with <a href="https://man7.org/linux/man-pages/man7/namespaces.7.html">namespaces</a></li>
+    <li>Limiting resource usage with <a href="https://man7.org/linux/man-pages/man7/cgroups.7.html">control groups</a></li>
+  </ul>
+  <p>With the help of these features a container runtime (e.g. <a href="https://containerd.io/">containerd</a>) implements the management of these containers according to the <a href="https://opencontainers.org/">OCI</a>&#39;s specifications.</p>
+  <div class="image-container" [style.aspect-ratio]="763/763">
+    <img ngSrc="posts/containers-and-clouds/docker.svg"
+         alt="Diagram showing a container packaging an application with its dependencies" fill>
+  </div>
+
+  <h2 id="what-is-a-container-on-the-cloud">What is a Container on the Cloud?</h2>
+  <p>Since containers are considerably smaller and more lightweight than VMs, they scale a lot better when you host multiple services, that&#39;s why Cloud Platforms started to integrate it on their platforms. Moreover, their possible drawbacks in terms of isolation are solved by the nature of Cloud infrastructures.</p>
+  <p>For managing the containers, the industry standard became to use <a href="https://kubernetes.io/">Kubernetes</a>, which is a tool to help in automated container orchestration at a large scale to implement infrastructure-related qualities like auto-scaling, high availability, resource usage monitoring, etc.</p>
+  <div class="image-container" [style.aspect-ratio]="795/1474">
+    <img ngSrc="posts/containers-and-clouds/kubernetes.svg"
+         alt="Kubernetes logo representing container orchestration in cloud infrastructure" fill>
+  </div>
+
+  <h2 id="microservices-microproblems-microsolutions">Microservices, microproblems, microsolutions</h2>
+  <p><strong>NOTE:</strong> The statements below are my observations and opinions.</p>
+  <p>Naturally, the flexibility of these kinds of infrastructures opened a lot of possibilities, an overwhelming number of technologies emerged aiming to solve really specific problems. The temptation to overcomplicate things became substantial, and a lot of applications became divided into microservices in a way that does not make sense anymore, which created a number of problems, which required to pull these solutions and integrate it into the already complex application. </p>
+  <p>We should remind ourselves from time to time that containers, cloud hosting and microservices are tools that should make the development and hosting of our application easier, simpler, cheaper, more flexible. If they don&#39;t serve their purpose, they are an impediment. </p>
+
+  <h2>Sources</h2>
+  <ul>
+    <li><a href="https://www.vmware.com/topics/hyperconverged-infrastructure">Hyperconverged Infrastructure</a></li>
+    <li><a href="https://www.docker.com/resources/what-container/">Container</a></li>
+    <li><a href="https://man7.org/linux/man-pages/man7/namespaces.7.html">Namespaces</a></li>
+    <li><a href="https://man7.org/linux/man-pages/man7/cgroups.7.html">Control groups</a></li>
+    <li><a href="https://containerd.io/">Containerd</a></li>
+    <li><a href="https://opencontainers.org/">Open Container Initiative</a></li>
+    <li><a href="https://kubernetes.io/">Kubernetes</a></li>
+  </ul>
+  <div class="left-side-container">
+    <a class="button" routerLink="/posts">More programming posts</a>
+  </div>
+</article>

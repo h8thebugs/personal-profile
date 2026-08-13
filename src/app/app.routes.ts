@@ -10,6 +10,7 @@ import {
   IntegrationTestingAndWiremock
 } from './pages/posts/integration-testing-and-wiremock/integration-testing-and-wiremock';
 import {OauthInPython} from './pages/posts/oauth-in-python/oauth-in-python';
+import {ContainersAndClouds} from 'src/app/pages/posts/containers-and-clouds/containers-and-clouds';
 
 export const routes: Routes = [
   {
@@ -47,5 +48,9 @@ export const routes: Routes = [
   {
     path: 'posts/oauth-in-python',
     component: OauthInPython,
+  },
+  {
+    path: 'posts/containers-and-clouds',
+    component: ContainersAndClouds,
   }
 ];
