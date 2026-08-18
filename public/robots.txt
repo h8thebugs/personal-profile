@@ -48,9 +48,6 @@ Disallow: /
 User-agent: CloudflareBrowserRenderingCrawler
 Disallow: /
 
-User-agent: Google-Extended
-Disallow: /
-
 User-agent: GPTBot
 Disallow: /
 
